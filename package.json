@@ -1,0 +1,18 @@
+{
+  "name": "automationfoodme",
+  "version": "1.0.0",
+  "description": "",
+  "main": "RegistrationPage.js",
+  "scripts": {
+    "upwd": "webdriver-manager update",
+    "wd": "webdriver-manager start",
+    "test": "protractor conf.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jasmine": "^2.8.0",
+    "protractor": "^5.2.2",
+    "selenium-webdriver": "^3.6.0"
+  }
+}

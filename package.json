@@ -2,7 +2,7 @@
   "name": "automationfoodme",
   "version": "1.0.0",
   "description": "",
-  "main": "RegistrationPage.js",
+  "main": "spec.js",
   "scripts": {
     "upwd": "webdriver-manager update",
     "wd": "webdriver-manager start",

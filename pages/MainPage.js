@@ -4,14 +4,15 @@ class MainPage extends Page {
 
     constructor() {
         super(`main page`);
+        this.rootRestaurantList = $(`.span9.fm-panel.fm-restaurant-list`);
+        this.rootDeliver = $(`.breadcrumb.fm-deliver-to.ng-binding`);
 
-        this.lnkBrand = $(by.css(`a.brand`));
     }
 
-
-    getBrand () {
-        return this.lnkBrand.getText();
+    getListTitle() {
+        return this.rootRestaurantList.$(`h4`).getText();
     }
+
 }
 
 module.exports = MainPage;

@@ -1,40 +1,34 @@
-let MainPage = require(`./pages/MainPage`);
-let Filter = require(`./filters/FilterRestaurants`);
+let MainPage = require(`../../pages/MainPage`);
+let FilterPanel = require(`../../filters/FilterRestaurantsPanel`);
+let FilterList = require(`../../filters/FilterListRestaurant`);
 
-describe('test ', function() {
-    let typeFilter = [
-        'Rating',
-        'Price'
-    ];
+describe('test for rating, ', function() {
 
-    let rating = {
-        '0': '4 restaurants found!',
-        '1': '10 restaurants found!',
-        '2': '7 restaurants found!',
-        '3': '10 restaurants found!',
-        '4': '8 restaurants found!'
-    };
-
-    let price = {
-        '0': '3 restaurants found!',
-        '1': '7 restaurants found!',
-        '2': '13 restaurants found!',
-        '3': '11 restaurants found!',
-        '4': '4 restaurants found!'
+    let TEST_RATINGS = {
+        0: 1,
+        1: 2,
+        2: 3,
+        3: 4,
+        4: 5
     };
 
     it('should set rating', function () {
+
         let mainPage = new MainPage();
 
-        let filter = new Filter();
+        for (let testRating in TEST_RATINGS) {
 
-        filter.setRatingFilter(`Rating`, 3)
-            .then(() => mainPage.getListTitle())
-            .then((title) => {
-                expect(title).toEqual(`10 restaurants found!`);
-            })
-            .catch((err) => {
-                throw new Error(`Main page test: Error while choose rating: ${err.message}`);
-            });
+            let filterPanel = new FilterPanel();
+            let filterList = new FilterList();
+
+            // filterPanel.clearFilter('Rating');
+
+            filterPanel.setRatingFilter(`Rating`, testRating)
+                .then(() => filterList.getAllSelectedRatings()
+                    .each((rating) => expect(filterList.getCount(rating)).toEqual(TEST_RATINGS[testRating])))
+                .catch((err) => {
+                    throw new Error(`Main page test: Error while selecting rating: ${err.message}`);
+                });
+        }
     });
 });

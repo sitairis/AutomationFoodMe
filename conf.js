@@ -63,12 +63,12 @@ exports.config = {
     framework: 'jasmine',
     seleniumAddress: 'http://localhost:4444/wd/hub',
     baseUrl: "http://localhost:5000/#/",
-    specs: ['./specs/*.js'],
+    specs: ['./specs/*/*.js'],
     capabilities: {
-        browserName: 'chrome',
-        chromeOptions: {
-                args: ['headless', 'disable-gpu']
-        }
+        browserName: 'chrome'
+        // chromeOptions: {
+        //         args: ['headless', 'disable-gpu']
+        // }
     },
 
     onPrepare: function() {

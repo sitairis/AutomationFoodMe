@@ -1,7 +1,6 @@
 class FilterRestaurantsPanel {
 
     constructor() {
-        // this.rootRadioBtnFilter = null;
         this.rootCheckBoxFilter = element(by.model(`filter.cuisine`));
         // this.EC = protractor.ExpectedConditions;
     }
@@ -16,7 +15,7 @@ class FilterRestaurantsPanel {
     /**
      *
      * @param typeFilter
-     * @returns {*}
+     * @returns {ElementFinder}
      * @private
      */
     _setRootRadioBtnFilterElement(typeFilter) {
@@ -26,6 +25,7 @@ class FilterRestaurantsPanel {
                  root = element(by.model(`$parent.filter.${item}`));
             }
         });
+
         return root;
     }
 

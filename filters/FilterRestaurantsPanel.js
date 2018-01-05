@@ -13,7 +13,7 @@ class FilterRestaurantsPanel {
     }
 
     /**
-     *
+     * находит root для понели рейтингов
      * @param typeFilter
      * @returns {ElementFinder}
      * @private
@@ -43,14 +43,12 @@ class FilterRestaurantsPanel {
     }
 
     clearFilter(typeFilter) {
-
         typeFilter = typeFilter.toLowerCase();
+        browser.driver.actions().mouseMove(this._setRootRadioBtnFilterElement(typeFilter)
+            .$(`ul + a[ng-click="select(null)"]`)).perform();
 
-        // browser.actions().mouseMove(browser.findElement(protractor.By.css(`$parent.filter.${typeFilter} ul + a[ng-click="select(null)"]`).perform()));
         return this._setRootRadioBtnFilterElement(typeFilter)
             .$(`ul + a[ng-click="select(null)"]`).click();
-        // browser.wait(this.EC.visibilityOf(this._setRootRadioBtnFilterElement(typeFilter)
-        //     .$(`ul + a[ng-click="select(null)"]`)), 5000);
 
     }
 

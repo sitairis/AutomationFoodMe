@@ -21,7 +21,7 @@ describe('test for price rating', function() {
             let filterPanel = new FilterPanel();
             let filterList = new FilterList();
 
-            // filterPanel.clearFilter('Price');
+            filterPanel.clearFilter('Price');
 
             filterPanel.setRatingFilter(`Price`, testPrice)
                 .then(() => filterList.getAllSelectedPrices()

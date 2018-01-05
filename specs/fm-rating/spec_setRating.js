@@ -21,7 +21,7 @@ describe('test for rating, ', function() {
             let filterPanel = new FilterPanel();
             let filterList = new FilterList();
 
-            // filterPanel.clearFilter('Rating');
+            filterPanel.clearFilter('Rating');
 
             filterPanel.setRatingFilter(`Rating`, testRating)
                 .then(() => filterList.getAllSelectedRatings()

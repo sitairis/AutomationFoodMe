@@ -16,18 +16,16 @@ describe('test for rating, ', function() {
         let filterPanel = new FilterPanel();
         let filterList = new FilterList();
 
-        filterPanel.clearRadioFilter('Price')
-            .then(() => {
-                for (let testRating in TEST_RATINGS) {
+        for (let testRating in TEST_RATINGS) {
 
-                    filterPanel.clearRadioFilter('Rating')
-                        .then(() => filterPanel.setRatingFilter(`Rating`, testRating))
-                        .then(() => filterList.getAllSelectedRatings()
-                            .each((rating) => expect(filterList.getCount(rating)).toEqual(Number.parseInt(TEST_RATINGS[testRating]))))
-                        .catch((err) => {
-                            throw new Error(`Main page test: Error while selecting rating: ${err.message}`);
-                        });
-                }
-            });
+            filterPanel.clearRadioFilter('Rating')
+                .then(() => filterPanel.setRatingFilter(`Rating`, testRating))
+                .then(() => filterList.getAllSelectedRatings()
+                    .each((rating) => expect(filterList.getCount(rating)).toEqual(Number.parseInt(TEST_RATINGS[testRating]))))
+                .then(() => filterPanel.clearRadioFilter('Rating'))
+                .catch((err) => {
+                    throw new Error(`Main page test: Error while selecting rating: ${err.message}`);
+                });
+        }
     });
 });

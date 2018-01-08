@@ -11,7 +11,7 @@ describe('test for checkbox filter', function() {
 
         let filterPanel = new FilterPanel();
 
-            filterPanel.clearRadioFilter('Rating')
+        filterPanel.clearRadioFilter('Rating')
             .then(() => filterPanel.setCheckBoxFilter(`Cuisines`, data.CUISINE.slice(0, 3)))
             .then(() => expect(mainPage.getListTitle()).toEqual(`6 restaurants found!`))
             .then(() => filterPanel.clearCheckFilter())
@@ -19,5 +19,4 @@ describe('test for checkbox filter', function() {
                 throw new Error(`Main page test: Error while selecting cuisine: ${err.message}`);
             });
     });
-
 });

@@ -82,9 +82,16 @@ class FilterRestaurantsPanel {
 
     }
 
+    /**
+     *
+     * @returns {promise.Promise<any>}
+     */
     clearCheckFilter() {
         return this.getAllCheckBoxes().each((checkbox) => {
-            if (checkbox.isSelected()) checkbox.click();
+            checkbox.isSelected()
+                .then((selected) => {
+                if(selected === true) checkbox.click();
+            })
         });
     }
 

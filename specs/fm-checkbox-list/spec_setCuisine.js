@@ -10,7 +10,6 @@ describe('test for checkbox filter', function() {
         let mainPage = new MainPage();
 
         let filterPanel = new FilterPanel();
-        let filterList = new FilterList();
 
             filterPanel.clearRadioFilter('Rating')
             .then(() => filterPanel.setCheckBoxFilter(`Cuisines`, data.CUISINE.slice(0, 3)))

@@ -1,4 +1,3 @@
-// let MainPage = require(`../../pages/MainPage`);
 let FilterPanel = require(`../../filters/FilterRestaurantsPanel`);
 let FilterList = require(`../../filters/FilterListRestaurant`);
 
@@ -14,7 +13,6 @@ describe('test for price rating', function() {
 
     it('should set price', function () {
 
-        // let mainPage = new MainPage();
         let filterPanel = new FilterPanel();
         let filterList = new FilterList();
 

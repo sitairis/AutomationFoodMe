@@ -22,7 +22,6 @@ describe('test for rating, ', function() {
             let filterList = new FilterList();
 
             filterPanel.clearFilter('Rating');
-
             filterPanel.setRatingFilter(`Rating`, testRating)
                 .then(() => filterList.getAllSelectedRatings()
                     .each((rating) => expect(filterList.getCount(rating)).toEqual(TEST_RATINGS[testRating])))

@@ -27,8 +27,10 @@ class FilterListRestaurant {
      * @returns {promise.Promise<number>}
      */
     getCount(rating) {
-        return rating.$$('li[class~=fm-selected]').count();//
-        //
+
+        if (!rating) throw new Error(`FilterListRestaurant: rating is undefined`);
+
+        return rating.$$('li[class~=fm-selected]').count();
     }
 
     /**

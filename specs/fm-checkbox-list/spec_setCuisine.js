@@ -12,11 +12,10 @@ describe('test for checkbox filter', function() {
         let filterPanel = new FilterPanel();
         let filterList = new FilterList();
 
-        filterPanel.clearFilter('Price');
-        filterPanel.clearFilter('Rating');
-
-        filterPanel.setCheckBoxFilter(`Cuisines`, data.CUISINE.slice(0,3))
+            filterPanel.clearRadioFilter('Rating')
+            .then(() => filterPanel.setCheckBoxFilter(`Cuisines`, data.CUISINE.slice(0, 3)))
             .then(() => expect(mainPage.getListTitle()).toEqual(`6 restaurants found!`))
+            .then(() => filterPanel.clearCheckFilter())
             .catch((err) => {
                 throw new Error(`Main page test: Error while selecting cuisine: ${err.message}`);
             });

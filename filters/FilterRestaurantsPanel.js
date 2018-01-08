@@ -56,7 +56,7 @@ class FilterRestaurantsPanel {
         if (utils.isEmpty(values)) throw new Error(`FilterRestaurantsPanel: values is empty`);
         if (typeFilter.toLowerCase() !== 'cuisines') throw new Error(`FilterRestaurantsPanel: typeFilter is incorrect`);
 
-        return this.rootCheckBoxFilter.$$(`input[type="checkbox"]`).each((checkbox) => {
+        return this.getAllCheckBoxes().each((checkbox) => {
             checkbox.getAttribute('value')
                 .then((text) => {
                     values.forEach((el) => {
@@ -71,7 +71,7 @@ class FilterRestaurantsPanel {
      * @param typeFilter
      * @returns {*}
      */
-    clearFilter(typeFilter) {
+    clearRadioFilter(typeFilter) {
         if (!typeFilter) throw new Error(`FilterRestaurantsPanel: typeFilter is undefined`);
 
         browser.driver.actions().mouseMove(this._setRootRadioBtnFilterElement(typeFilter.toLowerCase())
@@ -80,6 +80,20 @@ class FilterRestaurantsPanel {
         return this._setRootRadioBtnFilterElement(typeFilter.toLowerCase())
             .$(`ul + a[ng-click="select(null)"]`).click();
 
+    }
+
+    clearCheckFilter() {
+        return this.getAllCheckBoxes().each((checkbox) => {
+            if (checkbox.isSelected() === true) checkbox.click();
+        });
+    }
+
+    /**
+     *
+     * @returns {ElementArrayFinder | *}
+     */
+    getAllCheckBoxes() {
+        return this.rootCheckBoxFilter.$$(`input[type="checkbox"]`);
     }
 
 }

@@ -14,7 +14,6 @@ class FilterRestaurantsPanel {
      * @returns {*}
      */
     setRatingFilter(typeFilter, ratingValue) {
-
         if (!typeFilter) throw new Error(`FilterRestaurantsPanel: typeFilter is undefined`);
         if (!ratingValue) throw new Error(`FilterRestaurantsPanel: value is undefined`);
         if (!utils.isString(typeFilter)) throw new Error(`FilterRestaurantsPanel: typeFilter is not a string`);
@@ -35,31 +34,36 @@ class FilterRestaurantsPanel {
     _setRootRadioBtnFilterElement(typeFilter) {
         if (!typeFilter) throw new Error(`FilterRestaurantsPanel: typeFilter is undefined`);
 
-        let root = null;/*???*/
+        let root = null;
         data.TYPES_RADIO_FILTERS.forEach((item) => {
             if (typeFilter.toLowerCase() === item) {
-                 root = element(by.model(`$parent.filter.${item}`));
+                root = element(by.model(`$parent.filter.${item}`));
             }
         });
 
         return root;
     }
 
-
-    setCheckBoxFilter(typeFilter, ...values) {
-
+    /**
+     *
+     * @param typeFilter
+     * @param values
+     * @returns {promise.Promise<any>}
+     */
+    setCheckBoxFilter(typeFilter, [...values]) {
         if (!typeFilter) throw new Error(`FilterRestaurantsPanel: typeFilter is undefined`);
         if (!Array.isArray(values)) throw new Error(`FilterRestaurantsPanel: values is not an array`);
-        if (!utils.isEmpty(values)) throw new Error(`FilterRestaurantsPanel: values is empty`);
+        if (utils.isEmpty(values)) throw new Error(`FilterRestaurantsPanel: values is empty`);
+        if (typeFilter.toLowerCase() !== 'cuisines') throw new Error(`FilterRestaurantsPanel: typeFilter is incorrect`);
 
-        if (typeFilter.toLowerCase() === 'cuisines') {
-            return this.rootCheckBoxFilter.$$(`[type="checkbox"]`).each((checkbox) => {
-                checkbox.getText().then((text) => {
-                    if (values.includes(text.toLowerCase()))
-                        checkbox.click();
-                })
-            })
-        }
+        return this.rootCheckBoxFilter.$$(`input[type="checkbox"]`).each((checkbox) => {
+            checkbox.getAttribute('value')
+                .then((text) => {
+                    values.forEach((el) => {
+                        if (el === text) checkbox.click()
+                    });
+                });
+        })
     }
 
     /**

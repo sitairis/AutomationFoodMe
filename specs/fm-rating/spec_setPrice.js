@@ -21,9 +21,8 @@ describe('test for price rating', function() {
             let filterPanel = new FilterPanel();
             let filterList = new FilterList();
 
-            filterPanel.clearFilter('Price');
-
-            filterPanel.setRatingFilter(`Price`, testPrice)
+            filterPanel.clearFilter('Price')
+                .then(() => filterPanel.setRatingFilter(`Price`, testPrice))
                 .then(() => filterList.getAllSelectedPrices()
                     .each((price) => expect(filterList.getCount(price)).toEqual(TEST_PRICES[testPrice])))
                 .catch((err) => {

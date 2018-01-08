@@ -1,4 +1,5 @@
 let Page = require('./Page');
+let utils = require(`../utils/utils`);
 
 class MainPage extends Page {
 
@@ -11,6 +12,13 @@ class MainPage extends Page {
 
     getListTitle() {
         return this.rootRestaurantList.$(`h4`).getText();
+    }
+
+    openRestaurantPage(index) {
+        if(!index) throw new Error(`MainPage: index is undefined`);
+        if (!utils.isNumber(index)) throw new Error(`MainPage: index is not a number`);
+
+        return this.rootRestaurantList.$$(`img.img-rounded.pull-left`).get(index).click();
     }
 
 }

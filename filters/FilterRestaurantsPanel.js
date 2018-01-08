@@ -102,7 +102,6 @@ class FilterRestaurantsPanel {
     getAllCheckBoxes() {
         return this.rootCheckBoxFilter.$$(`input[type="checkbox"]`);
     }
-
 }
 
 module.exports = FilterRestaurantsPanel;

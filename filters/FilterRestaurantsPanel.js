@@ -22,7 +22,7 @@ class FilterRestaurantsPanel {
 
         return this._setRootRadioBtnFilterElement(typeFilter)
             .$$(`li[ng-class="style"]`)
-            .get(ratingValue).click();
+            .get(Number.parseInt(ratingValue)).click();
     }
 
     /**

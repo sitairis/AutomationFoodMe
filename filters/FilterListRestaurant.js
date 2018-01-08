@@ -27,7 +27,6 @@ class FilterListRestaurant {
      * @returns {promise.Promise<number>}
      */
     getCount(rating) {
-
         if (!rating) throw new Error(`FilterListRestaurant: rating is undefined`);
 
         return rating.$$('li[class~=fm-selected]').count();
@@ -39,7 +38,7 @@ class FilterListRestaurant {
      */
     getAllSelectedPrices() {
         return this.getAllRestaurants()
-            .all(by.model(`$parent.restaurant.price`));//
+            .all(by.model(`$parent.restaurant.price`));
     }
 }
 module.exports = FilterListRestaurant;

@@ -5,11 +5,11 @@ let FilterList = require(`../../filters/FilterListRestaurant`);
 describe('test for rating, ', function() {
 
     let TEST_RATINGS = {
-        0: 1,
-        1: 2,
-        2: 3,
-        3: 4,
-        4: 5
+        '0': '1',
+        '1': '2',
+        '2': '3',
+        '3': '4',
+        '4': '5'
     };
 
     it('should set rating', function () {

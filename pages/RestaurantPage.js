@@ -9,10 +9,19 @@ class RestaurantPage  extends Page{
         this.rootCard = $(`div.span4.fm-panel.fm-cart`);
     }
 
+    /**
+     *
+     * @returns {ElementArrayFinder}
+     */
     getAllMenu() {
         return this.rootMenu.$$(`li.ng-scope`);
     }
 
+    /**
+     *
+     * @param index
+     * @returns {*}
+     */
     addToOrder(index) {
         if(!index) throw new Error(`RestaurantPage: index is undefined`);
         if (!utils.isNumber(index)) throw new Error(`RestaurantPage: index is no a number`);
@@ -20,14 +29,27 @@ class RestaurantPage  extends Page{
         return this.getAllMenu().get(index).$(`a`).click();
     }
 
+    /**
+     *
+     * @returns {ElementFinder}
+     */
     getOrderList() {
         return this.rootCard.$(`ul.unstyled`);
     }
 
+    /**
+     *
+     * @returns {ElementFinder}
+     */
     getOrderPrice() {
         return this.rootCard.$(`b.ng-binding`);
     }
 
+    /**
+     *
+     * @param index
+     * @returns {*}
+     */
     removeOrderItem(index){
         if(!index) throw new Error(`RestaurantPage: index is undefined`);
         if (!utils.isNumber(index)) throw new Error(`RestaurantPage: index is not a number`);

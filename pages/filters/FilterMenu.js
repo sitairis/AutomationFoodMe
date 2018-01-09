@@ -1,4 +1,4 @@
-class FilterListRestaurant {
+class FilterMenu {
 
     constructor() {
         this.root = $(`table`);
@@ -41,4 +41,4 @@ class FilterListRestaurant {
             .all(by.model(`$parent.restaurant.price`));
     }
 }
-module.exports = FilterListRestaurant;
+module.exports = FilterMenu;

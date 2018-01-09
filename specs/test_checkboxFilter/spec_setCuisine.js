@@ -1,17 +1,16 @@
-let MainPage = require(`../../pages/MainPage`);
 let FilterPanel = require(`../../pages/filters/FilterRestaurantsPanel`);
+let FilterList = require(`../../pages/filters/FilterListRestaurant`);
 let data = require('../../pages/filters/filtersData');
 
 describe('test for checkbox filter', () => {
 
     it('should get title of restaurants list', () => {
 
-        let mainPage = new MainPage();
+        let filterList = new FilterList();
         let threeCuisines = data.CUISINE.slice(0, 3);
         let filterPanel = new FilterPanel();
 
         filterPanel.setCheckBoxFilter(`Cuisines`, threeCuisines)
-            .then(() => expect(mainPage.getListTitle()).toEqual(`6 restaurants found!`))
-
+            .then(() => expect(filterList.getAllRestaurants().count()).toEqual(6));
     });
 });

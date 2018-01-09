@@ -1,7 +1,8 @@
 exports.config = {
     framework: 'jasmine',
     seleniumAddress: 'http://localhost:4444/wd/hub',
-    baseUrl: "http://localhost:5000/#/",
+    baseUrl: "https://angular.io/",//http://localhost:5000/#/menu/khartoum
+    // baseUrl: "http://localhost:5000/#/",
     specs: ['./specs/*/*.js'],
     capabilities: {
         browserName: 'chrome'

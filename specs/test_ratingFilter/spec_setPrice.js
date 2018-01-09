@@ -3,13 +3,7 @@ let FilterList = require(`../../pages/filters/FilterListRestaurant`);
 
 describe('test for price rating', () => {
 
-    let TEST_PRICES = {
-        '0': '1',
-        '1': '2',
-        '2': '3',
-        '3': '4',
-        '4': '5'
-    };
+    let TEST_PRICES = [1, 2, 3, 4, 5];
 
     it('should set price', () => {
 
@@ -18,13 +12,13 @@ describe('test for price rating', () => {
         filterPanel.clearRadioFilter(`Rating`)
             .then(() => filterPanel.clearCheckFilter())
             .then(() => {
-                for (let testPrice in TEST_PRICES) {
+                TEST_PRICES.forEach((testPrice, index) => {
 
                     filterPanel.clearRadioFilter('Price')
-                        .then(() => filterPanel.setRatingFilter(`Price`, testPrice))
+                        .then(() => filterPanel.setRatingFilter(`Price`, index))
                         .then(() => filterList.getAllSelectedPrices()
-                            .each((price) => expect(filterList.getCount(price)).toEqual(Number.parseInt(TEST_PRICES[testPrice]))))
-                }
-            })
-    })
+                            .each((price) => expect(filterList.getRatingLevel(price)).toEqual(Number.parseInt(testPrice))))
+                });
+            });
+    });
 });

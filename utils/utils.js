@@ -4,10 +4,9 @@
  * @param value
  * @returns {boolean}
  */
-exports.isString = function (value) {
+function isString(value) {
     return typeof value === 'string';
-};
-
+}
 /**
  * Проверка на Number
  * @param value
@@ -22,13 +21,22 @@ exports.isNumber = function (value) {
  * @returns {boolean}
  */
 exports.isRightValue = function (value) {
-    return value > -1 && value < 6;
+    return value > -1 && value < 6 && !value;
+};
+
+exports.isRightTypeFilter = function (value) {
+    return isString(value);
 };
 /**
  *
  * @param array
  * @returns {boolean}
  */
-exports.isEmpty = function (array) {
-    return array.length === 0;
+exports.RightValues = function (array) {
+    if (!Array.isArray(array)) throw new Error(`FilterRestaurantsPanel: values is not an array`);
+    if (array.length === 0) throw new Error(`FilterRestaurantsPanel: values is empty`);
+};
+
+exports.isRightIndex = function (index) {
+    return typeof index === 'number';
 };

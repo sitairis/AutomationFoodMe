@@ -1,7 +1,7 @@
-let FilterPanel = require(`../../filters/FilterRestaurantsPanel`);
-let FilterList = require(`../../filters/FilterListRestaurant`);
+let FilterPanel = require(`../../pages/filters/FilterRestaurantsPanel`);
+let FilterList = require(`../../pages/filters/FilterListRestaurant`);
 
-describe('test for rating, ', function() {
+describe('test for rating, ', () => {
 
     let TEST_RATINGS = {
         '0': '1',
@@ -11,21 +11,21 @@ describe('test for rating, ', function() {
         '4': '5'
     };
 
-    it('should set rating', function () {
+    it('should set rating', () => {
 
         let filterPanel = new FilterPanel();
         let filterList = new FilterList();
+        filterPanel.clearRadioFilter(`Price`)
+            .then(() => filterPanel.clearCheckFilter())
+            .then(() => {
+                for (let testRating in TEST_RATINGS) {
 
-        for (let testRating in TEST_RATINGS) {
+                    filterPanel.clearRadioFilter('Rating')
+                        .then(() => filterPanel.setRatingFilter(`Rating`, testRating))
+                        .then(() => filterList.getAllSelectedRatings()
+                            .each((rating) => expect(filterList.getCount(rating)).toEqual(Number.parseInt(TEST_RATINGS[testRating]))))
+                }
+            })
 
-            filterPanel.clearRadioFilter('Rating')
-                .then(() => filterPanel.setRatingFilter(`Rating`, testRating))
-                .then(() => filterList.getAllSelectedRatings()
-                    .each((rating) => expect(filterList.getCount(rating)).toEqual(Number.parseInt(TEST_RATINGS[testRating]))))
-                .then(() => filterPanel.clearRadioFilter('Rating'))
-                .catch((err) => {
-                    throw new Error(`Main page test: Error while selecting rating: ${err.message}`);
-                });
-        }
     });
 });

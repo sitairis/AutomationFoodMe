@@ -4,9 +4,9 @@
   "description": "",
   "main": "spec.js",
   "scripts": {
-    "upwd": "webdriver-manager update",
-    "wd": "webdriver-manager start",
-    "test": "protractor conf.js"
+    "upwd": "node_modules/.bin/webdriver-manager update",
+    "wd": "node_modules/.bin/webdriver-manager start",
+    "test": "node node_modules/protractor/bin/protractor ./conf.js"
   },
   "author": "",
   "license": "ISC",

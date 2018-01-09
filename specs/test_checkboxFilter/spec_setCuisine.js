@@ -1,21 +1,17 @@
 let MainPage = require(`../../pages/MainPage`);
-let FilterPanel = require(`../../filters/FilterRestaurantsPanel`);
-let data = require('../../filters/filtersData');
+let FilterPanel = require(`../../pages/filters/FilterRestaurantsPanel`);
+let data = require('../../pages/filters/filtersData');
 
-describe('test for checkbox filter', function() {
+describe('test for checkbox filter', () => {
 
-    it('should get title of restaurants list', function () {
+    it('should get title of restaurants list', () => {
 
         let mainPage = new MainPage();
-
+        let threeCuisines = data.CUISINE.slice(0, 3);
         let filterPanel = new FilterPanel();
 
-        filterPanel.clearRadioFilter('Rating')
-            .then(() => filterPanel.setCheckBoxFilter(`Cuisines`, data.CUISINE.slice(0, 3)))
+        filterPanel.setCheckBoxFilter(`Cuisines`, threeCuisines)
             .then(() => expect(mainPage.getListTitle()).toEqual(`6 restaurants found!`))
-            .then(() => filterPanel.clearCheckFilter())
-            .catch((err) => {
-                throw new Error(`Main page test: Error while selecting cuisine: ${err.message}`);
-            });
+
     });
 });

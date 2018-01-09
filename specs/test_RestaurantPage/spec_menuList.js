@@ -1,9 +1,9 @@
 let MainPage = require(`../../pages/MainPage`);
 let RestaurantPage = require(`../../pages/RestaurantPage`);
 
-describe('test for restaurant page', function() {
+describe('test for restaurant page', () => {
 
-    it('should open restaurant and select item', function () {
+    it('should open restaurant and select item', () => {
 
         let mainPage = new MainPage();
 
@@ -15,11 +15,8 @@ describe('test for restaurant page', function() {
                     .then(() => restaurantPage.getOrderPrice())
                     .then((price) => {
                         let testPrice = price.getText();
-                        expect(testPrice).toEqual('Total: $6.95');
+                        expect(testPrice).toEqual('Total: $5.95');
                     })
-            })
-            .catch((err) => {
-                throw new Error(`Restaurant page test: Error while selecting dish: ${err.message}`);
             });
     })
 });

@@ -23,8 +23,7 @@ class RestaurantPage  extends Page{
      * @returns {*}
      */
     addToOrder(index) {
-        if(!index) throw new Error(`RestaurantPage: index is undefined`);
-        if (!utils.isNumber(index)) throw new Error(`RestaurantPage: index is no a number`);
+        if (!utils.isRightIndex(index)) throw new Error(`RestaurantPage: index is incorrect`);
 
         return this.getAllMenu().get(index).$(`a`).click();
     }
@@ -51,12 +50,13 @@ class RestaurantPage  extends Page{
      * @returns {*}
      */
     removeOrderItem(index){
-        if(!index) throw new Error(`RestaurantPage: index is undefined`);
-        if (!utils.isNumber(index)) throw new Error(`RestaurantPage: index is not a number`);
+        if (!utils.isRightIndex(index)) throw new Error(`RestaurantPage: index is incorrect`);
 
-        browser.driver.actions().mouseMove(this.getOrderList().$$(`a`).get(index)).perform();
+        let btnRemove = this.getOrderList().$$(`a`).get(index);
+        browser.driver.actions().mouseMove(btnRemove).perform();
 
-        return this.getOrderList().$$(`a`).get(index).click();
+        return btnRemove.click();
     }
 }
+
 module.exports = RestaurantPage;

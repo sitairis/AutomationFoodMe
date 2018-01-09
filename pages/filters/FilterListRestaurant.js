@@ -9,7 +9,7 @@ class FilterListRestaurant {
      * @returns {ElementArrayFinder}
      */
     getAllRestaurants() {
-        return this.root.all(by.css(`[ng-repeat="restaurant in restaurants"]`));
+        return this.root.all(by.repeater(`restaurant in restaurants`));
     }
 
     /**
@@ -27,7 +27,7 @@ class FilterListRestaurant {
      * @returns {promise.Promise<number>}
      */
     getCount(rating) {
-        if (!rating) throw new Error(`FilterListRestaurant: rating is undefined`);
+        if (!rating) throw new Error(`FilterListRestaurant: rating does not exist`);
 
         return rating.$$('li[class~=fm-selected]').count();
     }

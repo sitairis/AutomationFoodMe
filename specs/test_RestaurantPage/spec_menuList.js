@@ -1,12 +1,9 @@
-let FilterPanel = require(`../../filters/FilterRestaurantsPanel`);
-let FilterList = require(`../../filters/FilterListRestaurant`);
 let MainPage = require(`../../pages/MainPage`);
 let RestaurantPage = require(`../../pages/RestaurantPage`);
 
-describe('test ', function() {
+describe('test for restaurant page', function() {
 
-
-    it('should ', function () {
+    it('should open restaurant and select item', function () {
 
         let mainPage = new MainPage();
 
@@ -22,9 +19,8 @@ describe('test ', function() {
                     })
             })
             .catch((err) => {
-                throw new Error(`Main page test: Error while selecting cuisine: ${err.message}`);
+                throw new Error(`Restaurant page test: Error while selecting dish: ${err.message}`);
             });
-
     })
 
 });

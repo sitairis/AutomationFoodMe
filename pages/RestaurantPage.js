@@ -58,7 +58,5 @@ class RestaurantPage  extends Page{
 
         return this.getOrderList().$$(`a`).get(index).click();
     }
-
-
 }
 module.exports = RestaurantPage;

@@ -28,5 +28,4 @@ describe('test for price rating', function() {
                 });
         }
     })
-
 });

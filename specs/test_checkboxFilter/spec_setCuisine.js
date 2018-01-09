@@ -1,6 +1,5 @@
 let MainPage = require(`../../pages/MainPage`);
 let FilterPanel = require(`../../filters/FilterRestaurantsPanel`);
-let FilterList = require(`../../filters/FilterListRestaurant`);
 let data = require('../../filters/filtersData');
 
 describe('test for checkbox filter', function() {

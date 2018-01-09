@@ -10,10 +10,19 @@ class MainPage extends Page {
 
     }
 
+    /**
+     * вернет заголовок с количеством ресторанов
+     * @returns {*}
+     */
     getListTitle() {
         return this.rootRestaurantList.$(`h4`).getText();
     }
 
+    /**
+     * перейти на страницу ресторана
+     * @param index
+     * @returns {*}
+     */
     openRestaurant(index) {
         if(!index) throw new Error(`MainPage: index is undefined`);
         if (!utils.isNumber(index)) throw new Error(`MainPage: index is not a number`);

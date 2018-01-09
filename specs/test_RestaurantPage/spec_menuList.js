@@ -22,5 +22,4 @@ describe('test for restaurant page', function() {
                 throw new Error(`Restaurant page test: Error while selecting dish: ${err.message}`);
             });
     })
-
 });

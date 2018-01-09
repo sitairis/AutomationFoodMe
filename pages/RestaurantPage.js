@@ -10,7 +10,7 @@ class RestaurantPage  extends Page{
     }
 
     /**
-     *
+     * получить перечень блюд из меню
      * @returns {ElementArrayFinder}
      */
     getAllMenu() {
@@ -18,7 +18,7 @@ class RestaurantPage  extends Page{
     }
 
     /**
-     *
+     * добавить блюдо в заказ
      * @param index
      * @returns {*}
      */
@@ -30,7 +30,7 @@ class RestaurantPage  extends Page{
     }
 
     /**
-     *
+     * получить элемент с перечнем блюд в заказе
      * @returns {ElementFinder}
      */
     getOrderList() {
@@ -38,7 +38,7 @@ class RestaurantPage  extends Page{
     }
 
     /**
-     *
+     * получить элемент со стоимостью заказа
      * @returns {ElementFinder}
      */
     getOrderPrice() {
@@ -46,7 +46,7 @@ class RestaurantPage  extends Page{
     }
 
     /**
-     *
+     * удалить блюдо из заказа
      * @param index
      * @returns {*}
      */

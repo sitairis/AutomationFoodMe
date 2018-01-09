@@ -14,7 +14,7 @@ class MainPage extends Page {
         return this.rootRestaurantList.$(`h4`).getText();
     }
 
-    openRestaurantPage(index) {
+    openRestaurant(index) {
         if(!index) throw new Error(`MainPage: index is undefined`);
         if (!utils.isNumber(index)) throw new Error(`MainPage: index is not a number`);
 

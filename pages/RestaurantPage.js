@@ -1,7 +1,7 @@
 let utils = require(`../utils/utils`);
 let Page = require('./Page');
 
-class RestaurantPage  extends Page{
+class RestaurantPage  extends Page {
 
     constructor() {
         super(`Restaurant Page`);
@@ -32,8 +32,24 @@ class RestaurantPage  extends Page{
      * получить элемент с перечнем блюд в заказе
      * @returns {ElementFinder}
      */
-    getOrderList() {
+    getOrder() {
         return this.rootCard.$(`ul.unstyled`);
+    }
+
+    /**
+     * список заказанных блюд
+     * @returns {ElementArrayFinder}
+     */
+    getAllOrderList() {
+        return this.getOrder().all(by.repeater(`item in cart.items`));
+    }
+
+    /**
+     *
+     * @returns {ElementArrayFinder}
+     */
+    getAllPriceList() {
+        return this.rootMenu.all(by.repeater('menuItem in restaurant.menuItems'));
     }
 
     /**
@@ -49,13 +65,38 @@ class RestaurantPage  extends Page{
      * @param index
      * @returns {*}
      */
-    removeOrderItem(index){
+    removeOrderItem(index) {
         if (!utils.isRightIndex(index)) throw new Error(`RestaurantPage: index is incorrect`);
 
-        let btnRemove = this.getOrderList().$$(`a`).get(index);
+        let btnRemove = this.getOrder().$$(`a`).get(index);
         browser.driver.actions().mouseMove(btnRemove).perform();
 
         return btnRemove.click();
+    }
+
+    /**
+     * сортирует по возрастанию
+     * @param allItems
+     */
+    sortPriceByDec(allItems) {
+
+        return allItems.map((item, index) => {
+
+            return {
+                value: item.evaluate('menuItem.price'),
+                name: item.evaluate('menuItem.name'),
+                index: index
+            };
+        })
+            .then((unSorted) => unSorted.sort((a, b) => a.value - b.value));
+    }
+
+    /**
+     * названия блюд из заказа
+     * @param orderList     *
+     */
+    getOrderNamesList(orderList) {
+        return orderList.$$('li').map((item) => item.evaluate('item.name'));
     }
 }
 

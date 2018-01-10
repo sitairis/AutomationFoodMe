@@ -1,8 +1,7 @@
 exports.config = {
     framework: 'jasmine',
     seleniumAddress: 'http://localhost:4444/wd/hub',
-    baseUrl: "https://angular.io/",//http://localhost:5000/#/menu/khartoum
-    // baseUrl: "http://localhost:5000/#/",
+    baseUrl: "http://localhost:5000/#/",
     specs: ['./specs/*/*.js'],
     capabilities: {
         browserName: 'chrome'
@@ -10,10 +9,14 @@ exports.config = {
         //         args: ['headless', 'disable-gpu']
         // }
     },
+    suites: {
+        evaluate: './specs/test_RestaurantPage/spec_threeMinPrice.js'
+    },
 
-    onPrepare: function() {
 
-        let AuthPage = function() {
+    onPrepare: function () {
+
+        let AuthPage = function () {
 
             this.inputName = element(by.model('customerName'));
             this.inputAddress = element(by.model('customerAddress'));
@@ -23,7 +26,7 @@ exports.config = {
                 return browser.get('/');
             };
 
-            this.authorizate = function(name, address) {
+            this.authorizate = function (name, address) {
                 return this.fillInputName(name)
                     .then(() => this.fillInputAddress(address))
                     .then(() => this.pressFindRestaurantsButton())
@@ -42,6 +45,15 @@ exports.config = {
             };
         };
 
+        class DeliverForm {
+            constructor() {
+                this.deliver = $(`a.pull-right`);
+            }
+
+            changeDeliver() {
+                return this.deliver.click();
+            }
+        }
 
         beforeAll((done) => {
             let authorizationForm = new AuthPage();
@@ -54,5 +66,14 @@ exports.config = {
                 .then(() => done())
                 .catch(err => done.fail(err));
         });
-    },
+
+        // afterEach((done) => {
+        //     let deliverForm = new DeliverForm();
+        //
+        //     deliverForm.changeDeliver()
+        //         .then(() => done())
+        //         .catch(err => done.fail(err));
+        //
+        // });
+    }
 };

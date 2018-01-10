@@ -5,7 +5,7 @@ class MainPage extends Page {
 
     constructor() {
         super(`main page`);
-        this.rootRestaurantList = $(`.span9.fm-panel.fm-restaurant-list`);
+        this.rootRestaurantList = $(`div.span9.fm-panel.fm-restaurant-list`);
     }
 
     /**

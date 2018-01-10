@@ -3,6 +3,7 @@ let RestaurantPage = require(`../../pages/RestaurantPage`);
 
 describe('test for restaurant page', () => {
 
+
     it('should open restaurant and select item', () => {
 
         let mainPage = new MainPage();

@@ -1,4 +1,3 @@
-let utils = require(`../utils/utils`);
 let Page = require('./Page');
 
 class CheckoutPage  extends Page {
@@ -16,9 +15,15 @@ class CheckoutPage  extends Page {
         return this.root.all(by.repeater(`item in cart.items`));
     }
 
-getNames(items) {
+    /**
+     *
+     * @param items
+     */
+    getNames(items) {
+        if(!items) throw new Error(`CheckoutPage: items is incorrect`);
+
         return items.map((item) => item.evaluate('item.name'))
-}
+    }
 
 }
 

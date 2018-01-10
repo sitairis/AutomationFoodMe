@@ -3,15 +3,6 @@ let RestaurantPage = require(`../../pages/RestaurantPage`);
 
 describe('test for restaurant page', () => {
 
-afterEach(() => {
-    let items = element.all(by.repeater(`item in cart.items`));
-
-    if(items.isPresent()){
-        items.$$(`a`).each((el) => el.click());
-    }
-
-    $(`ul.nav a[href="#/"]`).click();
-});
     it('should open restaurant and select item', () => {
 
         let mainPage = new MainPage();
@@ -27,5 +18,15 @@ afterEach(() => {
                         expect(testPrice).toEqual('Total: $6.95');
                     });
             });
+    });
+
+    afterEach(() => {
+        let items = element.all(by.repeater(`item in cart.items`));
+
+        if (items.isPresent()) {
+            items.$$(`a`).each((el) => el.click());
+        }
+
+        $(`ul.nav a[href="#/"]`).click();
     });
 });

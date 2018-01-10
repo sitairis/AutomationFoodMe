@@ -2,6 +2,8 @@ exports.config = {
     framework: 'jasmine',
     seleniumAddress: 'http://localhost:4444/wd/hub',
     baseUrl: "http://localhost:5000/#/",
+    /*browser.ignoreSynchronization = true;
+    browser.get('http://localhost:5000/#/menu/babythai');*/
     specs: ['./specs/*/*.js'],
     capabilities: {
         browserName: 'chrome',
@@ -13,8 +15,7 @@ exports.config = {
         checkout: './specs/test_CheckoutPage/*.js',
         restPage:  './specs/test_RestaurantPage/*.js',
         rating:  './specs/test_ratingFilter/*.js',
-        checkbox:  './specs/test_checkboxFilter/*.js',
-        all: './specs/*/*.js'
+        checkbox:  './specs/test_checkboxFilter/*.js'
     },
 
 
@@ -48,15 +49,15 @@ exports.config = {
             };
         };
 
-        // class DeliverForm {
-        //     constructor() {
-        //         this.deliver = $(`a.pull-right`);
-        //     }
-        //
-        //     changeDeliver() {
-        //         return this.deliver.click();
-        //     }
-        // }
+        class DeliverForm {
+            constructor() {
+                this.deliver = $(`a.pull-right`);
+            }
+
+            changeDeliver() {
+                return this.deliver.click();
+            }
+        }
 
         beforeAll((done) => {
             let authorizationForm = new AuthPage();

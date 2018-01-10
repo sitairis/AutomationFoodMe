@@ -21,9 +21,6 @@ describe('test for restaurant page', () => {
                     .then(() => restaurantPage.getOrder())
                     .then((orderList) => restaurantPage.getOrderNamesList(orderList))
                     .then((orderNamesList) => orderNamesList.forEach((name, index) => expect(name).toEqual(nameList[index])))
-
-                /*browser.ignoreSynchronization = true;
-                browser.get('http://localhost:5000/#/menu/babythai');*/
             });
     });
 });

@@ -3,11 +3,19 @@ let RestaurantPage = require(`../../pages/RestaurantPage`);
 
 describe('test for restaurant page', () => {
 
+afterEach(() => {
+    let items = element.all(by.repeater(`item in cart.items`));
 
+    if(items.isPresent()){
+        items.$$(`a`).each((el) => el.click());
+    }
+
+    $(`ul.nav a[href="#/"]`).click();
+});
     it('should open restaurant and select item', () => {
 
         let mainPage = new MainPage();
-        browser.debugger();
+
         mainPage.openRestaurant(2)
             .then(() => {
                 let restaurantPage = new RestaurantPage();
@@ -16,7 +24,7 @@ describe('test for restaurant page', () => {
                     .then(() => restaurantPage.getOrderPrice())
                     .then((price) => {
                         let testPrice = price.getText();
-                        expect(testPrice).toEqual('Total: $5.95');
+                        expect(testPrice).toEqual('Total: $6.95');
                     });
             });
     });

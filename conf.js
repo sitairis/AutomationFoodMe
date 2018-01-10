@@ -4,20 +4,23 @@ exports.config = {
     baseUrl: "http://localhost:5000/#/",
     specs: ['./specs/*/*.js'],
     capabilities: {
-        browserName: 'chrome'
-        // chromeOptions: {
-        //         args: ['headless', 'disable-gpu']
-        // }
+        browserName: 'chrome',
+        chromeOptions: {
+                args: ['headless', 'disable-gpu']
+        }
     },
     suites: {
-        evaluate: './specs/test_RestaurantPage/spec_threeMinPrice.js'
+        checkout: './specs/test_CheckoutPage/*.js',
+        restPage:  './specs/test_RestaurantPage/*.js',
+        rating:  './specs/test_ratingFilter/*.js',
+        checkbox:  './specs/test_checkboxFilter/*.js',
+        all: './specs/*/*.js'
     },
 
 
     onPrepare: function () {
 
         let AuthPage = function () {
-
             this.inputName = element(by.model('customerName'));
             this.inputAddress = element(by.model('customerAddress'));
             this.btnFindRestaurants = element(by.css('[ng-click="findRestaurants(customerName, customerAddress)"]'));
@@ -45,15 +48,15 @@ exports.config = {
             };
         };
 
-        class DeliverForm {
-            constructor() {
-                this.deliver = $(`a.pull-right`);
-            }
-
-            changeDeliver() {
-                return this.deliver.click();
-            }
-        }
+        // class DeliverForm {
+        //     constructor() {
+        //         this.deliver = $(`a.pull-right`);
+        //     }
+        //
+        //     changeDeliver() {
+        //         return this.deliver.click();
+        //     }
+        // }
 
         beforeAll((done) => {
             let authorizationForm = new AuthPage();
@@ -67,10 +70,11 @@ exports.config = {
                 .catch(err => done.fail(err));
         });
 
-        // afterEach((done) => {
+        // afterAll((done) => {
         //     let deliverForm = new DeliverForm();
         //
-        //     deliverForm.changeDeliver()
+        //     $(`ul.nav a[href="#/"]`).click()
+        //         .then(() => deliverForm.changeDeliver())
         //         .then(() => done())
         //         .catch(err => done.fail(err));
         //

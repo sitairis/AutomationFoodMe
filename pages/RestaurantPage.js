@@ -7,6 +7,7 @@ class RestaurantPage  extends Page {
         super(`Restaurant Page`);
         this.rootMenu = $(`div.span8.fm-panel.fm-menu-list`);
         this.rootCard = $(`div.span4.fm-panel.fm-cart`);
+        this.btnCheckout = $(`div.pull-right`);
     }
 
     /**
@@ -97,6 +98,14 @@ class RestaurantPage  extends Page {
      */
     getOrderNamesList(orderList) {
         return orderList.$$('li').map((item) => item.evaluate('item.name'));
+    }
+
+    /**
+     *
+     * @returns {*}
+     */
+    makeCheckout() {
+        return this.btnCheckout.click();
     }
 }
 

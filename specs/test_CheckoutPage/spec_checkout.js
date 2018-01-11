@@ -2,9 +2,9 @@ let MainPage = require(`../../pages/MainPage`);
 let RestaurantPage = require(`../../pages/RestaurantPage`);
 let CheckoutPage = require(`../../pages/CheckoutPage`);
 
-describe('test for restaurant page', () => {
+describe('test for checkout page', () => {
 
-    it('should open restaurant and select item', () => {
+    it('should make checkout and compare names of dishes', () => {
 
         let mainPage = new MainPage();
 
@@ -17,6 +17,7 @@ describe('test for restaurant page', () => {
                     .then((SortedPrices) => {
                         let threeMinPrices = SortedPrices.slice(0, 3);
                         nameList = SortedPrices.map((price) => price.name);
+
                         return threeMinPrices.forEach((price) => restaurantPage.addToOrder(price.index))
                     })
                     .then(() => restaurantPage.makeCheckout())

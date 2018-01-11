@@ -7,6 +7,7 @@ describe('test for checkbox filter', () => {
     it('should get title of restaurants list', () => {
 
         let filterList = new FilterList();
+
         let threeCuisines = data.CUISINE.slice(0, 3);
         let filterPanel = new FilterPanel();
 

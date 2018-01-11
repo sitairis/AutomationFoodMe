@@ -4,6 +4,16 @@ let CheckoutPage = require(`../../pages/CheckoutPage`);
 
 describe('test for checkout page', () => {
 
+
+    afterEach(() => {
+        let btnClear = $('[ng-click="cart.reset()"]');
+        let btnHome = $('a[href="#/"]');
+
+        btnClear.click()
+            .then(() => btnHome.click());
+
+    });
+
     it('should make checkout and compare names and prices of dishes', () => {
 
         let mainPage = new MainPage();

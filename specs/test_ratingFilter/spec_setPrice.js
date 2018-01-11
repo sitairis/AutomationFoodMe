@@ -2,6 +2,8 @@ let FilterPanel = require(`../../pages/filters/FilterRestaurantsPanel`);
 let FilterList = require(`../../pages/filters/FilterListRestaurant`);
 
 describe('test for price rating', () => {
+
+
     beforeEach(() => {
         let filterPanel = new FilterPanel();
 

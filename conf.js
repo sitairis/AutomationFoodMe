@@ -15,9 +15,9 @@ exports.config = {
         checkout: './specs/test_CheckoutPage/spec_checkout.js',
         restPage:  './specs/test_RestaurantPage/*.js',
         rating:  './specs/test_ratingFilter/*.js',
-        checkbox:  './specs/test_checkboxFilter/*.js'
+        checkbox:  './specs/test_checkboxFilter/*.js',
+        all: './specs/*/*.js'
     },
-
 
     onPrepare: function () {
 
@@ -51,11 +51,11 @@ exports.config = {
 
         class DeliverForm {
             constructor() {
-                this.deliver = $(`a.pull-right`);
+                this.btnLogout = $('a[href="#/customer"]');
             }
 
             changeDeliver() {
-                return this.deliver.click();
+                return this.btnLogout.click();
             }
         }
 
@@ -66,19 +66,19 @@ exports.config = {
 
             authorizationForm.navigate()
                 .then(() => browser.ignoreSynchronization = false)
-                .then(() => authorizationForm.authorizate("aaa", "bbb"))
+                .then(() => authorizationForm.authorizate("name", "address"))
                 .then(() => done())
                 .catch(err => done.fail(err));
         });
 
-        // afterAll((done) => {
-        //     let deliverForm = new DeliverForm();
-        //
-        //     $(`ul.nav a[href="#/"]`).click()
-        //         .then(() => deliverForm.changeDeliver())
-        //         .then(() => done())
-        //         .catch(err => done.fail(err));
-        //
-        // });
+        afterAll((done) => {
+            let deliverForm = new DeliverForm();
+
+            $(`ul.nav a[href="#/"]`).click()
+                .then(() => deliverForm.changeDeliver())
+                .then(() => done())
+                .catch(err => done.fail(err));
+
+        });
     }
 };

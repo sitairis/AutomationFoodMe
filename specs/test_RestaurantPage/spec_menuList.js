@@ -3,7 +3,18 @@ let RestaurantPage = require(`../../pages/RestaurantPage`);
 
 describe('test for restaurant page', () => {
 
-    it('should open restaurant and select item', () => {
+    afterEach(() => {
+        let btnClear = $('[ng-click="cart.reset()"]');
+        let btnHome = $('a[href="#/"]');
+        let btnCheckout = $(`div.pull-right`);
+
+        btnCheckout.click()
+            .then(() => btnClear.click())
+            .then(() => btnHome.click());
+
+    });
+
+    it('should open restaurant, select dish and compare results', () => {
 
         let mainPage = new MainPage();
 
@@ -18,15 +29,5 @@ describe('test for restaurant page', () => {
                         expect(testPrice).toEqual('Total: $6.95');
                     });
             });
-    });
-
-    afterEach(() => {
-        let items = element.all(by.repeater(`item in cart.items`));
-
-        if (items.isPresent()) {
-            items.$$(`a`).each((el) => el.click());
-        }
-
-        $(`ul.nav a[href="#/"]`).click();
     });
 });

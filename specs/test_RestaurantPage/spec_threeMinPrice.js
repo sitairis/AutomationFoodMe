@@ -3,7 +3,19 @@ let RestaurantPage = require(`../../pages/RestaurantPage`);
 
 describe('test for restaurant page', () => {
 
-    it('should open restaurant and select item', () => {
+
+    afterEach(() => {
+        let btnClear = $('[ng-click="cart.reset()"]');
+        let btnHome = $('a[href="#/"]');
+        let btnCheckout = $(`div.pull-right`);
+
+        btnCheckout.click()
+            .then(() => btnClear.click())
+            .then(() => btnHome.click());
+
+    });
+
+    it('should open restaurant, select dishes and compare names', () => {
 
         let mainPage = new MainPage();
 
@@ -19,7 +31,9 @@ describe('test for restaurant page', () => {
                         return threeMinPrices.forEach((price) => restaurantPage.addToOrder(price.index))
                     })
                     .then(() => restaurantPage.getOrder())
-                    .then((orderList) => restaurantPage.getOrderNamesList(orderList))
+                    .then((orderList) => {
+                        return restaurantPage.getOrderNamesList(orderList)
+                    })
                     .then((orderNamesList) => orderNamesList.forEach((name, index) => expect(name).toEqual(nameList[index])))
             });
     });

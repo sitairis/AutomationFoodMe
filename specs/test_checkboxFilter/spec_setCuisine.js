@@ -1,8 +1,8 @@
 let FilterPanel = require(`../../pages/filters/FilterRestaurantsPanel`);
 let FilterList = require(`../../pages/filters/FilterListRestaurant`);
 let data = require('../../pages/filters/filtersData');
-let DeliverForm = require('../../Deliver');
-let AuthPage = require('../../AuthPage');
+let DeliverForm = require('../../pages/Deliver');
+let AuthPage = require('../../pages/AuthPage');
 
 describe('test for checkbox filter', () => {
 

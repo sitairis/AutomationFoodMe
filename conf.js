@@ -20,8 +20,8 @@ exports.config = {
     },
 
     onPrepare: function () {
-        let AuthPage = require('./AuthPage');
-        let DeliverForm = require('./Deliver');
+        let AuthPage = require('./pages/AuthPage');
+        let DeliverForm = require('./pages/Deliver');
 
         beforeAll((done) => {
             let authorizationForm = new AuthPage();

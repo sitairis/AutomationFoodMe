@@ -8,56 +8,20 @@ exports.config = {
     capabilities: {
         browserName: 'chrome',
         chromeOptions: {
-                args: ['headless', 'disable-gpu']
+            args: ['headless', 'disable-gpu']
         }
     },
     suites: {
         checkout: './specs/test_CheckoutPage/spec_checkout.js',
-        restPage:  './specs/test_RestaurantPage/*.js',
-        rating:  './specs/test_ratingFilter/*.js',
-        checkbox:  './specs/test_checkboxFilter/*.js',
+        restPage: './specs/test_RestaurantPage/*.js',
+        rating: './specs/test_ratingFilter/*.js',
+        checkbox: './specs/test_checkboxFilter/*.js',
         all: './specs/*/*.js'
     },
 
     onPrepare: function () {
-
-        let AuthPage = function () {
-            this.inputName = element(by.model('customerName'));
-            this.inputAddress = element(by.model('customerAddress'));
-            this.btnFindRestaurants = element(by.css('[ng-click="findRestaurants(customerName, customerAddress)"]'));
-
-            this.navigate = function () {
-                return browser.get('/');
-            };
-
-            this.authorizate = function (name, address) {
-                return this.fillInputName(name)
-                    .then(() => this.fillInputAddress(address))
-                    .then(() => this.pressFindRestaurantsButton())
-            };
-
-            this.fillInputName = function (name) {
-                return this.inputName.sendKeys(name);
-            };
-
-            this.fillInputAddress = function (address) {
-                return this.inputAddress.sendKeys(address);
-            };
-
-            this.pressFindRestaurantsButton = function () {
-                return this.btnFindRestaurants.click();
-            };
-        };
-
-        class DeliverForm {
-            constructor() {
-                this.btnLogout = $('a[href="#/customer"]');
-            }
-
-            changeDeliver() {
-                return this.btnLogout.click();
-            }
-        }
+        let AuthPage = require('./AuthPage');
+        let DeliverForm = require('./Deliver');
 
         beforeAll((done) => {
             let authorizationForm = new AuthPage();

@@ -19,10 +19,16 @@ class CheckoutPage  extends Page {
      *
      * @param items
      */
-    getNames(items) {
+    getProperties(items) {
         if(!items) throw new Error(`CheckoutPage: items is incorrect`);
 
-        return items.map((item) => item.evaluate('item.name'))
+        return items.map((item) => {
+
+            return {
+                value: item.evaluate('item.price'),
+                name: item.evaluate('item.name')
+            }
+        });
     }
 
 }

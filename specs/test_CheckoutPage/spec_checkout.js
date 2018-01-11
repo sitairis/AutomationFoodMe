@@ -4,30 +4,40 @@ let CheckoutPage = require(`../../pages/CheckoutPage`);
 
 describe('test for checkout page', () => {
 
-    it('should make checkout and compare names of dishes', () => {
+    it('should make checkout and compare names and prices of dishes', () => {
 
         let mainPage = new MainPage();
 
         mainPage.openRestaurant(0)
             .then(() => {
                 let restaurantPage = new RestaurantPage();
-                let nameList = [];
+                let listProperties = [];
 
                 restaurantPage.sortPriceByDec(restaurantPage.getAllPriceList())
-                    .then((SortedPrices) => {
-                        let threeMinPrices = SortedPrices.slice(0, 3);
-                        nameList = SortedPrices.map((price) => price.name);
+                    .then((sortedPrices) => {
+                        let threeMinPrices = sortedPrices.slice(0, 3);
 
-                        return threeMinPrices.forEach((price) => restaurantPage.addToOrder(price.index))
+                        listProperties = getListValues(sortedPrices);
+
+                        return threeMinPrices.forEach((dish) => restaurantPage.addToOrder(dish.index))
                     })
                     .then(() => restaurantPage.makeCheckout())
                     .then(() => {
                         let checkoutPage = new CheckoutPage();
 
-                        return checkoutPage.getAllItems()
-                            .then((items) => checkoutPage.getNames(items))
-                            .then((names) => names.forEach((name, index) => expect(name).toEqual(nameList[index])))
-                    })
+                        return checkoutPage.getProperties(checkoutPage.getAllItems())
+                            .then((properties) => getListValues(properties))
+                            .then((properties) => properties.forEach((property, index) => expect(property).toEqual(listProperties[index])))
+
+                    });
             });
     });
 });
+
+/**
+ *
+ * @param array
+ */
+function getListValues(array) {
+    return array.map((element) => `${element.name}${element.value}` );
+}

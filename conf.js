@@ -12,7 +12,7 @@ exports.config = {
         }
     },
     suites: {
-        checkout: './specs/test_CheckoutPage/spec_checkoutPrice.js',
+        checkout: './specs/test_CheckoutPage/spec_checkout.js',
         restPage:  './specs/test_RestaurantPage/*.js',
         rating:  './specs/test_ratingFilter/*.js',
         checkbox:  './specs/test_checkboxFilter/*.js'

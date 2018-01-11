@@ -76,8 +76,9 @@ class RestaurantPage  extends Page {
     }
 
     /**
-     * сортирует по возрастанию
+     *
      * @param allItems
+     * @returns {Array}
      */
     sortPriceByDec(allItems) {
 

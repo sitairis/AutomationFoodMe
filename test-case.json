@@ -12,7 +12,7 @@
     },
     {
       "index": "3",
-      "description": "set price rating",
+      "description": "find restaurant with lowest price",
       "expected": "restaurant"
     },
     {

@@ -1,13 +1,15 @@
 let utils = require(`../utils/utils`);
 let Page = require('./Page');
+let Button = require('../elements/Button');
+let BaseElement = require('../elements/BaseElement');
 
 class RestaurantPage  extends Page {
 
     constructor() {
         super(`Restaurant Page`);
-        this.rootMenu = $(`div.span8.fm-panel.fm-menu-list`);
-        this.rootCard = $(`div.span4.fm-panel.fm-cart`);
-        this.btnCheckout = $(`div.pull-right`);
+        this.rootMenu = new BaseElement('rootMenu', `div.span8.fm-panel.fm-menu-list`);
+        this.rootCard = new BaseElement('rootCard', `div.span4.fm-panel.fm-cart`);
+        this.btnCheckout = new Button('Checkout', `div.pull-right`);
     }
 
     /**
@@ -15,7 +17,7 @@ class RestaurantPage  extends Page {
      * @returns {ElementArrayFinder}
      */
     getAllMenu() {
-        return this.rootMenu.$$(`li.ng-scope`);
+        return this.rootMenu.findElementsByCSS(`li.ng-scope`);
     }
 
     /**
@@ -34,7 +36,7 @@ class RestaurantPage  extends Page {
      * @returns {ElementFinder}
      */
     getOrder() {
-        return this.rootCard.$(`ul.unstyled`);
+        return this.rootCard.findElementByCSS(`ul.unstyled`);
     }
 
     /**
@@ -50,7 +52,7 @@ class RestaurantPage  extends Page {
      * @returns {ElementArrayFinder}
      */
     getAllPriceList() {
-        return this.rootMenu.all(by.repeater('menuItem in restaurant.menuItems'));
+        return this.rootMenu.findElementsByRepeater('menuItem in restaurant.menuItems');
     }
 
     /**
@@ -58,7 +60,7 @@ class RestaurantPage  extends Page {
      * @returns {ElementFinder}
      */
     getOrderPrice() {
-        return this.rootCard.$(`b.ng-binding`);
+        return this.rootCard.findElementByCSS(`b.ng-binding`);
     }
 
     /**

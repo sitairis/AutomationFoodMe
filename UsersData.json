@@ -1,0 +1,11 @@
+{
+  "nameDeliver": "Ivan",
+  "Address": "Minsk, Very Choruzhey, 10",
+  "cuisine": [
+    "american",
+    "cafe",
+    "pizza"
+  ],
+  "personsAmount": "3"
+}
+

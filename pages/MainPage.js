@@ -1,11 +1,13 @@
 let Page = require('./Page');
 let utils = require(`../utils/utils`);
+let baseEl = require('../elements/BaseElement');
+let button = require('../elements/Button');
 
 class MainPage extends Page {
 
     constructor() {
         super(`main page`);
-        this.rootRestaurantList = $(`div.span9.fm-panel.fm-restaurant-list`);
+        this.rootRestaurantList = new baseEl('a', `div.span9.fm-panel.fm-restaurant-list`);
     }
 
     /**
@@ -13,7 +15,7 @@ class MainPage extends Page {
      * @returns {*}
      */
     getListTitle() {
-        return this.rootRestaurantList.$(`h4`).getText();
+        return this.rootRestaurantList.findElementsByCSS('h4').getText();
     }
 
     /**
@@ -24,7 +26,8 @@ class MainPage extends Page {
     openRestaurant(index) {
         if (!utils.isRightIndex(index)) throw new Error(`MainPage: index is incorrect`);
 
-        return this.rootRestaurantList.$$(`img.img-rounded.pull-left`).get(index).click();
+        let restaurant = this.rootRestaurantList.findElementsByCSS(`img.img-rounded.pull-left`).get(index);
+        return restaurant.click();
     }
 
 }

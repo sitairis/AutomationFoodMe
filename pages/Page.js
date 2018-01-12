@@ -4,7 +4,7 @@ class Page {
         this._title = title;
     }
 
-    get title() {
+    getTitle() {
         return this._title;
     }
 }

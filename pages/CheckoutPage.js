@@ -1,10 +1,12 @@
 let Page = require('./Page');
+let baseEl = require('../elements/BaseElement');
+let button = require('../elements/Button');
 
 class CheckoutPage  extends Page {
 
     constructor() {
         super(`Checkout Page`);
-        this.root = $(`table`);
+        this.root = new baseEl('root', 'table');//$(`table`);
     }
 
     /**
@@ -12,7 +14,7 @@ class CheckoutPage  extends Page {
      * @returns {ElementArrayFinder}
      */
     getAllItems() {
-        return this.root.all(by.repeater(`item in cart.items`));
+        return this.root.findElementsByRepeater(`item in cart.items`);
     }
 
     /**

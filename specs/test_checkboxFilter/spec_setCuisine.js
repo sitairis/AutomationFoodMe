@@ -22,7 +22,7 @@ describe('test for checkbox filter', () => {
             .then(() => filterPanel.clearCheckFilter())
     });
 
-    it('should get title of restaurants list', () => {
+    it('should get count of restaurants list', () => {
 
         let filterList = new FilterList();
 
@@ -33,6 +33,8 @@ describe('test for checkbox filter', () => {
             .then(() => expect(filterList.getAllRestaurants().count()).toEqual(6));
     });
 });
+
+
 function getCuisinesName(cuisines) {
     return cuisines.map((cuisine) => cuisine.name);
 }

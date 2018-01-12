@@ -10,11 +10,11 @@ class BaseElement {
 
     /**
      *
-     * @param locator
+     * @param selector
      * @returns {ElementFinder}
      */
-    findElementByCSS(locator) {
-        return this.selector.$(locator);
+    findElementByCSS(selector) {
+        return this.selector.$(selector);
     }
 
     /**

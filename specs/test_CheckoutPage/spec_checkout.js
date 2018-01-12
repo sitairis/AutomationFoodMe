@@ -7,7 +7,7 @@ describe('test for checkout page', () => {
 
     afterEach(() => {
         let btnClear = $('[ng-click="cart.reset()"]');
-        let btnHome = $('a[href="#/"]');
+        let btnHome = element(by.cssContainingText('a', 'Home'));
 
         btnClear.click()
             .then(() => btnHome.click());
@@ -45,7 +45,7 @@ describe('test for checkout page', () => {
 });
 
 /**
- *
+ *  возвращает массив со строками
  * @param array
  */
 function getListValues(array) {

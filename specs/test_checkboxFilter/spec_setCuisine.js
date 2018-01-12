@@ -29,7 +29,10 @@ describe('test for checkbox filter', () => {
         let threeCuisines = data.CUISINE.slice(0, 3);
         let filterPanel = new FilterPanel();
 
-        filterPanel.setCheckBoxFilter(`Cuisines`, threeCuisines)
+        filterPanel.setCheckBoxFilter(`Cuisines`, getCuisinesName(threeCuisines))
             .then(() => expect(filterList.getAllRestaurants().count()).toEqual(6));
     });
 });
+function getCuisinesName(cuisines) {
+    return cuisines.map((cuisine) => cuisine.name);
+}

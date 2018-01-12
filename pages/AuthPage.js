@@ -1,28 +1,31 @@
-let AuthPage = function () {
-    this.inputName = element(by.model('customerName'));
-    this.inputAddress = element(by.model('customerAddress'));
-    this.btnFindRestaurants = element(by.css('[ng-click="findRestaurants(customerName, customerAddress)"]'));
+class AuthPage {
+    constructor() {
+        this.inputName = element(by.model('customerName'));
+        this.inputAddress = element(by.model('customerAddress'));
+        this.btnFindRestaurants = element(by.css('[ng-click="findRestaurants(customerName, customerAddress)"]'));
 
-    this.navigate = function () {
+    }
+
+    navigate() {
         return browser.get('http://localhost:5000/#/customer');
-    };
+    }
 
-    this.authorizate = function (name, address) {
+    authorizate(name, address) {
         return this.fillInputName(name)
             .then(() => this.fillInputAddress(address))
             .then(() => this.pressFindRestaurantsButton())
-    };
+    }
 
-    this.fillInputName = function (name) {
+    fillInputName(name) {
         return this.inputName.sendKeys(name);
-    };
+    }
 
-    this.fillInputAddress = function (address) {
-        return this.inputAddress.sendKeys(address);
-    };
-
-    this.pressFindRestaurantsButton = function () {
+    pressFindRestaurantsButton() {
         return this.btnFindRestaurants.click();
-    };
-};
-module.exports = AuthPage
+    }
+
+    fillInputAddress(address) {
+        return this.inputAddress.sendKeys(address);
+    }
+}
+module.exports = AuthPage;

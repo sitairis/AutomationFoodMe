@@ -6,7 +6,7 @@ describe('test for restaurant page', () => {
 
     afterEach(() => {
         let btnClear = $('[ng-click="cart.reset()"]');
-        let btnHome = $('a[href="#/"]');
+        let btnHome = element(by.cssContainingText('a', 'Home'));
         let btnCheckout = $(`div.pull-right`);
 
         btnCheckout.click()

@@ -1,8 +1,6 @@
 let FilterPanel = require(`../../pages/filters/FilterRestaurantsPanel`);
 let FilterList = require(`../../pages/filters/FilterListRestaurant`);
 let data = require('../../pages/filters/filtersData');
-let DeliverForm = require('../../pages/Deliver');
-let AuthPage = require('../../pages/AuthPage');
 
 describe('test for checkbox filter', () => {
 
@@ -11,7 +9,7 @@ describe('test for checkbox filter', () => {
 
         filterPanel.clearRadioFilter(`Rating`)
             .then(() => filterPanel.clearRadioFilter(`Price`))
-            .then(() => filterPanel.clearCheckFilter())
+            .then(() => filterPanel.clearCheckFilter());
     });
 
     afterEach(() => {
@@ -19,7 +17,7 @@ describe('test for checkbox filter', () => {
 
         filterPanel.clearRadioFilter(`Rating`)
             .then(() => filterPanel.clearRadioFilter(`Price`))
-            .then(() => filterPanel.clearCheckFilter())
+            .then(() => filterPanel.clearCheckFilter());
     });
 
     it('should get count of restaurants list', () => {

@@ -37,7 +37,7 @@ describe('test for checkout page', () => {
 
                         return checkoutPage.getProperties(checkoutPage.getAllItems())
                             .then((properties) => getListValues(properties))
-                            .then((properties) => properties.forEach((property, index) => expect(property).toEqual(listProperties[index])))
+                            .then((properties) => properties.forEach((property, index) => expect(property).toEqual(listProperties[index])));
 
                     });
             });

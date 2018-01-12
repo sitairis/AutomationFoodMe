@@ -28,13 +28,13 @@ describe('test for restaurant page', () => {
                     .then((SortedPrices) => {
                         let threeMinPrices = SortedPrices.slice(0, 3);
                         nameList = SortedPrices.map((price) => price.name);
-                        return threeMinPrices.forEach((price) => restaurantPage.addToOrder(price.index))
+                        return threeMinPrices.forEach((price) => restaurantPage.addToOrder(price.index));
                     })
                     .then(() => restaurantPage.getOrder())
                     .then((orderList) => {
-                        return restaurantPage.getOrderNamesList(orderList)
+                        return restaurantPage.getOrderNamesList(orderList);
                     })
-                    .then((orderNamesList) => orderNamesList.forEach((name, index) => expect(name).toEqual(nameList[index])))
+                    .then((orderNamesList) => orderNamesList.forEach((name, index) => expect(name).toEqual(nameList[index])));
             });
     });
 });

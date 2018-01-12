@@ -30,6 +30,28 @@ class MainPage extends Page {
         return restaurant.click();
     }
 
+    /**
+     *
+     */
+    getAllRestaurants() {
+        return element.all(by.repeater(`restaurant in restaurants`));
+    }
+
+
+
+    sortByPriceDesc(allItems){
+
+        return allItems.map((item, index) => {
+element(by.css)
+            return {
+                value: item.evaluate('menuItem.price'),
+                name: item.evaluate('menuItem.name'),
+                index: index
+            };
+        })
+            .then((unSorted) => unSorted.sort((a, b) => a.value - b.value));
+    }
+
 }
 
 module.exports = MainPage;

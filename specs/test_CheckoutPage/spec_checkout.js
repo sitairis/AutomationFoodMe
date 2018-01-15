@@ -3,6 +3,7 @@ let RestaurantPage = require(`../../pages/RestaurantPage`);
 let CheckoutPage = require(`../../pages/CheckoutPage`);
 let FilterPanel = require(`../../pages/filters/FilterRestaurantsPanel`);
 let usersData = require(`../../UsersData`);
+let utils = require('../../utils/utils');
 
 describe('test for checkout page', () => {
 
@@ -33,7 +34,7 @@ describe('test for checkout page', () => {
                     .then((sortedPrices) => {
                         let dishes = sortedPrices.slice(0, usersData.personsAmount);
 
-                        listProperties = getListValues(sortedPrices);
+                        listProperties = utils.getListValues(sortedPrices);
 
                         return dishes.forEach((dish) => restaurantPage.addToOrder(dish.index))
                     })
@@ -42,18 +43,10 @@ describe('test for checkout page', () => {
                         let checkoutPage = new CheckoutPage();
 
                         return checkoutPage.getProperties(checkoutPage.getAllItems())
-                            .then((properties) => getListValues(properties))
+                            .then((properties) => utils.getListValues(properties))
                             .then((properties) => properties.forEach((property, index) => expect(property).toEqual(listProperties[index])));
 
                     });
             });
     });
 });
-
-/**
- *  возвращает массив со строками
- * @param array
- */
-function getListValues(array) {
-    return array.map((element) => `${element.name}${element.value}` );
-}

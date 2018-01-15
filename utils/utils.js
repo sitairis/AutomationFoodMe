@@ -1,3 +1,4 @@
+let filtersData = require(`../pages/filters/filtersData`);
 
 /**
  * Проверка на String
@@ -67,11 +68,12 @@ exports.getCuisines = function (testCuisines) {
  * @param cuisineName
  * @returns {{name: string, count: number} | undefined}
  */
-exports.findCuisineElement = function (cuisineName) {
+function findCuisineElement(cuisineName) {
     return filtersData.CUISINE.find((currentElement) => {
         return cuisineName === currentElement.name
     })
-};
+}
+exports.findCuisineElement = findCuisineElement;
 
 /**
  * получить массив названий кухонь
@@ -118,4 +120,12 @@ exports.getListValues = function (array) {
  */
 exports.getCuisinesName = function (cuisines) {
     return cuisines.map((cuisine) => cuisine.name);
+};
+
+/**
+ *  возвращает массив со строками
+ * @param array
+ */
+exports.getListValues = function (array) {
+    return array.map((element) => `${element.name}${element.value}` );
 };

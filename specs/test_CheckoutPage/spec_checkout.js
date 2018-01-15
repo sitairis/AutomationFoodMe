@@ -2,7 +2,8 @@ let MainPage = require(`../../pages/MainPage`);
 let RestaurantPage = require(`../../pages/RestaurantPage`);
 let CheckoutPage = require(`../../pages/CheckoutPage`);
 let FilterPanel = require(`../../pages/filters/FilterRestaurantsPanel`);
-let usersData = require(`../../UsersData`);
+let filtersData = require(`../../pages/filters/filtersData`);
+let UsersData = require(`../../UsersData`);
 let utils = require('../../utils/utils');
 
 describe('test for checkout page', () => {
@@ -21,8 +22,17 @@ describe('test for checkout page', () => {
 
         let mainPage = new MainPage();
         let filterPanel = new FilterPanel();
+        let selectedCuisines = null;
 
-        filterPanel.setCheckBoxFilter('Cuisines', ['pizza'])
+        if (!UsersData.cuisine || UsersData.cuisine.length === 0) {
+            selectedCuisines = utils.getRandomCuisine(0, filtersData.CUISINE.length - 1);
+        } else {
+            selectedCuisines = UsersData.cuisine;
+        }
+
+        let cuisines = utils.getCuisines(selectedCuisines);
+
+        filterPanel.setCheckBoxFilter(`Cuisines`, utils.getCuisinesName(cuisines))
             .then(() => filterPanel.setRatingFilter('rating', 4))
             .then(() => filterPanel.setRatingFilter('price', 0))
             .then(() => mainPage.openRestaurant(0))
@@ -32,7 +42,7 @@ describe('test for checkout page', () => {
 
                 restaurantPage.sortPriceByDec(restaurantPage.getAllPriceList())
                     .then((sortedPrices) => {
-                        let dishes = sortedPrices.slice(0, usersData.personsAmount);
+                        let dishes = sortedPrices.slice(0, UsersData.personsAmount);
 
                         listProperties = utils.getListValues(sortedPrices);
 

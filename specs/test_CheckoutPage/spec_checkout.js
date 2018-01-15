@@ -7,7 +7,7 @@ describe('test for checkout page', () => {
 
     afterEach(() => {
         let btnClear = $('[ng-click="cart.reset()"]');
-        let btnHome = element(by.cssContainingText('a', 'Home'));
+        let btnHome = element(by.buttonText('Home'));
 
         btnClear.click()
             .then(() => btnHome.click());

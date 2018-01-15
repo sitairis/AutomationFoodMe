@@ -7,7 +7,7 @@ class Textbox extends BaseElement {
     }
 
     /**
-     *
+     * returns {promise.Promise}
      */
     click() {
         return this.selector.click()

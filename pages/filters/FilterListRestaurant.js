@@ -13,32 +13,20 @@ class FilterListRestaurant {
     }
 
     /**
-     * получает массив элементов с "рейтингом" из всех ресторанов
+     * получает массив с "рейтингом"{paring, price} из всех ресторанов
      * @returns {ElementArrayFinder}
      */
-    getAllSelectedRatings() {
+    getAllRatings(type) {
         return this.getAllRestaurants()
-            .all(by.model(`$parent.restaurant.rating`));
+            .evaluate(`restaurant.${type}`);
     }
 
     /**
-     * получает количество выбраных "звездочек"
-     * @param rating
-     * @returns {promise.Promise<number>}
+     *
+     * @returns {promise.Promise<boolean>}
      */
-    getRatingLevel(rating) {
-        if (!rating) throw new Error(`FilterListRestaurant: rating does not exist`);
-
-        return rating.$$('li[class~=fm-selected]').count();
-    }
-
-    /**
-     * получает массив элементов с "ценой" из всех ресторанов
-     * @returns {ElementArrayFinder}
-     */
-    getAllSelectedPrices() {
-        return this.getAllRestaurants()
-            .all(by.model(`$parent.restaurant.price`));
+    thereIs(){
+        return this.getAllRestaurants().isPresent();
     }
 }
 module.exports = FilterListRestaurant;

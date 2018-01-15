@@ -1,5 +1,8 @@
 let FilterPanel = require(`../../pages/filters/FilterRestaurantsPanel`);
 let FilterList = require(`../../pages/filters/FilterListRestaurant`);
+let UsersData = require('../../UsersData');
+let utils = require('../../utils/utils');
+let filtersData = require('../../pages/filters/filtersData');
 
 describe('test for price rating', () => {
 
@@ -20,33 +23,25 @@ describe('test for price rating', () => {
             .then(() => filterPanel.clearCheckFilter())
     });
 
-    let TEST_RATING = [1, 2, 3, 4, 5];
+    it('should find the most popular restaurant', () => {
 
-    it('should set price', () => {
         let filterPanel = new FilterPanel();
         let filterList = new FilterList();
 
-        TEST_RATING.forEach((testPrice, index) => {
+        let selectedCuisines = null;
 
-            filterPanel.setRatingFilter(`Price`, index)
-                .then(() => filterList.getAllSelectedPrices()
-                    .each((price) => expect(filterList.getRatingLevel(price)).toEqual(Number.parseInt(testPrice))))
-        });
-    });
+        if (!UsersData.cuisine || UsersData.cuisine.length === 0) {
+            selectedCuisines = utils.getRandomCuisine(0, filtersData.CUISINE.length - 1);
+        } else {
+            selectedCuisines = UsersData.cuisine;
+        }
 
-    it('should set rating', () => {
-        let filterPanel = new FilterPanel();
-        let filterList = new FilterList();
+        let cuisines = utils.getCuisines(selectedCuisines);
 
-        TEST_RATING.forEach((testRating, index) => {
+        filterPanel.setCheckBoxFilter('Cuisines', cuisines)
+            .then(() => filterPanel.setRatingFilter('rating', 4))
+            .then(() => filterList.getAllRestaurants().count())
+            .then((count) => expect(count).toEqual(2));
 
-            filterPanel.setRatingFilter(`Rating`, index)
-                .then(() => filterList.getAllSelectedRatings()
-                    .each((rating) => expect(filterList.getRatingLevel(rating)).toEqual(Number.parseInt(testRating))))
-        });
     });
 });
-
-
-
-

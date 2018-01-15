@@ -1,13 +1,15 @@
 let MainPage = require(`../../pages/MainPage`);
 let RestaurantPage = require(`../../pages/RestaurantPage`);
 let CheckoutPage = require(`../../pages/CheckoutPage`);
+let FilterPanel = require(`../../pages/filters/FilterRestaurantsPanel`);
+let usersData = require(`../../UsersData`);
 
 describe('test for checkout page', () => {
 
 
     afterEach(() => {
         let btnClear = $('[ng-click="cart.reset()"]');
-        let btnHome = element(by.buttonText('Home'));
+        let btnHome = element(by.cssContainingText('a','Home'));
 
         btnClear.click()
             .then(() => btnHome.click());
@@ -17,19 +19,23 @@ describe('test for checkout page', () => {
     it('should make checkout and compare names and prices of dishes', () => {
 
         let mainPage = new MainPage();
+        let filterPanel = new FilterPanel();
 
-        mainPage.openRestaurant(0)
+        filterPanel.setCheckBoxFilter('Cuisines', ['pizza'])
+            .then(() => filterPanel.setRatingFilter('rating', 4))
+            .then(() => filterPanel.setRatingFilter('price', 0))
+            .then(() => mainPage.openRestaurant(0))
             .then(() => {
                 let restaurantPage = new RestaurantPage();
                 let listProperties = [];
 
                 restaurantPage.sortPriceByDec(restaurantPage.getAllPriceList())
                     .then((sortedPrices) => {
-                        let threeMinPrices = sortedPrices.slice(0, 3);
+                        let dishes = sortedPrices.slice(0, usersData.personsAmount);
 
                         listProperties = getListValues(sortedPrices);
 
-                        return threeMinPrices.forEach((dish) => restaurantPage.addToOrder(dish.index))
+                        return dishes.forEach((dish) => restaurantPage.addToOrder(dish.index))
                     })
                     .then(() => restaurantPage.makeCheckout())
                     .then(() => {

@@ -39,8 +39,6 @@ describe('test for price rating', () => {
         let cuisines = utils.getCuisines(selectedCuisines);
 
         filterPanel.setCheckBoxFilter(`Cuisines`, utils.getCuisinesName(cuisines))
-            .then(() => filterList.getAllRestaurants().count())
-            .then((count) => console.log(count))
             .then(() => filterPanel.setRatingFilter('rating', 4))
             .then(() => filterList.getAllRestaurants().count())
             .then((count) => expect(count).toEqual(3));

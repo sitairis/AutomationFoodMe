@@ -6,7 +6,7 @@
   "scripts": {
     "upwd": "node_modules/.bin/webdriver-manager update",
     "wd": "node_modules/.bin/webdriver-manager start",
-    "test": "node node_modules/protractor/bin/protractor ./conf.js --suite all",
+    "test": "node node_modules/protractor/bin/protractor ./conf.js --suite order",
     "expl" : "protractor --elementExplorer"
   },
   "author": "",

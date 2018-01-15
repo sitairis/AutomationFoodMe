@@ -5,16 +5,18 @@ let FilterPanel = require(`../../pages/filters/FilterRestaurantsPanel`);
 let UsersData = require('../../UsersData');
 let utils = require('../../utils/utils');
 let filtersData = require('../../pages/filters/filtersData');
+let ThankYouPage = require('../../pages/ThankYouPage');
 
 describe('test for checkout page', () => {
 
     afterEach(() => {
 
-        let btnClear = $('[ng-click="cart.reset()"]');
+        // let btnClear = $('[ng-click="cart.reset()"]');
         let btnHome = element(by.cssContainingText('a', 'Home'));
 
-        btnClear.click()
-            .then(() => btnHome.click())
+        // btnClear.click()
+        //     .then(() =>
+                btnHome.click()
             .then(() => {
                 let filterPanel = new FilterPanel();
 
@@ -22,7 +24,7 @@ describe('test for checkout page', () => {
             });
     });
 
-    it('should make order', () => {
+    it('should click on purchase, get ID and make json file', () => {
 
         let mainPage = new MainPage();
         let filterPanel = new FilterPanel();
@@ -57,10 +59,21 @@ describe('test for checkout page', () => {
                     .then(() => {
                         let checkoutPage = new CheckoutPage();
 
-                        return checkoutPage.getProperties(checkoutPage.getAllItems())
-                            .then((properties) => utils.getListValues(properties))
-                            .then((properties) => properties.forEach((property, index) => expect(property).toEqual(listProperties[index])))
-                    });
+                        checkoutPage.selectOption('visa')
+                            .then(() => checkoutPage.typeNumberCard(UsersData.numberCard))
+                            .then(() => checkoutPage.typeExpire(UsersData.expire.dd, UsersData.expire.yyyy))
+                            .then(() => checkoutPage.typeCVC(UsersData.CVC))
+                            .then(() => checkoutPage.clickBtnPurchase())
+                            .then(() => {
+                                let thankYouPage = new ThankYouPage();
+                                return {
+                                    id : thankYouPage.getID(),
+                                    text : thankYouPage.getContent()
+                                }
+
+                            })
+                            .then((obj) => console.log(`${obj.id} ${obj.text}`));
+                        });
             });
     });
 });

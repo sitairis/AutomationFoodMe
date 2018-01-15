@@ -6,6 +6,12 @@
     "cafe",
     "pizza"
   ],
-  "personsAmount": "3"
+  "personsAmount": "3",
+  "numberCard" : "1111111111111111",
+  "expire" : {
+    "dd" : "20",
+    "yyyy" : "2019"
+  },
+  "CVC" : "1234"
 }
 

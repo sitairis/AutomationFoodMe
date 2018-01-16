@@ -3,6 +3,7 @@ let FilterList = require(`../../pages/filters/FilterListRestaurant`);
 let filtersData = require('../../pages/filters/filtersData');
 let UsersData = require('../../UsersData');
 let utils = require(`../../utils/utils`);
+let logger = require('../../elements/Logger');
 
 describe('test for checkbox filter', () => {
 
@@ -22,7 +23,7 @@ describe('test for checkbox filter', () => {
             .then(() => filterPanel.clearCheckFilter());
     });
 
-    it('should get count of restaurants list', () => {
+    it('should get countRestaurants of restaurants list', () => {
 
         let filterList = new FilterList();
         let filterPanel = new FilterPanel();
@@ -38,6 +39,6 @@ describe('test for checkbox filter', () => {
         let cuisines = utils.getCuisines(selectedCuisines);
 
         filterPanel.setCheckBoxFilter(`Cuisines`, utils.getCuisinesName(cuisines))
-            .then(() => expect(filterList.getAllRestaurants().count()).toEqual(utils.getTotalCount(cuisines)));
+            .then(() => expect(filterList.getAllRestaurants().countRestaurants()).toEqual(utils.getTotalCount(cuisines)));
     });
 });

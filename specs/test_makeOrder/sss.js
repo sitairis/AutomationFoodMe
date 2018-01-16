@@ -6,6 +6,7 @@ let UsersData = require('../../UsersData');
 let utils = require('../../utils/utils');
 let filtersData = require('../../pages/filters/filtersData');
 let ThankYouPage = require('../../pages/ThankYouPage');
+let logger = require('../../elements/Logger');
 
 describe('test for checkout page', () => {
 
@@ -66,13 +67,9 @@ describe('test for checkout page', () => {
                             .then(() => checkoutPage.clickBtnPurchase())
                             .then(() => {
                                 let thankYouPage = new ThankYouPage();
-                                return {
-                                    id : thankYouPage.getID(),
-                                    text : thankYouPage.getContent()
-                                }
-
+                                return thankYouPage.getContent()
                             })
-                            .then((obj) => console.log(`${obj.id} ${obj.text}`));
+                            .then((text) => expect(text.match(/ID is \d\d\d\d\d\d\d\d\d\d\d\d\d/)).not.toBe(null));
                         });
             });
     });

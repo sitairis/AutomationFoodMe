@@ -66,7 +66,7 @@ exports.getCuisines = function (testCuisines) {
 /**
  * Найти объект кухни с совпадающим названием
  * @param cuisineName
- * @returns {{name: string, count: number} | undefined}
+ * @returns {{name: string, countRestaurants: number} | undefined}
  */
 function findCuisineElement(cuisineName) {
     return filtersData.CUISINE.find((currentElement) => {
@@ -102,7 +102,7 @@ exports.getRandomCuisine = function (min, max) {
  */
 exports.getTotalCount = function (arrayObj) {
     return arrayObj.reduce((totalCount, elem) => {
-        return totalCount + elem.count;
+        return totalCount + elem.countRestaurants;
     }, 0);
 };
 

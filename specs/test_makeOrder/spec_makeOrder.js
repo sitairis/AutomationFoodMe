@@ -5,6 +5,7 @@ let FilterPanel = require(`../../pages/filters/FilterRestaurantsPanel`);
 let UsersData = require('../../UsersData');
 let utils = require('../../utils/utils');
 let filtersData = require('../../pages/filters/filtersData');
+let logger = require('../../elements/Logger');
 
 describe('test for checkout page', () => {
 

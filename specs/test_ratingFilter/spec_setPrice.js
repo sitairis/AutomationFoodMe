@@ -3,6 +3,7 @@ let FilterList = require(`../../pages/filters/FilterListRestaurant`);
 let UsersData = require('../../UsersData');
 let utils = require('../../utils/utils');
 let filtersData = require('../../pages/filters/filtersData');
+let logger = require('../../elements/Logger');
 
 describe('test for price rating', () => {
 
@@ -37,10 +38,20 @@ describe('test for price rating', () => {
         }
 
         let cuisines = utils.getCuisines(selectedCuisines);
+        let rating = 0;
+        for (let popularLevel = 4; popularLevel > -1; popularLevel--) {
 
-        filterPanel.setCheckBoxFilter(`Cuisines`, utils.getCuisinesName(cuisines))
-            .then(() => filterPanel.setRatingFilter('rating', 4))
-            .then(() => filterList.getAllRestaurants().count())
-            .then((count) => expect(count).toEqual(3));
+            filterPanel.setCheckBoxFilter(`Cuisines`, utils.getCuisinesName(cuisines))
+                .then(() => filterPanel.setRatingFilter('rating', popularLevel))
+                .then(() => filterList.getAllRestaurants().count())
+                .then((count) => {
+                    if (count === 0) {
+                        rating = popularLevel;
+                        popularLevel = -1;
+                    }
+                });
+        }
+    //
+    // .then((count) => expect(count).toEqual(3));
     });
 });

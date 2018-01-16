@@ -7,54 +7,59 @@ exports.TYPES_RADIO_FILTERS = [
 exports.CUISINE = [
     {
         name:`african`,
-        count : 2
+        countRestaurants : 2,
+        rating: {
+
+            "2": "1",
+            "1":"1"
+        }
     },
     {
         name:`american`,
-        count : 2
+        countRestaurants : 2
     },
     {
         name:`barbecue`,
-        count : 2
+        countRestaurants : 2
     },
     {
         name:`cafe`,
-        count : 4
+        countRestaurants : 4
     },
     {
         name:`chinese`,
-        count : 4
+        countRestaurants : 4
     },
     {
         name:`czech / slovak`,
-        count : 2
+        countRestaurants : 2
     },
     {
         name:`german`,
-        count : 3
+        countRestaurants : 3
     },
     {
         name:`indian`,
-        count : 4
+        countRestaurants : 4
     },
     {
         name:`japanese`,
-        count : 2
+        countRestaurants : 2
     },
     {
         name:`mexican`,
-        count : 4
+        countRestaurants : 4
     },
     {
         name:`pizza`,
-        count : 6
+        countRestaurants : 6
     },
     {
         name:`thai`,
-        count : 2
+        countRestaurants : 2
     },
     {
         name:`vegetarian`,
-        count: 1
+        countRestaurants: 1
     }
 ];

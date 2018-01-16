@@ -29,7 +29,7 @@ class FilterMenu {
     getRatingLevel(rating) {
         if (!rating) throw new Error(`FilterListRestaurant: rating does not exist`);
 
-        return rating.$$('li[class~=fm-selected]').count();
+        return rating.$$('li[class~=fm-selected]').countRestaurants();
     }
 
     /**

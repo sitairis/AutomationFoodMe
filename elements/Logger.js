@@ -28,6 +28,11 @@ class Logger {
         this.logger.info(`${className.toUpperCase()} : ${methodName} - ${text}`);
     }
 
+    testStep(nameTest, number, text) {
+        this.makeLogDir();
+        this.logger.info(`${nameTest.toUpperCase()} : step ${number} - ${text}`);
+    }
+
     makeLogDir() {
         if (!fs.existsSync(logDir)) {
             fs.mkdirSync(logDir);

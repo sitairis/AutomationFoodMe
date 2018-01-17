@@ -1,4 +1,4 @@
-let filtersData = require(`../pages/filters/FiltersData`);
+let FiltersData = require(`../pages/filters/FiltersData`);
 
 /**
  * Проверка на String
@@ -55,7 +55,7 @@ exports.getCuisines = function (testCuisines) {
             cuisines.push(findCuisineElement(currentCuisineName));
         })
     } else {
-        cuisines.push(filtersData.CUISINE[testCuisines]);
+        cuisines.push(FiltersData.CUISINE[testCuisines]);
     }
 
     if (cuisines.length === 0) throw new Error(`spec_setCuisine : getCuisines : Cuisines not found`);
@@ -69,7 +69,7 @@ exports.getCuisines = function (testCuisines) {
  * @returns {{name: string, countRestaurants: number} | undefined}
  */
 function findCuisineElement(cuisineName) {
-    return filtersData.CUISINE.find((currentElement) => {
+    return FiltersData.CUISINE.find((currentElement) => {
         return cuisineName === currentElement.name
     })
 }

@@ -1,4 +1,4 @@
-let filtersData = require(`../pages/filters/filtersData`);
+let filtersData = require(`../pages/filters/FiltersData`);
 
 /**
  * Проверка на String

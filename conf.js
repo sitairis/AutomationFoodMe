@@ -12,8 +12,8 @@ exports.config = {
         // }
     },
     suites: {
-        checkout: './specs/test_CheckoutPage/spec_checkout.js',
-        order: './specs/test_makeOrder/sss.js',
+        checkout: './specs/test_CheckoutPage/*.js',
+        order: './specs/test_makeOrder/*.js',
         restPage: './specs/test_RestaurantPage/*.js',
         rating: './specs/test_ratingFilter/*.js',
         checkbox: './specs/test_checkboxFilter/*.js',

@@ -23,9 +23,9 @@ class Logger {
         });
     }
 
-    step(number, text) {
+    step(className, methodName, text) {
         this.makeLogDir();
-        this.logger.info(`Step ${number} : ${text}`);
+        this.logger.info(`${className.toUpperCase()} : ${methodName} - ${text}`);
     }
 
     makeLogDir() {
@@ -35,8 +35,6 @@ class Logger {
 
     }
 }
-
+Logger.Number = 0;
 module.exports = Logger;
 
-let l = new Logger();
-l.step(1,'sdfsdf');

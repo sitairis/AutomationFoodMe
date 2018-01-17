@@ -1,9 +1,9 @@
 let FilterPanel = require(`../../pages/filters/FilterRestaurantsPanel`);
 let FilterList = require(`../../pages/filters/FilterListRestaurant`);
-let filtersData = require('../../pages/filters/filtersData');
+let FiltersData = require('../../pages/filters/FiltersData');
 let UsersData = require('../../UsersData');
 let utils = require(`../../utils/utils`);
-let logger = require('../../elements/Logger');
+let Logger = require('../../elements/Logger');
 
 describe('test for checkbox filter', () => {
 
@@ -24,14 +24,13 @@ describe('test for checkbox filter', () => {
     });
 
     it('should get countRestaurants of restaurants list', () => {
-
         let filterList = new FilterList();
         let filterPanel = new FilterPanel();
 
         let selectedCuisines = null;
         
         if (!UsersData.cuisine || UsersData.cuisine.length === 0) {
-            selectedCuisines = utils.getRandomCuisine(0, filtersData.CUISINE.length - 1);
+            selectedCuisines = utils.getRandomCuisine(0, FiltersData.CUISINE.length - 1);
         } else {
             selectedCuisines = UsersData.cuisine;
         }
@@ -39,6 +38,6 @@ describe('test for checkbox filter', () => {
         let cuisines = utils.getCuisines(selectedCuisines);
 
         filterPanel.setCheckBoxFilter(`Cuisines`, utils.getCuisinesName(cuisines))
-            .then(() => expect(filterList.getAllRestaurants().countRestaurants()).toEqual(utils.getTotalCount(cuisines)));
+            .then(() => expect(filterList.getAllRestaurants().count()).toEqual(utils.getTotalCount(cuisines)));
     });
 });

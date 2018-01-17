@@ -1,11 +1,13 @@
 let Page = require('./Page');
 let baseEl = require('../elements/BaseElement');
 let button = require('../elements/Button');
+let Logger = require('../elements/Logger');
 
 class CheckoutPage  extends Page {
 
     constructor() {
         super(`Checkout Page`);
+        this.log = new Logger();
         this.root = new baseEl('root', 'table');//$(`table`);
         this.cmbCardType = element(by.model('cart.payment.type'));
         this.txbNumderCard = element(by.model('cart.payment.number'));
@@ -15,6 +17,7 @@ class CheckoutPage  extends Page {
     }
 
     clickBtnPurchase() {
+        this.log.step('CheckoutPage', 'clickBtnPurchase','***');
         this.btnPurchase.isEnabled()
             .then(() => this.btnPurchase.click());
     }
@@ -25,6 +28,7 @@ class CheckoutPage  extends Page {
      * @returns {ActionSequence | promise.Promise<void> | promise.Promise<void> | * | ActionSequence | webdriver.promise.Promise<void>}
      */
     typeCVC(cvc) {
+        this.log.step('CheckoutPage', 'typeCVC','***');
         return this.txbCVC.sendKeys(cvc);
     }
 
@@ -35,6 +39,7 @@ class CheckoutPage  extends Page {
      * @returns {ActionSequence | promise.Promise<void> | promise.Promise<void> | * | ActionSequence | webdriver.promise.Promise<void>}
      */
     typeExpire(dd, yyyy) {
+        this.log.step('CheckoutPage', 'typeExpire','***');
         return this.txbExpire.sendKeys(`${dd}/${yyyy}`);
     }
 
@@ -44,6 +49,7 @@ class CheckoutPage  extends Page {
      * @returns {ActionSequence | promise.Promise<void> | promise.Promise<void> | * | ActionSequence | webdriver.promise.Promise<void>}
      */
     typeNumberCard(number) {
+        this.log.step('CheckoutPage', 'typeNumberCard','***');
         return this.txbNumderCard.sendKeys(number);
     }
 
@@ -52,7 +58,7 @@ class CheckoutPage  extends Page {
      * @param option
      */
     selectOption(option) {
-
+        this.log.step('CheckoutPage', 'selectOption','***');
         return this.cmbCardType.click()
             .then(() => $(`[value=${option}]`).click())
             .then(() => $(`[value=${option}]`).click());
@@ -63,6 +69,7 @@ class CheckoutPage  extends Page {
      * @returns {ElementArrayFinder}
      */
     getAllItems() {
+        this.log.step('CheckoutPage', 'getAllItems','***');
         return this.root.findElementsByRepeater(`item in cart.items`);
     }
 
@@ -71,6 +78,7 @@ class CheckoutPage  extends Page {
      * @param items
      */
     getProperties(items) {
+        this.log.step('CheckoutPage', 'getProperties','***');
         if (!items) throw new Error(`CheckoutPage: items is incorrect`);
 
         return items.map((item) => {

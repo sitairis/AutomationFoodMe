@@ -2,11 +2,13 @@ let Page = require('./Page');
 let utils = require(`../utils/utils`);
 let baseEl = require('../elements/BaseElement');
 let button = require('../elements/Button');
+let Logger = require('../elements/Logger');
 
 class MainPage extends Page {
 
     constructor() {
         super(`main page`);
+        this.log = new Logger();
         this.rootRestaurantList = new baseEl('a', `div.span9.fm-panel.fm-restaurant-list`);
     }
 
@@ -15,6 +17,7 @@ class MainPage extends Page {
      * @returns {*}
      */
     getListTitle() {
+        this.log.step('MainPage', 'getListTitle','***');
         return this.rootRestaurantList.findElementsByCSS('h4').getText();
     }
 
@@ -24,6 +27,7 @@ class MainPage extends Page {
      * @returns {*}
      */
     openRestaurant(index) {
+        this.log.step('MainPage', 'openRestaurant','***');
         if (!utils.isRightIndex(index)) throw new Error(`MainPage: index is incorrect`);
 
         let restaurant = this.rootRestaurantList.findElementsByCSS(`img.img-rounded.pull-left`).get(index);
@@ -34,15 +38,16 @@ class MainPage extends Page {
      *
      */
     getAllRestaurants() {
+        this.log.step('MainPage', 'getAllRestaurants','***');
         return element.all(by.repeater(`restaurant in restaurants`));
     }
 
 
 
     sortByPriceDesc(allItems){
-
+        this.log.step('MainPage', 'sortByPriceDesc','***');
         return allItems.map((item, index) => {
-element(by.css)
+
             return {
                 value: item.evaluate('menuItem.price'),
                 name: item.evaluate('menuItem.name'),

@@ -2,7 +2,7 @@ let MainPage = require(`../../pages/MainPage`);
 let RestaurantPage = require(`../../pages/RestaurantPage`);
 let CheckoutPage = require(`../../pages/CheckoutPage`);
 let FilterPanel = require(`../../pages/filters/FilterRestaurantsPanel`);
-let filtersData = require(`../../pages/filters/filtersData`);
+let FiltersData = require('../../pages/filters/FiltersData');
 let UsersData = require(`../../UsersData`);
 let utils = require('../../utils/utils');
 let logger = require('../../elements/Logger');
@@ -26,7 +26,7 @@ describe('test for checkout page', () => {
         let selectedCuisines = null;
 
         if (!UsersData.cuisine || UsersData.cuisine.length === 0) {
-            selectedCuisines = utils.getRandomCuisine(0, filtersData.CUISINE.length - 1);
+            selectedCuisines = utils.getRandomCuisine(0, FiltersData.CUISINE.length - 1);
         } else {
             selectedCuisines = UsersData.cuisine;
         }

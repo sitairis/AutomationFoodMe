@@ -2,8 +2,8 @@ let FilterPanel = require(`../../pages/filters/FilterRestaurantsPanel`);
 let FilterList = require(`../../pages/filters/FilterListRestaurant`);
 let UsersData = require('../../UsersData');
 let utils = require('../../utils/utils');
-let filtersData = require('../../pages/filters/filtersData');
-let logger = require('../../elements/Logger');
+let FiltersData = require('../../pages/filters/FiltersData');
+let Logger = require('../../elements/Logger');
 
 describe('test for price rating', () => {
 
@@ -32,7 +32,7 @@ describe('test for price rating', () => {
         let selectedCuisines = null;
 
         if (!UsersData.cuisine || UsersData.cuisine.length === 0) {
-            selectedCuisines = utils.getRandomCuisine(0, filtersData.CUISINE.length - 1);
+            selectedCuisines = utils.getRandomCuisine(0, FiltersData.CUISINE.length - 1);
         } else {
             selectedCuisines = UsersData.cuisine;
         }

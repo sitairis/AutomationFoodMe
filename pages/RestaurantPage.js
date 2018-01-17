@@ -2,11 +2,13 @@ let utils = require(`../utils/utils`);
 let Page = require('./Page');
 let Button = require('../elements/Button');
 let BaseElement = require('../elements/BaseElement');
+let Logger = require('../elements/Logger');
 
 class RestaurantPage  extends Page {
 
     constructor() {
         super(`Restaurant Page`);
+        this.log = new Logger();
         this.rootMenu = new BaseElement('rootMenu', `div.span8.fm-panel.fm-menu-list`);
         this.rootCard = new BaseElement('rootCard', `div.span4.fm-panel.fm-cart`);
         this.btnCheckout = new Button('Checkout', `div.pull-right`);
@@ -17,6 +19,7 @@ class RestaurantPage  extends Page {
      * @returns {ElementArrayFinder}
      */
     getAllMenu() {
+        this.log.step('RestaurantPage', 'getAllMenu','***');
         return this.rootMenu.findElementsByCSS(`li.ng-scope`);
     }
 
@@ -26,6 +29,7 @@ class RestaurantPage  extends Page {
      * @returns {*}
      */
     addToOrder(index) {
+        this.log.step('RestaurantPage', 'addToOrder','***');
         if (!utils.isRightIndex(index)) throw new Error(`RestaurantPage: index is incorrect`);
 
         return this.getAllMenu().get(index).$(`a`).click();
@@ -36,6 +40,7 @@ class RestaurantPage  extends Page {
      * @returns {ElementFinder}
      */
     getOrder() {
+        this.log.step('RestaurantPage', 'getOrder','***');
         return this.rootCard.findElementByCSS(`ul.unstyled`);
     }
 
@@ -44,6 +49,7 @@ class RestaurantPage  extends Page {
      * @returns {ElementArrayFinder}
      */
     getAllOrderList() {
+        this.log.step('RestaurantPage', 'getAllOrderList','***');
         return this.getOrder().all(by.repeater(`item in cart.items`));
     }
 
@@ -52,6 +58,7 @@ class RestaurantPage  extends Page {
      * @returns {ElementArrayFinder}
      */
     getAllPriceList() {
+        this.log.step('RestaurantPage', 'getAllPriceList','***');
         return this.rootMenu.findElementsByRepeater('menuItem in restaurant.menuItems');
     }
 
@@ -60,6 +67,7 @@ class RestaurantPage  extends Page {
      * @returns {ElementFinder}
      */
     getOrderPrice() {
+        this.log.step('RestaurantPage', 'getOrderPrice','***');
         return this.rootCard.findElementByCSS(`b.ng-binding`);
     }
 
@@ -69,6 +77,7 @@ class RestaurantPage  extends Page {
      * @returns {*}
      */
     removeOrderItem(index) {
+        this.log.step('RestaurantPage', 'removeOrderItem','***');
         if (!utils.isRightIndex(index)) throw new Error(`RestaurantPage: index is incorrect`);
 
         let btnRemove = this.getOrder().$$(`a`).get(index);
@@ -83,7 +92,7 @@ class RestaurantPage  extends Page {
      * @returns {Array}
      */
     sortPriceByDec(allItems) {
-
+        this.log.step('RestaurantPage', 'sortPriceByDec','***');
         return allItems.map((item, index) => {
 
             return {
@@ -100,6 +109,7 @@ class RestaurantPage  extends Page {
      * @param orderList     *
      */
     getOrderNamesList(orderList) {
+        this.log.step('RestaurantPage', 'getOrderNamesList','***');
         return orderList.$$('li').map((item) => item.evaluate('item.name'));
     }
 
@@ -108,6 +118,7 @@ class RestaurantPage  extends Page {
      * @returns {*}
      */
     makeCheckout() {
+        this.log.step('RestaurantPage', 'makeCheckout','***');
         return this.btnCheckout.click();
     }
 }

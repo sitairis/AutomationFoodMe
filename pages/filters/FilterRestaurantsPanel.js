@@ -1,9 +1,11 @@
 let utils = require('../../utils/utils');
-let filtersData = require('./filtersData');
+let FiltersData = require('./FiltersData');
+let Logger = require('../../elements/Logger');
 
 class FilterRestaurantsPanel {
 
     constructor() {
+        this.log = new Logger();
         this.rootCheckBoxFilter = element(by.model(`filter.cuisine`));
     }
 
@@ -14,6 +16,7 @@ class FilterRestaurantsPanel {
      * @returns {*}
      */
     setRatingFilter(typeFilter, ratingValue) {
+        this.log.step('FilterRestaurantsPanel', 'setRatingFilter','***');
 
         return this._getRootRadioBtnFilterElement(typeFilter)
             .$$(`li[ng-class="style"]`)
@@ -27,10 +30,12 @@ class FilterRestaurantsPanel {
      * @private
      */
     _getRootRadioBtnFilterElement(typeFilter) {
+        this.log.step('FilterRestaurantsPanel', '_getRootRadioBtnFilterElement','***');
+
         if (!utils.isRightTypeFilter(typeFilter)) throw new Error(`FilterRestaurantsPanel: typeFilter is incorrect`);
 
         let root = null;
-        filtersData.TYPES_RADIO_FILTERS.forEach((item) => {
+        FiltersData.TYPES_RADIO_FILTERS.forEach((item) => {
             if (typeFilter.toLowerCase() === item) {
                 root = element(by.model(`$parent.filter.${item}`));
             }
@@ -46,6 +51,8 @@ class FilterRestaurantsPanel {
      * @returns {promise.Promise<any>}
      */
     setCheckBoxFilter(typeFilter, [...values]) {
+        this.log.step('FilterRestaurantsPanel', 'setCheckBoxFilter','***');
+
         if (!utils.isRightTypeFilter(typeFilter) || typeFilter.toLowerCase() !== 'cuisines') throw new Error(`FilterRestaurantsPanel: typeFilter is incorrect`);
         utils.RightValues(values);
 
@@ -69,6 +76,8 @@ class FilterRestaurantsPanel {
      * @returns {*}
      */
     clearRadioFilter(typeFilter) {
+        this.log.step('FilterRestaurantsPanel', 'clearRadioFilter','***');
+
         if (!typeFilter) throw new Error(`FilterRestaurantsPanel: typeFilter is undefined`);
 
         let btnClear = this._getRootRadioBtnFilterElement(typeFilter.toLowerCase())
@@ -84,6 +93,8 @@ class FilterRestaurantsPanel {
      * @returns {promise.Promise<any>}
      */
     clearCheckFilter() {
+        this.log.step('FilterRestaurantsPanel', 'clearCheckFilter','***');
+
         return this.getAllCheckBoxes()
             .each((checkbox) => {
                 checkbox.isSelected()
@@ -101,6 +112,8 @@ class FilterRestaurantsPanel {
      * @returns {ElementArrayFinder | *}
      */
     getAllCheckBoxes() {
+        this.log.step('FilterRestaurantsPanel', 'getAllCheckBoxes','***');
+
         return this.rootCheckBoxFilter.$$(`input[type="checkbox"]`);
     }
 }

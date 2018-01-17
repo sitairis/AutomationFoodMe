@@ -17,7 +17,7 @@ class MainPage extends Page {
      * @returns {*}
      */
     getListTitle() {
-        this.log.step('MainPage', 'getListTitle','***');
+        this.log.step('MainPage', 'getListTitle', '***');
         return this.rootRestaurantList.findElementsByCSS('h4').getText();
     }
 
@@ -27,7 +27,7 @@ class MainPage extends Page {
      * @returns {*}
      */
     openRestaurant(index) {
-        this.log.step('MainPage', 'openRestaurant','***');
+        this.log.step('MainPage', 'openRestaurant', '***');
         if (!utils.isRightIndex(index)) throw new Error(`MainPage: index is incorrect`);
 
         let restaurant = this.rootRestaurantList.findElementsByCSS(`img.img-rounded.pull-left`).get(index);
@@ -38,23 +38,41 @@ class MainPage extends Page {
      *
      */
     getAllRestaurants() {
-        this.log.step('MainPage', 'getAllRestaurants','***');
+        this.log.step('MainPage', 'getAllRestaurants', '***');
         return element.all(by.repeater(`restaurant in restaurants`));
     }
 
+    //
+    // /**
+    //  * Неправильный
+    //  * @param allItems
+    //  */
+    // sortByPriceDesc(allItems){
+    //     this.log.step('MainPage', 'sortByPriceDesc','***');
+    //     return allItems.map((item, index) => {
+    //
+    //         return {
+    //             value: item.evaluate('menuItem.price'),
+    //             name: item.evaluate('menuItem.name'),
+    //             index: index
+    //         };
+    //     })
+    //         .then((unSorted) => unSorted.sort((a, b) => a.value - b.value));
+    // }
 
+    /**
+     *
+     */
+    sortRestaurantsByPopularityDesc() {
 
-    sortByPriceDesc(allItems){
-        this.log.step('MainPage', 'sortByPriceDesc','***');
-        return allItems.map((item, index) => {
-
+        return this.getAllRestaurants().map((currentRating, index) => {
             return {
-                value: item.evaluate('menuItem.price'),
-                name: item.evaluate('menuItem.name'),
+                value: currentRating.evaluate('restaurant.rating'),
                 index: index
             };
         })
             .then((unSorted) => unSorted.sort((a, b) => a.value - b.value));
+
     }
 
 }

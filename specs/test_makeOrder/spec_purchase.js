@@ -6,7 +6,7 @@ let UsersData = require('../../UsersData');
 let utils = require('../../lib/utils');
 let FiltersData = require('../../pages/filters/FiltersData');
 let ThankYouPage = require('../../pages/ThankYouPage');
-let logger = require('../../lib/Logger');
+let log = require('../../lib/Logger');
 
 describe('test for checkout page', () => {
 
@@ -55,7 +55,7 @@ describe('test for checkout page', () => {
             .then(() => {
                 let restaurantPage = new RestaurantPage();
 
-                // orderData = restaurantPage.getRestaurantInfo();
+                // orderData.restaurant = restaurantPage.getRestaurantInfo();
 
                 restaurantPage.sortPriceByDec(restaurantPage.getAllPriceList())
                     .then((sortedPrices) => {
@@ -66,10 +66,7 @@ describe('test for checkout page', () => {
                     .then(() => restaurantPage.makeCheckout())
                     .then(() => {
                         let checkoutPage = new CheckoutPage();
-                        // checkoutPage.getAllItems()
-                        //     .then((items) => checkoutPage.getProperties(items))
-                        //     .then((array) => orderData = array)
-                           /* .then(() =>*/
+
                            checkoutPage.selectOption(UsersData.type)
                             .then(() => checkoutPage.typeNumberCard(UsersData.numberCard))
                             .then(() => checkoutPage.typeExpire(UsersData.expire.dd, UsersData.expire.yyyy))
@@ -77,8 +74,6 @@ describe('test for checkout page', () => {
                             .then(() => checkoutPage.clickBtnPurchase())
                             .then(() => {
                                 let thankYouPage = new ThankYouPage();
-
-                                // orderData = thankYouPage.getID();
 
                                 // utils.createInfoJSON(orderData);
                                 return thankYouPage.getContent()

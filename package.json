@@ -6,7 +6,7 @@
   "scripts": {
     "upwd": "webdriver-manager update",
     "wd": "webdriver-manager start",
-    "test": "protractor ./conf.js --suite all",
+    "test": "protractor ./conf.js --suite rating",
     "expl": "protractor --elementExplorer"
   },
   "author": "",

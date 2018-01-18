@@ -63,18 +63,73 @@ class MainPage extends Page {
     /**
      *
      */
+    // sortRestaurantsByPopularityDesc() {
+    //
+    //     return this.getAllRestaurants().map((currentRating, index) => {
+    //         return {
+    //             value: currentRating.evaluate('restaurant.rating'),
+    //             index: index
+    //         };
+    //     })
+    //         .then((unSorted) => unSorted.sort((a, b) => a.value - b.value));
+    //
+    // }
+
     sortRestaurantsByPopularityDesc() {
+        this.log.step('MainPage', 'sortRestaurantsByPopularityDesc', '');
+
+        return this.getRestaurantProperties('rating')
+            .then((unSorted) => unSorted.sort((a, b) => b.prop - a.prop));
+    }
+
+    /**
+     *
+     */
+    sortRestaurantsByPriceAsc() {
+        this.log.step('MainPage', 'sortRestaurantsByPriceAsc', '');
+
+        return this.getRestaurantProperties('price')
+            .then((unsorted) => unsorted.sort((a, b) => a.prop - b.prop));
+    }
+
+    /**
+     *
+     * @param prop
+     */
+    getRestaurantProperties(prop) {
 
         return this.getAllRestaurants().map((currentRating, index) => {
             return {
-                value: currentRating.evaluate('restaurant.rating'),
+                prop: currentRating.evaluate(`restaurant.${prop}`),
                 index: index
             };
         })
-            .then((unSorted) => unSorted.sort((a, b) => a.value - b.value));
-
     }
 
+    /**
+     *
+     */
+    findPopularCheapestRestaurant() {
+
+        return this.sortRestaurantsByPopularityDesc()
+            .then((ratingArray) => {
+                return this.sortRestaurantsByPriceAsc()
+                    .then((priceArray) => {
+
+                        return this.compareArrays(ratingArray, priceArray);
+                    })
+            })
+    }
+
+    /**
+     *
+     * @param ratingArray
+     * @param priceArray
+     */
+    compareArrays(ratingArray, priceArray) {
+        return ratingArray.find((currentRating, index) => currentRating.index === priceArray[index].index)
+
+    }
 }
 
 module.exports = MainPage;

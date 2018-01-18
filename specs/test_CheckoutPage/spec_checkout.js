@@ -34,9 +34,8 @@ describe('test for checkout page', () => {
         let cuisines = utils.getCuisines(selectedCuisines);
 
         filterPanel.setCheckBoxFilter(`Cuisines`, utils.getCuisinesName(cuisines))
-            .then(() => filterPanel.setRatingFilter('rating', 4))//?MainPage.sortRestaurantsByPopularityDesc()
-            .then((sortedRestaurants) => filterPanel.setRatingFilter('price', 0))//?MainPage.sortRestaurantsByPriceAsc()
-            .then(() => mainPage.openRestaurant(0))
+            .then(() => mainPage.findPopularCheapestRestaurant())
+            .then((restaurant) => mainPage.openRestaurant(restaurant.index))
             .then(() => {
                 let restaurantPage = new RestaurantPage();
                 let listProperties = [];

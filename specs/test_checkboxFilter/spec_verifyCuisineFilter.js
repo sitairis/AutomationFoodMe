@@ -1,5 +1,5 @@
 let FilterPanel = require(`../../pages/filters/FilterRestaurantsPanel`);
-let FilterList = require(`../../pages/filters/FilterListRestaurant`);
+let MainPage = require(`../../pages/MainPage`);
 let FiltersData = require('../../pages/filters/FiltersData');
 let UsersData = require('../../UsersData');
 let utils = require(`../../utils/utils`);
@@ -25,7 +25,7 @@ describe('test for checkbox filter', () => {
 
     it('should get countRestaurants of restaurants list', () => {
         let log = new Logger();
-        let filterList = new FilterList();
+        let mainPage = new MainPage();
         let filterPanel = new FilterPanel();
 
         let selectedCuisines = null;
@@ -43,6 +43,6 @@ describe('test for checkbox filter', () => {
 
         log.testStep('Verify cuisine filter', 3, 'check cuisine(s)');
         filterPanel.setCheckBoxFilter(`Cuisines`, utils.getCuisinesName(cuisines))
-            .then(() => expect(filterList.getAllRestaurants().count()).toEqual(utils.getTotalCount(cuisines)));
+            .then(() => expect(mainPage.getAllRestaurants().count()).toEqual(utils.getTotalCount(cuisines)));
     });
 });

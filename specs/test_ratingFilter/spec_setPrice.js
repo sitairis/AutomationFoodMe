@@ -1,5 +1,5 @@
 let FilterPanel = require(`../../pages/filters/FilterRestaurantsPanel`);
-let FilterList = require(`../../pages/filters/FilterListRestaurant`);
+let MainPage = require(`../../pages/MainPage`);
 let UsersData = require('../../UsersData');
 let utils = require('../../utils/utils');
 let FiltersData = require('../../pages/filters/FiltersData');
@@ -27,7 +27,7 @@ describe('test for price rating', () => {
     it('should find the most popular restaurant', () => {
 
         let filterPanel = new FilterPanel();
-        let filterList = new FilterList();
+        let mainPage = new MainPage();
 
         let selectedCuisines = null;
 
@@ -38,20 +38,21 @@ describe('test for price rating', () => {
         }
 
         let cuisines = utils.getCuisines(selectedCuisines);
-        let rating = 0;
-        for (let popularLevel = 4; popularLevel > -1; popularLevel--) {
 
             filterPanel.setCheckBoxFilter(`Cuisines`, utils.getCuisinesName(cuisines))
-                .then(() => filterPanel.setRatingFilter('rating', popularLevel))
-                .then(() => filterList.getAllRestaurants().count())
-                .then((count) => {
-                    if (count === 0) {
-                        rating = popularLevel;
-                        popularLevel = -1;
-                    }
-                });
-        }
-    //
-    // .then((count) => expect(count).toEqual(3));
+                .then(() => expect(recursGetCountRatedRestaurants(filterPanel, mainPage, 4)).toEqual(3));
     });
 });
+
+function recursGetCountRatedRestaurants(filterPanel, mainPage, maxRating) {
+
+   return filterPanel.setRatingFilter('rating', maxRating)
+        .then(() => mainPage.getAllRestaurants().count())
+        .then((count) => {
+            if (count) {
+                return count;
+            } else {
+                return recursGetCountRatedRestaurants(filterPanel, mainPage, maxRating);
+            }
+        })
+}

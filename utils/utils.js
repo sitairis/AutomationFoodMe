@@ -39,7 +39,7 @@ exports.RightValues = function (array) {
 };
 
 exports.isRightIndex = function (index) {
-    return typeof index === 'number';
+    return index >= 0;
 };
 
 /**

@@ -49,15 +49,18 @@ describe('test for checkout page', () => {
 
         let cuisines = utils.getCuisines(selectedCuisines);
 
+
         filterPanel.setCheckBoxFilter(`Cuisines`, utils.getCuisinesName(cuisines))
             .then(() => mainPage.findPopularCheapestRestaurant())
             .then((restaurant) => mainPage.openRestaurant(restaurant.index))
             .then(() => {
                 let restaurantPage = new RestaurantPage();
 
-                // orderData.restaurant = restaurantPage.getRestaurantInfo();
 
-                restaurantPage.sortPriceByDec(restaurantPage.getAllPriceList())
+
+                    orderData.restaurant = restaurantPage.getRestaurantInfo()
+                    .then(() => utils.createInfoJSON(orderData))
+                    .then(() => restaurantPage.sortPriceByDec(restaurantPage.getAllPriceList()))
                     .then((sortedPrices) => {
                         let minPrices = sortedPrices.slice(0, UsersData.personsAmount);
 
@@ -75,7 +78,6 @@ describe('test for checkout page', () => {
                             .then(() => {
                                 let thankYouPage = new ThankYouPage();
 
-                                // utils.createInfoJSON(orderData);
                                 return thankYouPage.getContent()
                             })
                             .then((text) => expect(text.match(/ID is \d\d\d\d\d\d\d\d\d\d\d\d\d/)).not.toBe(null));

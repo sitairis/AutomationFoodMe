@@ -13,13 +13,13 @@ class RestaurantPage  extends Page {
         this.btnCheckout = new Button('Checkout', `div.pull-right`);
     }
 
-     /**
+    /**
      * добавить блюдо в заказ
      * @param index
      * @returns {*}
      */
     addToOrder(index) {
-        log.step('RestaurantPage', 'addToOrder','click on selected dish');
+        log.step('RestaurantPage', 'addToOrder', 'click on selected dish');
         if (!utils.isRightIndex(index)) throw new Error(`RestaurantPage: index is incorrect`);
 
         return this.getAllPriceList().get(index).$(`a`).click();
@@ -30,7 +30,7 @@ class RestaurantPage  extends Page {
      * @returns {ElementFinder}
      */
     getOrder() {
-        log.step('RestaurantPage', 'getOrder','get element with order');
+        log.step('RestaurantPage', 'getOrder', 'get element with order');
         return this.rootCard.findElementByCSS(`ul.unstyled`);
     }
 
@@ -39,7 +39,7 @@ class RestaurantPage  extends Page {
      * @returns {ElementArrayFinder}
      */
     getAllOrderList() {
-        log.step('RestaurantPage', 'getAllOrderList','get array dishes from order');
+        log.step('RestaurantPage', 'getAllOrderList', 'get array dishes from order');
         return this.getOrder().all(by.repeater(`item in cart.items`));
     }
 
@@ -48,7 +48,7 @@ class RestaurantPage  extends Page {
      * @returns {ElementArrayFinder}
      */
     getAllPriceList() {
-        log.step('RestaurantPage', 'getAllPriceList','get price list');
+        log.step('RestaurantPage', 'getAllPriceList', 'get price list');
         return this.rootMenu.findElementsByRepeater('menuItem in restaurant.menuItems');
     }
 
@@ -57,7 +57,7 @@ class RestaurantPage  extends Page {
      * @returns {ElementFinder}
      */
     getOrderPrice() {
-        log.step('RestaurantPage', 'getOrderPrice','get total cost');
+        log.step('RestaurantPage', 'getOrderPrice', 'get total cost');
         return this.rootCard.findElementByCSS(`b.ng-binding`);
     }
 
@@ -67,7 +67,7 @@ class RestaurantPage  extends Page {
      * @returns {*}
      */
     removeOrderItem(index) {
-        log.step('RestaurantPage', 'removeOrderItem','click on btnRemove dish');
+        log.step('RestaurantPage', 'removeOrderItem', 'click on btnRemove dish');
         if (!utils.isRightIndex(index)) throw new Error(`RestaurantPage: index is incorrect`);
 
         let btnRemove = this.getOrder().$$(`a`).get(index);
@@ -82,7 +82,7 @@ class RestaurantPage  extends Page {
      * @returns {Array}
      */
     sortPriceByDec(allItems) {
-        log.step('RestaurantPage', 'sortPriceByDec','get sorted by prices array ');
+        log.step('RestaurantPage', 'sortPriceByDec', 'get sorted by prices array ');
         return allItems.map((item, index) => {
 
             return {
@@ -99,7 +99,7 @@ class RestaurantPage  extends Page {
      * @param orderList     *
      */
     getOrderNamesList(orderList) {
-        log.step('RestaurantPage', 'getOrderNamesList','get array of dishes names');
+        log.step('RestaurantPage', 'getOrderNamesList', 'get array of dishes names');
         return orderList.$$('li').map((item) => item.evaluate('item.name'));
     }
 
@@ -108,15 +108,17 @@ class RestaurantPage  extends Page {
      * @returns {*}
      */
     makeCheckout() {
-        log.step('RestaurantPage', 'makeCheckout','click on btnCheckout');
+        log.step('RestaurantPage', 'makeCheckout', 'click on btnCheckout');
         return this.btnCheckout.click();
     }
 
     getRestaurantInfo() {
-        return {
-            name: $('div.span10 h3').getText(),
-            description: $('div.span10 .span4').getText()
-        }
+        return $$('div.span10').map((el) => {
+            return {
+                name: el.$('h3').getText(),
+                description: el.$('.span4').getText()
+            }
+        });
     }
 }
 

@@ -23,6 +23,7 @@ exports.config = {
     onPrepare: function () {
         let AuthPage = require('./pages/AuthPage');
         let DeliverForm = require('./pages/Deliver');
+        let UsersData = require('./UsersData');
 
         beforeAll((done) => {
             let authorizationForm = new AuthPage();
@@ -31,7 +32,7 @@ exports.config = {
 
             authorizationForm.navigate()
                 .then(() => browser.ignoreSynchronization = false)
-                .then(() => authorizationForm.authorizate("name", "address"))
+                .then(() => authorizationForm.authorizate(UsersData.nameDeliver, UsersData.address))
                 .then(() => done())
                 .catch(err => done.fail(err));
         });

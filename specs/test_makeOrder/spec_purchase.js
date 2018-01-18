@@ -3,10 +3,10 @@ let RestaurantPage = require(`../../pages/RestaurantPage`);
 let CheckoutPage = require(`../../pages/CheckoutPage`);
 let FilterPanel = require(`../../pages/filters/FilterRestaurantsPanel`);
 let UsersData = require('../../UsersData');
-let utils = require('../../utils/utils');
+let utils = require('../../lib/utils');
 let FiltersData = require('../../pages/filters/FiltersData');
 let ThankYouPage = require('../../pages/ThankYouPage');
-let logger = require('../../elements/Logger');
+let logger = require('../../lib/Logger');
 
 describe('test for checkout page', () => {
 
@@ -22,6 +22,19 @@ describe('test for checkout page', () => {
     });
 
     it('should click on purchase, get ID and make json file', () => {
+
+        let orderData = {
+            deliver: {
+                name : UsersData.nameDeliver,
+                address : UsersData.address
+            },
+            payment: {
+                type : UsersData.type,
+                number : UsersData.numberCard,
+                expire : UsersData.expire.dd+'/'+UsersData.expire.yyyy,
+                CVC : UsersData.CVC
+            }
+        };
 
         let mainPage = new MainPage();
         let filterPanel = new FilterPanel();
@@ -41,27 +54,33 @@ describe('test for checkout page', () => {
             .then((restaurant) => mainPage.openRestaurant(restaurant.index))
             .then(() => {
                 let restaurantPage = new RestaurantPage();
-                let listProperties = [];
+
+                // orderData = restaurantPage.getRestaurantInfo();
 
                 restaurantPage.sortPriceByDec(restaurantPage.getAllPriceList())
                     .then((sortedPrices) => {
-                        let threeMinPrices = sortedPrices.slice(0, UsersData.personsAmount);
+                        let minPrices = sortedPrices.slice(0, UsersData.personsAmount);
 
-                        listProperties = utils.getListValues(sortedPrices);
-
-                        return threeMinPrices.forEach((dish) => restaurantPage.addToOrder(dish.index))
+                        return minPrices.forEach((dish) => restaurantPage.addToOrder(dish.index))
                     })
                     .then(() => restaurantPage.makeCheckout())
                     .then(() => {
                         let checkoutPage = new CheckoutPage();
-
-                        checkoutPage.selectOption('visa')
+                        // checkoutPage.getAllItems()
+                        //     .then((items) => checkoutPage.getProperties(items))
+                        //     .then((array) => orderData = array)
+                           /* .then(() =>*/
+                           checkoutPage.selectOption(UsersData.type)
                             .then(() => checkoutPage.typeNumberCard(UsersData.numberCard))
                             .then(() => checkoutPage.typeExpire(UsersData.expire.dd, UsersData.expire.yyyy))
                             .then(() => checkoutPage.typeCVC(UsersData.CVC))
                             .then(() => checkoutPage.clickBtnPurchase())
                             .then(() => {
                                 let thankYouPage = new ThankYouPage();
+
+                                // orderData = thankYouPage.getID();
+
+                                // utils.createInfoJSON(orderData);
                                 return thankYouPage.getContent()
                             })
                             .then((text) => expect(text.match(/ID is \d\d\d\d\d\d\d\d\d\d\d\d\d/)).not.toBe(null));

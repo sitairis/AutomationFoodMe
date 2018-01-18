@@ -1,12 +1,11 @@
 let FilterPanel = require(`../../pages/filters/FilterRestaurantsPanel`);
 let MainPage = require(`../../pages/MainPage`);
 let UsersData = require('../../UsersData');
-let utils = require('../../utils/utils');
+let utils = require('../../lib/utils');
 let FiltersData = require('../../pages/filters/FiltersData');
-let Logger = require('../../elements/Logger');
+let log = require('../../lib/Logger');
 
 describe('test for price rating', () => {
-
 
     beforeEach(() => {
         let filterPanel = new FilterPanel();
@@ -40,13 +39,13 @@ describe('test for price rating', () => {
         let cuisines = utils.getCuisines(selectedCuisines);
 
             filterPanel.setCheckBoxFilter(`Cuisines`, utils.getCuisinesName(cuisines))
-                .then(() => expect(recursGetCountRatedRestaurants(filterPanel, mainPage, 4)).toEqual(3));
+                .then(() => expect(recursGetCountRatedRestaurants(filterPanel, mainPage, 4)).toEqual(utils.getCountRatedRestaurants(cuisines)));
     });
 });
 
 function recursGetCountRatedRestaurants(filterPanel, mainPage, maxRating) {
 
-   return filterPanel.setRatingFilter('rating', maxRating)
+    return filterPanel.setRatingFilter('rating', maxRating)
         .then(() => mainPage.getAllRestaurants().count())
         .then((count) => {
             if (count) {

@@ -2,8 +2,8 @@ let FilterPanel = require(`../../pages/filters/FilterRestaurantsPanel`);
 let MainPage = require(`../../pages/MainPage`);
 let FiltersData = require('../../pages/filters/FiltersData');
 let UsersData = require('../../UsersData');
-let utils = require(`../../utils/utils`);
-let Logger = require('../../elements/Logger');
+let utils = require(`../../lib/utils`);
+let log = require('../../lib/Logger');
 
 describe('test for checkbox filter', () => {
 
@@ -24,7 +24,6 @@ describe('test for checkbox filter', () => {
     });
 
     it('should get countRestaurants of restaurants list', () => {
-        let log = new Logger();
         let mainPage = new MainPage();
         let filterPanel = new FilterPanel();
 

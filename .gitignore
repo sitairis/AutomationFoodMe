@@ -4,4 +4,4 @@
 /node_modules/
 /npm-debug.log
 /elements/log/
-/log/
+/lib/log/

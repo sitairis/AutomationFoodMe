@@ -1,18 +1,18 @@
 {
-
-      "nameDeliver": "Ivan",
-      "Address": "Minsk, Very Choruzhey, 10",
-      "cuisine": [
-        "american",
-        "cafe",
-        "pizza"
-      ],
-      "personsAmount": "3",
-      "numberCard" : "1111111111111111",
-      "expire" : {
-        "dd" : "20",
-        "yyyy" : "2019"
-      },
-      "CVC" : "1234"
+  "nameDeliver": "Ivan",
+  "address": "Minsk, Very Choruzhey, 10",
+  "cuisine": [
+    "american",
+    "cafe",
+    "pizza"
+  ],
+  "personsAmount": "3",
+  "type": "visa",
+  "numberCard": "1111111111111111",
+  "expire": {
+    "dd": "20",
+    "yyyy": "2019"
+  },
+  "CVC": "1234"
 }
 

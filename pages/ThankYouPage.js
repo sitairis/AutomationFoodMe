@@ -1,21 +1,20 @@
 let Page = require('./Page');
-let Logger = require('../elements/Logger');
+let log = require('../lib/Logger');
 
 class ThankYouPage extends Page{
 
     constructor(){
         super('Thank you page');
-        this.log = new Logger();
         this.content = $('p.ng-binding');
     }
 
     getID() {
-        this.log.step('ThankYouPage', 'getID','***');
+        log.step('ThankYouPage', 'getID','get order id');
         return this.content.evaluate('orderId');
     }
 
     getContent() {
-        this.log.step('ThankYouPage', 'getContent','***');
+        log.step('ThankYouPage', 'getContent','get text which contain order id');
         return this.content.getText();
     }
 }

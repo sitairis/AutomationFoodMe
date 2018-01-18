@@ -1,22 +1,20 @@
-let Logger = require('../elements/Logger');
+let log = require('../lib/Logger');
 
 class AuthPage {
     constructor() {
-        this.log = new Logger();
         this.inputName = element(by.model('customerName'));
         this.inputAddress = element(by.model('customerAddress'));
-        this.btnFindRestaurants = element(by.css('[ng-click="findRestaurants(customerName, customerAddress)"]'));
+        this.btnFindRestaurants = $('[ng-click="findRestaurants(customerName, customerAddress)"]');
 
     }
 
     navigate() {
-        this.log.step('AuthPage', 'navigate','***');
+        log.step('AuthPage', 'navigate','open AuthPage');
 
         return browser.get('http://localhost:5000/#/customer');
     }
 
     authorizate(name, address) {
-        this.log.step('AuthPage', 'authorizate','***');
 
         return this.fillInputName(name)
             .then(() => this.fillInputAddress(address))
@@ -24,17 +22,17 @@ class AuthPage {
     }
 
     fillInputName(name) {
-        this.log.step('AuthPage', 'fillInputName','***');
+        log.step('AuthPage', 'fillInputName',`type deliver's name`);
         return this.inputName.sendKeys(name);
     }
 
     pressFindRestaurantsButton() {
-        this.log.step('AuthPage', 'pressFindRestaurantsButton','***');
+       log.step('AuthPage', 'pressFindRestaurantsButton',`click on button 'Find Restaurants'`);
         return this.btnFindRestaurants.click();
     }
 
     fillInputAddress(address) {
-        this.log.step('AuthPage', 'fillInputAddress','***');
+       log.step('AuthPage', 'fillInputAddress',`type deliver's address`);
         return this.inputAddress.sendKeys(address);
     }
 }

@@ -4,7 +4,6 @@ let CheckoutPage = require(`../../pages/CheckoutPage`);
 let FilterPanel = require(`../../pages/filters/FilterRestaurantsPanel`);
 let UsersData = require('../../UsersData');
 let utils = require('../../lib/utils');
-let FiltersData = require('../../pages/filters/FiltersData');
 let ThankYouPage = require('../../pages/ThankYouPage');
 let log = require('../../lib/Logger');
 
@@ -39,17 +38,8 @@ describe('test for purchase', () => {
         let mainPage = new MainPage();
         let filterPanel = new FilterPanel();
 
-        let selectedCuisines = null;
-
-        if (!UsersData.cuisine || UsersData.cuisine.length === 0) {
-            log.testStep('test for purchase', 1, 'get random cuisine index');
-            selectedCuisines = utils.getRandomCuisine(0, FiltersData.CUISINE.length - 1);
-        } else {
-            log.testStep('test for purchase', 1, 'get cuisine(s) names from UsersData');
-            selectedCuisines = UsersData.cuisine;
-        }
-        log.testStep('test for purchase', 2, 'get cuisine(s) array from FiltersData');
-        let cuisines = utils.getCuisines(selectedCuisines);
+        log.testStep('test for purchase', 1, 'get cuisine(s) array from FiltersData');
+        let cuisines = utils.getCuisines();
 
         log.testStep('test for purchase', 3, 'check cuisine(s)');
         filterPanel.setCheckBoxFilter(`Cuisines`, utils.getCuisinesName(cuisines))

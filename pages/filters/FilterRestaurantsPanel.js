@@ -50,7 +50,6 @@ class FilterRestaurantsPanel {
      * @returns {promise.Promise<any>}
      */
     setCheckBoxFilter(typeFilter, [...values]) {
-        log.step('FilterRestaurantsPanel', 'setCheckBoxFilter','');
 
         if (!utils.isRightTypeFilter(typeFilter) || typeFilter.toLowerCase() !== 'cuisines') throw new Error(`FilterRestaurantsPanel: typeFilter is incorrect`);
         utils.RightValues(values);
@@ -60,7 +59,10 @@ class FilterRestaurantsPanel {
                 checkbox.getAttribute('value')
                     .then((text) => {
                         values.forEach((el) => {
-                            if (el === text) checkbox.click()
+                            if (el === text) {
+                                checkbox.click();
+                                log.step('FilterRestaurantsPanel', 'setCheckBoxFilter','');
+                            }
                         });
                     });
             })
@@ -95,8 +97,10 @@ class FilterRestaurantsPanel {
             .each((checkbox) => {
                 checkbox.isSelected()
                     .then((selected) => {
-                        log.step('FilterRestaurantsPanel', 'clearCheckFilter','');
-                        if (selected === true) checkbox.click();
+                        if (selected === true) {
+                            checkbox.click();
+                            log.step('FilterRestaurantsPanel', 'clearCheckFilter','');
+                        }
                     })
             })
             .catch((err) => {

@@ -30,6 +30,7 @@ class MainPage extends Page {
      */
     getAllRestaurants() {
         log.step('MainPage', 'getAllRestaurants', 'get all list of restaurants');
+
         return element.all(by.repeater(`restaurant in restaurants`));
     }
 
@@ -39,10 +40,10 @@ class MainPage extends Page {
      */
     sortRestaurantsByPopularityDesc() {
         return this.getRestaurantProperties('rating')
-            .then((unSorted) => {
+            .then((unsorted) => {
                 log.step('MainPage', 'sortRestaurantsByPopularityDesc', 'get sorted by rating array - {prop,index}');
 
-                return unSorted.sort((a, b) => b.prop - a.prop);
+                return unsorted.sort((a, b) => b.prop - a.prop);
             })
             .catch(console.log.bind(console));
     }
@@ -55,6 +56,7 @@ class MainPage extends Page {
         return this.getRestaurantProperties('price')
             .then((unsorted) => {
                 log.step('MainPage', 'sortRestaurantsByPriceAsc', 'get sorted by price array - {prop,index}');
+
                 return unsorted.sort((a, b) => a.prop - b.prop);
             })
             .catch(console.log.bind(console));

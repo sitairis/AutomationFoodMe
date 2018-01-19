@@ -19,7 +19,6 @@ class RestaurantPage  extends Page {
      * @returns {!webdriver.promise.Promise.<void>}
      */
     addToOrder(index) {
-
         if (!utils.isRightIndex(index)) throw new Error(`RestaurantPage: index is incorrect`);
 
         return this.getAllPriceList().get(index).$(`a`).click()
@@ -32,6 +31,7 @@ class RestaurantPage  extends Page {
      */
     getOrder() {
         log.step('RestaurantPage', 'getOrder', 'get element with order');
+
         return this.rootCard.findElementByCSS(`ul.unstyled`);
     }
 
@@ -50,6 +50,7 @@ class RestaurantPage  extends Page {
      */
     getAllPriceList() {
         log.step('RestaurantPage', 'getAllPriceList', 'get price list');
+
         return this.rootMenu.findElementsByRepeater('menuItem in restaurant.menuItems');
     }
 
@@ -59,6 +60,7 @@ class RestaurantPage  extends Page {
      */
     getOrderPrice() {
         log.step('RestaurantPage', 'getOrderPrice', 'get total cost');
+
         return this.rootCard.findElementByCSS(`b.ng-binding`);
     }
 
@@ -68,7 +70,6 @@ class RestaurantPage  extends Page {
      * @returns {*}
      */
     removeOrderItem(index) {
-
         if (!utils.isRightIndex(index)) throw new Error(`RestaurantPage: index is incorrect`);
 
         let btnRemove = this.getOrder().$$(`a`).get(index);
@@ -84,7 +85,6 @@ class RestaurantPage  extends Page {
      * @returns {Array}
      */
     sortPriceByDec(allItems) {
-
         return allItems.map((item, index) => {
 
             return {
@@ -95,6 +95,7 @@ class RestaurantPage  extends Page {
         })
             .then((unSorted) => {
                 log.step('RestaurantPage', 'sortPriceByDec', 'get sorted by prices array ');
+
                 return unSorted.sort((a, b) => a.value - b.value)
             });
     }
@@ -113,7 +114,6 @@ class RestaurantPage  extends Page {
      * клик на кнупку 'checkout'
      */
     makeCheckout() {
-
         return this.btnCheckout.click()
             .then(() => log.step('RestaurantPage', 'makeCheckout', 'click on btnCheckout'));
     }
@@ -123,6 +123,8 @@ class RestaurantPage  extends Page {
      * @returns {promise.Promise<any[]>}
      */
     getRestaurantInfo() {
+        log.step('RestaurantPage', 'getRestaurantInfo', 'get restaurant info');
+
         return $$('div.span10').map((el) => {
             return {
                 name: el.evaluate('restaurant.name'),

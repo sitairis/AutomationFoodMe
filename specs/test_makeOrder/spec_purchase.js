@@ -111,7 +111,7 @@ describe('test for purchase', () => {
                                     })
                                     .then(() => utils.createInfoJSON(orderData))
                                     .then(() => log.testStep('test for purchase', 15, 'verify line with orderID'))
-                                    .then(() => thankYouPage.getContent())
+                                    .then(() => thankYouPage.getLineWithOrderID())
                                     .then((text) => expect(text.match(/ID is \d\d\d\d\d\d\d\d\d\d\d\d\d/)).not.toBe(null));
                             })
                     })

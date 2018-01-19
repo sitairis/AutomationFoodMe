@@ -15,19 +15,16 @@ class CheckoutPage  extends Page {
     }
 
     /**
-     *
+     * кликнет на кнопку 'perchase'
      */
     clickBtnPurchase() {
-
         return this.btnPurchase.isEnabled()
-            .then(() => {
-                log.step('CheckoutPage', 'clickBtnPurchase','click on btnPurchase');
-                return this.btnPurchase.click()
-            });
+            .then(() => this.btnPurchase.click())
+            .then(() => log.step('CheckoutPage', 'clickBtnPurchase','click on btnPurchase'));
     }
 
     /**
-     * записать cvc
+     * записать cvc карты
      * @param cvc
      * @returns {ActionSequence | promise.Promise<void> | promise.Promise<void> | * | ActionSequence | webdriver.promise.Promise<void>}
      */
@@ -37,7 +34,7 @@ class CheckoutPage  extends Page {
     }
 
     /**
-     * записать expire
+     * записать expire карты
      * @param dd
      * @param yyyy
      * @returns {ActionSequence | promise.Promise<void> | promise.Promise<void> | * | ActionSequence | webdriver.promise.Promise<void>}
@@ -48,7 +45,7 @@ class CheckoutPage  extends Page {
     }
 
     /**
-     *
+     * записать номер карты
      * @param number
      * @returns {ActionSequence | promise.Promise<void> | promise.Promise<void> | * | ActionSequence | webdriver.promise.Promise<void>}
      */
@@ -58,11 +55,10 @@ class CheckoutPage  extends Page {
     }
 
     /**
-     *
+     * выбрать тип карты
      * @param option
      */
     selectOption(option) {
-
         return this.cmbCardType.click()
             .then(() => $(`[value=${option}]`).click())//dubClick
             .then(() => $(`[value=${option}]`).click())
@@ -70,21 +66,23 @@ class CheckoutPage  extends Page {
     }
 
     /**
-     *
+     * вернет все пункты в заказе
      * @returns {ElementArrayFinder}
      */
     getAllItems() {
         log.step('CheckoutPage', 'getAllItems','get all items from order');
+
         return this.root.findElementsByRepeater(`item in cart.items`);
     }
 
     /**
-     *
+     * вернет массив объектов с информацией о содержимом заказа {value, name, qty}
      * @param items
      */
     getProperties(items) {
-        log.step('CheckoutPage', 'getProperties','get prices and names from order list');
         if (!items) throw new Error(`CheckoutPage: items is incorrect`);
+
+        log.step('CheckoutPage', 'getProperties','get prices and names from order list');
 
         return items.map((item) => {
 

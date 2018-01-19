@@ -8,20 +8,27 @@ class ThankYouPage extends Page{
         this.content = $('p.ng-binding');
     }
 
+    /**
+     * вернет orderID
+     * @returns {promise.Promise<any>}
+     */
     getID() {
-
         return this.content.evaluate('orderId')
             .then ((id)=> {
                 log.step('ThankYouPage', 'getID','get order id');
+
                 return id;
             });
     }
 
-    getContent() {
-
+    /**
+     * вернет строку с orderID
+     */
+    getLineWithOrderID() {
         return this.content.getText()
             .then((text) => {
-                log.step('ThankYouPage', 'getContent','get text which contain order id');
+                log.step('ThankYouPage', 'getLineWithOrderID','get text which contain order id');
+
                 return text;
             });
     }

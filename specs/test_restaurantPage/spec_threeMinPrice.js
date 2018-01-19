@@ -28,7 +28,7 @@ describe('test for restaurant page', () => {
 
                 log.testStep('test for restaurant page', 1, 'sort dishes by price');
 
-                restaurantPage.sortPriceByDec(restaurantPage.getAllPriceList())
+                restaurantPage.sortMenuByPriceDec()
                     .then((SortedPrices) => {
                         log.testStep('test for restaurant page', 2, 'add the first three dishes');
 
@@ -37,11 +37,10 @@ describe('test for restaurant page', () => {
                         nameList = SortedPrices.map((price) => price.name);
                         return threeMinPrices.forEach((price) => restaurantPage.addToOrder(price.index));
                     })
-                    .then(() => restaurantPage.getOrder())
-                    .then((orderList) => {
+                    .then(() => {
                         log.testStep('test for restaurant page', 3, 'get array names of dishes in order');
 
-                        return restaurantPage.getOrderNamesList(orderList);
+                        return restaurantPage.getOrderNamesList();
                     })
                     .then((orderNamesList) => {
                         log.testStep('test for restaurant page', 4, 'verify names');

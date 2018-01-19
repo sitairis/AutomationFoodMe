@@ -28,7 +28,7 @@ describe('test for restaurant page', () => {
                 return restaurantPage.addToOrder(2)
                     .then(() => {
                         log.testStep('test for restaurant page', 3, 'get order price');
-                        return restaurantPage.getOrderPrice()
+                        return restaurantPage.getTotalPrice()
                     })
                     .then((price) => {
                         let testPrice = price.getText();

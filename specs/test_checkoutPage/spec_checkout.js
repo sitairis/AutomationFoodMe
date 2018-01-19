@@ -7,7 +7,7 @@ let utils = require(`../../lib/utils`);
 let log = require('../../lib/Logger');
 
 describe('test for checkout page', () => {
-    
+
     afterEach(() => {
         let btnClear = $('[ng-click="cart.reset()"]');
         let btnHome = element(by.cssContainingText('a','Home'));
@@ -40,7 +40,7 @@ describe('test for checkout page', () => {
                 let listProperties = [];
 
                 log.testStep('test for checkout page', 5, 'get sorted price list');
-                restaurantPage.sortPriceByDec(restaurantPage.getAllPriceList())
+                restaurantPage.sortMenuByPriceDec()
                     .then((sortedPrices) => {
                         let dishes = sortedPrices.slice(0, UsersData.personsAmount);
 

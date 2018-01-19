@@ -60,7 +60,7 @@ describe('test for purchase', () => {
                         return orderData;
                     })
                     .then(() => log.testStep('test for purchase', 6, 'get sorted price list'))
-                    .then(() => restaurantPage.sortPriceByDec(restaurantPage.getAllPriceList()))
+                    .then(() => restaurantPage.sortMenuByPriceDec())
                     .then((sortedPrices) => {
                         let minPrices = sortedPrices.slice(0, UsersData.personsAmount);
 

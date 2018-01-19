@@ -27,7 +27,7 @@ class RestaurantPage  extends Page {
     }
 
     /**
-     * получить элемент с перечнем блюд в заказе
+     * вернуть элемент с перечнем блюд в заказе
      * @returns {ElementFinder}
      */
     getOrder() {
@@ -45,7 +45,7 @@ class RestaurantPage  extends Page {
     }
 
     /**
-     * получить перечень блюд из меню
+     * вернуть перечень блюд из меню
      * @returns {ElementArrayFinder}
      */
     getAllPriceList() {
@@ -54,7 +54,7 @@ class RestaurantPage  extends Page {
     }
 
     /**
-     * получить элемент со стоимостью заказа
+     * вернуть элемент со стоимостью заказа
      * @returns {ElementFinder}
      */
     getOrderPrice() {
@@ -79,12 +79,12 @@ class RestaurantPage  extends Page {
     }
 
     /**
-     *
+     * вернуть сорированный по цене по убыванию массив объектов
      * @param allItems
      * @returns {Array}
      */
     sortPriceByDec(allItems) {
-        log.step('RestaurantPage', 'sortPriceByDec', 'get sorted by prices array ');
+
         return allItems.map((item, index) => {
 
             return {
@@ -93,27 +93,35 @@ class RestaurantPage  extends Page {
                 index: index
             };
         })
-            .then((unSorted) => unSorted.sort((a, b) => a.value - b.value));
+            .then((unSorted) => {
+                log.step('RestaurantPage', 'sortPriceByDec', 'get sorted by prices array ');
+                return unSorted.sort((a, b) => a.value - b.value)
+            });
     }
 
     /**
-     * названия блюд из заказа
-     * @param orderList     *
+     * вернуть массив названий блюд из заказа
+     * @param orderList
      */
     getOrderNamesList(orderList) {
         log.step('RestaurantPage', 'getOrderNamesList', 'get array of dishes names');
+
         return orderList.$$('li').map((item) => item.evaluate('item.name'));
     }
 
     /**
-     *
-     * @returns {*}
+     * клик на кнупку 'checkout'
      */
     makeCheckout() {
-        log.step('RestaurantPage', 'makeCheckout', 'click on btnCheckout');
-        return this.btnCheckout.click();
+
+        return this.btnCheckout.click()
+            .then(() => log.step('RestaurantPage', 'makeCheckout', 'click on btnCheckout'));
     }
 
+    /**
+     * вернеть массив с информацией о ресторане
+     * @returns {promise.Promise<any[]>}
+     */
     getRestaurantInfo() {
         return $$('div.span10').map((el) => {
             return {

@@ -20,15 +20,18 @@ describe('test for restaurant page', () => {
         let mainPage = new MainPage();
 
         log.testStep('test for restaurant page', 1, 'open restaurant');
+
         mainPage.openRestaurant(0)
             .then(() => {
                 let restaurantPage = new RestaurantPage();
                 let nameList = [];
 
                 log.testStep('test for restaurant page', 2, 'sort dishes by price');
+
                 restaurantPage.sortPriceByDec(restaurantPage.getAllPriceList())
                     .then((SortedPrices) => {
                         log.testStep('test for restaurant page', 3, 'add the first three dishes');
+
                         let threeMinPrices = SortedPrices.slice(0, 3);
                         nameList = SortedPrices.map((price) => price.name);
                         return threeMinPrices.forEach((price) => restaurantPage.addToOrder(price.index));
@@ -36,10 +39,12 @@ describe('test for restaurant page', () => {
                     .then(() => restaurantPage.getOrder())
                     .then((orderList) => {
                         log.testStep('test for restaurant page', 4, 'get array names of dishes in order');
+
                         return restaurantPage.getOrderNamesList(orderList);
                     })
                     .then((orderNamesList) => {
                         log.testStep('test for restaurant page', 4, 'verify names');
+
                         orderNamesList.forEach((name, index) => expect(name).toEqual(nameList[index]))
                     });
             });

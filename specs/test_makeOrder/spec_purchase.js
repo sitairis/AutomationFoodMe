@@ -24,14 +24,14 @@ describe('test for purchase', () => {
 
         let orderData = {
             deliver: {
-                name : UsersData.nameDeliver,
-                address : UsersData.address
+                name: UsersData.nameDeliver,
+                address: UsersData.address
             },
             payment: {
-                type : UsersData.type,
-                number : UsersData.numberCard,
-                expire : UsersData.expire.dd+'/'+UsersData.expire.yyyy,
-                CVC : UsersData.CVC
+                type: UsersData.type,
+                number: UsersData.numberCard,
+                expire: UsersData.expire.dd + '/' + UsersData.expire.yyyy,
+                CVC: UsersData.CVC
             }
         };
 
@@ -41,66 +41,66 @@ describe('test for purchase', () => {
         log.testStep('test for purchase', 1, 'get cuisine(s) array from FiltersData');
         let cuisines = utils.getCuisines();
 
-        log.testStep('test for purchase', 3, 'check cuisine(s)');
+        log.testStep('test for purchase', 2, 'check cuisine(s)');
         filterPanel.setCheckBoxFilter(`Cuisines`, utils.getCuisinesName(cuisines))
             .then(() => {
-                log.testStep('test for purchase', 4, 'get the most popular and the cheapest restaurant');
+                log.testStep('test for purchase', 3, 'get the most popular and the cheapest restaurant');
                 return mainPage.findPopularCheapestRestaurant()
             })
             .then((restaurant) => {
-                log.testStep('test for purchase', 5, 'open selected restaurant');
+                log.testStep('test for purchase', 4, 'open selected restaurant');
                 return mainPage.openRestaurant(restaurant.index)
             })
             .then(() => {
                 let restaurantPage = new RestaurantPage();
-                log.testStep('test for purchase', 6, 'save info about restaurant');
+                log.testStep('test for purchase', 5, 'save info about restaurant');
                 return restaurantPage.getRestaurantInfo()
                     .then((obj) => {
                         orderData.restaurant = obj;
                         return orderData;
                     })
-                    .then(() => log.testStep('test for purchase', 7, 'get sorted price list'))
+                    .then(() => log.testStep('test for purchase', 6, 'get sorted price list'))
                     .then(() => restaurantPage.sortPriceByDec(restaurantPage.getAllPriceList()))
                     .then((sortedPrices) => {
-                            let minPrices = sortedPrices.slice(0, UsersData.personsAmount);
+                        let minPrices = sortedPrices.slice(0, UsersData.personsAmount);
 
-                            log.testStep('test for purchase', 8, 'add dishes to order');
-                            return minPrices.forEach((dish) => restaurantPage.addToOrder(dish.index))
-                        })
+                        log.testStep('test for purchase', 7, 'add dishes to order');
+                        return minPrices.forEach((dish) => restaurantPage.addToOrder(dish.index))
+                    })
                     .then(() => {
-                        log.testStep('test for purchase', 9, 'make checkout');
+                        log.testStep('test for purchase', 8, 'make checkout');
                         return restaurantPage.makeCheckout()
                     })
                     .then(() => {
                         let checkoutPage = new CheckoutPage();
 
-                        log.testStep('test for purchase', 10, 'save info about items in order');
+                        log.testStep('test for purchase', 9, 'save info about items in order');
                         checkoutPage.getProperties(checkoutPage.getAllItems())
                             .then((arrayItems) => {
                                 orderData.items = arrayItems;
                                 return orderData;
                             })
-                            .then(() => log.testStep('test for purchase', 11, 'type payment info'))
+                            .then(() => log.testStep('test for purchase', 10, 'type payment info'))
                             .then(() => checkoutPage.selectOption(UsersData.type))
                             .then(() => checkoutPage.typeNumberCard(UsersData.numberCard))
                             .then(() => checkoutPage.typeExpire(UsersData.expire.dd, UsersData.expire.yyyy))
                             .then(() => checkoutPage.typeCVC(UsersData.CVC))
                             .then(() => {
-                                log.testStep('test for purchase', 12, 'purchase');
+                                log.testStep('test for purchase', 11, 'purchase');
                                 return checkoutPage.clickBtnPurchase()
                             })
                             .then(() => {
-                                log.testStep('test for purchase', 13, 'open ThankYouPage');
+                                log.testStep('test for purchase', 12, 'open ThankYouPage');
                                 let thankYouPage = new ThankYouPage();
 
-                                log.testStep('test for purchase', 14, 'save orderID');
+                                log.testStep('test for purchase', 13, 'save orderID');
                                 return thankYouPage.getID()
                                     .then((id) => {
                                         orderData.orderID = id;
                                         return orderData;
                                     })
                                     .then(() => utils.createInfoJSON(orderData))
-                                    .then(() => log.testStep('test for purchase', 15, 'verify line with orderID'))
+                                    .then(() => log.testStep('test for purchase', 14, 'verify line with orderID'))
                                     .then(() => thankYouPage.getLineWithOrderID())
                                     .then((text) => expect(text.match(/ID is \d\d\d\d\d\d\d\d\d\d\d\d\d/)).not.toBe(null));
                             })

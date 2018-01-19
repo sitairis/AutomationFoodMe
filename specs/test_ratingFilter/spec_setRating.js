@@ -30,12 +30,18 @@ describe('test for rating filter', () => {
         log.testStep('test for rating filter', 1, 'get cuisine(s) array from FiltersData');
         let cuisines = utils.getCuisines();
 
-        log.testStep('test for rating filter', 3, 'verify count');
+        log.testStep('test for rating filter', 2, 'verify count');
         filterPanel.setCheckBoxFilter(`Cuisines`, utils.getCuisinesName(cuisines))
-                .then(() => expect(recursGetCountRatedRestaurants(filterPanel, mainPage, 4)).toEqual(utils.getCountRatedRestaurants(cuisines)));
+            .then(() => expect(recursGetCountRatedRestaurants(filterPanel, mainPage, 4)).toEqual(utils.getCountRatedRestaurants(cuisines)));
     });
 });
 
+/**
+ * рекурсия вернет количество самых популярных ресторанов
+ * @param filterPanel
+ * @param mainPage
+ * @param maxRating
+ */
 function recursGetCountRatedRestaurants(filterPanel, mainPage, maxRating) {
     log.step('test for rating filter', 'recursGetCountRatedRestaurants','get restaurants count');
     return filterPanel.setRatingFilter('rating', maxRating)

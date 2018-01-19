@@ -26,38 +26,38 @@ describe('test for checkout page', () => {
         log.testStep('test for checkout page', 1, 'get cuisine(s) array from FiltersData');
         let cuisines = utils.getCuisines();
 
-        log.testStep('test for checkout page', 3, 'check cuisine(s)');
+        log.testStep('test for checkout page', 2, 'check cuisine(s)');
         filterPanel.setCheckBoxFilter(`Cuisines`, utils.getCuisinesName(cuisines))
             .then(() => {
-                log.testStep('test for checkout page', 4, 'get the most popular and the cheapest restaurant');
+                log.testStep('test for checkout page', 3, 'get the most popular and the cheapest restaurant');
                 return mainPage.findPopularCheapestRestaurant();
             })
             .then((restaurant) => {
-                log.testStep('test for checkout page', 5, 'open selected restaurant');
+                log.testStep('test for checkout page', 4, 'open selected restaurant');
                 return mainPage.openRestaurant(restaurant.index)
             })
             .then(() => {
                 let restaurantPage = new RestaurantPage();
                 let listProperties = [];
 
-                log.testStep('test for checkout page', 6, 'get sorted price list');
+                log.testStep('test for checkout page', 5, 'get sorted price list');
                 restaurantPage.sortPriceByDec(restaurantPage.getAllPriceList())
                     .then((sortedPrices) => {
                         let dishes = sortedPrices.slice(0, UsersData.personsAmount);
 
                         listProperties = utils.getListValues(sortedPrices);
 
-                        log.testStep('test for checkout page', 7, 'add dishes to order');
+                        log.testStep('test for checkout page', 6, 'add dishes to order');
                         return dishes.forEach((dish) => restaurantPage.addToOrder(dish.index))
                     })
                     .then(() => {
-                        log.testStep('test for checkout page', 8, 'make checkout');
+                        log.testStep('test for checkout page', 7, 'make checkout');
                         return restaurantPage.makeCheckout()
                     })
                     .then(() => {
                         let checkoutPage = new CheckoutPage();
 
-                        log.testStep('test for checkout page', 9, 'compare order list and dishes list');
+                        log.testStep('test for checkout page', 8, 'compare order list and dishes list');
                         return checkoutPage.getProperties(checkoutPage.getAllItems())
                             .then((properties) => utils.getListValues(properties))
                             .then((properties) => properties.forEach((property, index) => expect(property).toEqual(listProperties[index])));

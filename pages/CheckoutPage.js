@@ -15,31 +15,37 @@ class CheckoutPage  extends Page {
         this.btnPurchase = $('[ng-click="purchase()"]');
     }
 
+    /**
+     *
+     */
     clickBtnPurchase() {
-        log.step('CheckoutPage', 'clickBtnPurchase','click on btnPurchase');
-        this.btnPurchase.isEnabled()
-            .then(() => this.btnPurchase.click());
+
+        return this.btnPurchase.isEnabled()
+            .then(() => {
+                log.step('CheckoutPage', 'clickBtnPurchase','click on btnPurchase');
+                return this.btnPurchase.click()
+            });
     }
 
     /**
-     *
+     * записать cvc
      * @param cvc
      * @returns {ActionSequence | promise.Promise<void> | promise.Promise<void> | * | ActionSequence | webdriver.promise.Promise<void>}
      */
     typeCVC(cvc) {
-        log.step('CheckoutPage', 'typeCVC','type CVC field');
-        return this.txbCVC.sendKeys(cvc);
+        return this.txbCVC.sendKeys(cvc)
+            .then(() => log.step('CheckoutPage', 'typeCVC','type CVC field'));
     }
 
     /**
-     *
+     * записать expire
      * @param dd
      * @param yyyy
      * @returns {ActionSequence | promise.Promise<void> | promise.Promise<void> | * | ActionSequence | webdriver.promise.Promise<void>}
      */
     typeExpire(dd, yyyy) {
-        log.step('CheckoutPage', 'typeExpire','type expire field');
-        return this.txbExpire.sendKeys(`${dd}/${yyyy}`);
+        return this.txbExpire.sendKeys(`${dd}/${yyyy}`)
+            .then(() => log.step('CheckoutPage', 'typeExpire','type expire field'));
     }
 
     /**
@@ -48,8 +54,8 @@ class CheckoutPage  extends Page {
      * @returns {ActionSequence | promise.Promise<void> | promise.Promise<void> | * | ActionSequence | webdriver.promise.Promise<void>}
      */
     typeNumberCard(number) {
-        log.step('CheckoutPage', 'typeNumberCard','type curd number field');
-        return this.txbNumderCard.sendKeys(number);
+        return this.txbNumderCard.sendKeys(number)
+            .then(() => log.step('CheckoutPage', 'typeNumberCard','type curd number field'));
     }
 
     /**
@@ -57,10 +63,11 @@ class CheckoutPage  extends Page {
      * @param option
      */
     selectOption(option) {
-        log.step('CheckoutPage', 'selectOption','select cord type');
+
         return this.cmbCardType.click()
             .then(() => $(`[value=${option}]`).click())//dubClick
-            .then(() => $(`[value=${option}]`).click());
+            .then(() => $(`[value=${option}]`).click())
+            .then(() => log.step('CheckoutPage', 'selectOption','select cord type'));
     }
 
     /**
@@ -85,7 +92,7 @@ class CheckoutPage  extends Page {
             return {
                 value: item.evaluate('item.price'),
                 name: item.evaluate('item.name'),
-                qty : item.evaluate('item.qty'),
+                qty : item.evaluate('item.qty')
             }
         });
     }

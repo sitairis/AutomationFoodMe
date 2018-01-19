@@ -6,13 +6,13 @@ exports.config = {
     browser.get('http://localhost:5000/#/menu/babythai');*/
     specs: ['./specs/*/*.js'],
     capabilities: {
-        browserName: 'chrome'
-        // chromeOptions: {
-        //     args: ['headless', 'disable-gpu']
-        // }
+        browserName: 'chrome',
+        chromeOptions: {
+            args: ['headless', 'disable-gpu']
+        }
     },
     suites: {
-        checkout: './specs/test_CheckoutPage/*.js',
+        checkout: './specs/test_checkoutPage/*.js',
         order: './specs/test_makeOrder/*.js',
         restPage: './specs/test_RestaurantPage/*.js',
         rating: './specs/test_ratingFilter/*.js',

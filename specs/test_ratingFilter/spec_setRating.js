@@ -5,7 +5,7 @@ let utils = require('../../lib/utils');
 let FiltersData = require('../../pages/filters/FiltersData');
 let log = require('../../lib/Logger');
 
-describe('test for price rating', () => {
+describe('test for rating filter', () => {
 
     beforeEach(() => {
         let filterPanel = new FilterPanel();
@@ -31,22 +31,27 @@ describe('test for price rating', () => {
         let selectedCuisines = null;
 
         if (!UsersData.cuisine || UsersData.cuisine.length === 0) {
+            log.testStep('test for rating filter', 1, 'get random cuisine index');
             selectedCuisines = utils.getRandomCuisine(0, FiltersData.CUISINE.length - 1);
         } else {
+            log.testStep('test for rating filter', 1, 'get cuisine(s) names from UsersData');
             selectedCuisines = UsersData.cuisine;
         }
-
+        log.testStep('test for rating filter', 2, 'get cuisine(s) array from FiltersData');
         let cuisines = utils.getCuisines(selectedCuisines);
 
-            filterPanel.setCheckBoxFilter(`Cuisines`, utils.getCuisinesName(cuisines))
+        log.testStep('test for rating filter', 3, 'verify count');
+        filterPanel.setCheckBoxFilter(`Cuisines`, utils.getCuisinesName(cuisines))
                 .then(() => expect(recursGetCountRatedRestaurants(filterPanel, mainPage, 4)).toEqual(utils.getCountRatedRestaurants(cuisines)));
     });
 });
 
 function recursGetCountRatedRestaurants(filterPanel, mainPage, maxRating) {
-
+    log.step('test for rating filter', 'recursGetCountRatedRestaurants','get restaurants count');
     return filterPanel.setRatingFilter('rating', maxRating)
-        .then(() => mainPage.getAllRestaurants().count())
+        .then(() => {
+            return mainPage.getAllRestaurants().count()
+        })
         .then((count) => {
             if (count) {
                 return count;

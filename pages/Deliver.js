@@ -6,8 +6,9 @@ class DeliverForm {
     }
 
     changeDeliver() {
-        log.step('DeliverForm', 'changeDeliver','click on btnDeliver');
-        return this.btnDeliver.click();
+
+        return this.btnDeliver.click()
+            .then(() => log.step('DeliverForm', 'changeDeliver','click on btnDeliver'));
     }
 }
 

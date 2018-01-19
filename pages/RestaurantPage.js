@@ -16,13 +16,14 @@ class RestaurantPage  extends Page {
     /**
      * добавить блюдо в заказ
      * @param index
-     * @returns {*}
+     * @returns {!webdriver.promise.Promise.<void>}
      */
     addToOrder(index) {
-        log.step('RestaurantPage', 'addToOrder', 'click on selected dish');
+
         if (!utils.isRightIndex(index)) throw new Error(`RestaurantPage: index is incorrect`);
 
-        return this.getAllPriceList().get(index).$(`a`).click();
+        return this.getAllPriceList().get(index).$(`a`).click()
+            .then(() => log.step('RestaurantPage', 'addToOrder', 'click on selected dish'));
     }
 
     /**
@@ -67,13 +68,14 @@ class RestaurantPage  extends Page {
      * @returns {*}
      */
     removeOrderItem(index) {
-        log.step('RestaurantPage', 'removeOrderItem', 'click on btnRemove dish');
+
         if (!utils.isRightIndex(index)) throw new Error(`RestaurantPage: index is incorrect`);
 
         let btnRemove = this.getOrder().$$(`a`).get(index);
         browser.driver.actions().mouseMove(btnRemove).perform();
 
-        return btnRemove.click();
+        return btnRemove.click()
+            .then(() => log.step('RestaurantPage', 'removeOrderItem', 'click on btnRemove dish'));
     }
 
     /**
@@ -115,8 +117,8 @@ class RestaurantPage  extends Page {
     getRestaurantInfo() {
         return $$('div.span10').map((el) => {
             return {
-                name: el.$('h3').getText(),
-                description: el.$('.span4').getText()
+                name: el.evaluate('restaurant.name'),
+                description: el.evaluate('restaurant.description')
             }
         });
     }

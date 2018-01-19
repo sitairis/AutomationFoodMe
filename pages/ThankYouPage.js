@@ -9,13 +9,21 @@ class ThankYouPage extends Page{
     }
 
     getID() {
-        log.step('ThankYouPage', 'getID','get order id');
-        return this.content.evaluate('orderId');
+
+        return this.content.evaluate('orderId')
+            .then ((id)=> {
+                log.step('ThankYouPage', 'getID','get order id');
+                return id;
+            });
     }
 
     getContent() {
-        log.step('ThankYouPage', 'getContent','get text which contain order id');
-        return this.content.getText();
+
+        return this.content.getText()
+            .then((text) => {
+                log.step('ThankYouPage', 'getContent','get text which contain order id');
+                return text;
+            });
     }
 }
 

@@ -57,7 +57,7 @@ describe('test for checkout page', () => {
                         let checkoutPage = new CheckoutPage();
 
                         log.testStep('test for checkout page', 8, 'compare order list and dishes list');
-                        return checkoutPage.getProperties(checkoutPage.getAllItems())
+                        return checkoutPage.getPropertiesOfOrderItems()
                             .then((properties) => utils.getListValues(properties))
                             .then((properties) => properties.forEach((property, index) => expect(property).toEqual(listProperties[index])));
                     });

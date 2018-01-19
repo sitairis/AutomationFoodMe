@@ -75,7 +75,7 @@ describe('test for purchase', () => {
                         let checkoutPage = new CheckoutPage();
 
                         log.testStep('test for purchase', 9, 'save info about items in order');
-                        checkoutPage.getProperties(checkoutPage.getAllItems())
+                        checkoutPage.getPropertiesOfOrderItems()
                             .then((arrayItems) => {
                                 orderData.items = arrayItems;
                                 return orderData;

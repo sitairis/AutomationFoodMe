@@ -60,7 +60,7 @@ class CheckoutPage  extends Page {
      */
     selectOption(option) {
         return this.cmbCardType.click()
-            .then(() => $(`[value=${option}]`).click())//dubClick
+            .then(() => $(`[value=${option}]`).click())//dubClick /выпадающий список сворачивается после двойного клика
             .then(() => $(`[value=${option}]`).click())
             .then(() => log.step('CheckoutPage', 'selectOption','select cord type'));
     }
@@ -69,22 +69,20 @@ class CheckoutPage  extends Page {
      * вернет все пункты в заказе
      * @returns {ElementArrayFinder}
      */
-    getAllItems() {
-        log.step('CheckoutPage', 'getAllItems','get all items from order');
+    getAllOrderItems() {
+        log.step('CheckoutPage', 'getAllOrderItems','get all items from order');
 
         return this.root.findElementsByRepeater(`item in cart.items`);
     }
 
     /**
      * вернет массив объектов с информацией о содержимом заказа {value, name, qty}
-     * @param items
      */
-    getProperties(items) {
-        if (!items) throw new Error(`CheckoutPage: items is incorrect`);
+    getPropertiesOfOrderItems() {
 
-        log.step('CheckoutPage', 'getProperties','get prices and names from order list');
+        log.step('CheckoutPage', 'getPropertiesOfOrderItems','get prices and names from order list');
 
-        return items.map((item) => {
+        return this.getAllOrderItems().map((item) => {
 
             return {
                 value: item.evaluate('item.price'),

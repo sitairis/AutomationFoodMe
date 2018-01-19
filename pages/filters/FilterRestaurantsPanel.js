@@ -9,17 +9,17 @@ class FilterRestaurantsPanel {
     }
 
     /**
-     *
+     * кликнуть на рейтинг
      * @param typeFilter
      * @param ratingValue
-     * @returns {*}
      */
     setRatingFilter(typeFilter, ratingValue) {
-        log.step('FilterRestaurantsPanel', 'setRatingFilter','set rating/price filter');
 
         return this._getRootRadioBtnFilterElement(typeFilter)
             .$$(`li[ng-class="style"]`)
-            .get(Number.parseInt(ratingValue)).click();
+            .get(Number.parseInt(ratingValue))
+            .click()
+            .then(() => log.step('FilterRestaurantsPanel', 'setRatingFilter','set rating/price filter'));
     }
 
     /**
@@ -44,7 +44,7 @@ class FilterRestaurantsPanel {
     }
 
     /**
-     *
+     * кликает на 'кухни'
      * @param typeFilter
      * @param values
      * @returns {promise.Promise<any>}
@@ -75,29 +75,27 @@ class FilterRestaurantsPanel {
      * @returns {*}
      */
     clearRadioFilter(typeFilter) {
-        log.step('FilterRestaurantsPanel', 'clearRadioFilter','');
-
         if (!typeFilter) throw new Error(`FilterRestaurantsPanel: typeFilter is undefined`);
 
         let btnClear = this._getRootRadioBtnFilterElement(typeFilter.toLowerCase())
             .$(`ul + a[ng-click="select(null)"]`);
         browser.driver.actions().mouseMove(btnClear).perform();
 
-        return btnClear.click();
-
+        return btnClear.click()
+            .then(() => log.step('FilterRestaurantsPanel', 'clearRadioFilter',''));
     }
 
     /**
-     *
+     * очищает фильтр с 'кухнями'
      * @returns {promise.Promise<any>}
      */
     clearCheckFilter() {
-        log.step('FilterRestaurantsPanel', 'clearCheckFilter','');
 
         return this.getAllCheckBoxes()
             .each((checkbox) => {
                 checkbox.isSelected()
                     .then((selected) => {
+                        log.step('FilterRestaurantsPanel', 'clearCheckFilter','');
                         if (selected === true) checkbox.click();
                     })
             })
@@ -107,7 +105,7 @@ class FilterRestaurantsPanel {
     }
 
     /**
-     *
+     * вернет массив элементов 'кухни'
      * @returns {ElementArrayFinder | *}
      */
     getAllCheckBoxes() {

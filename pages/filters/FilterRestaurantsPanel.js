@@ -51,7 +51,7 @@ class FilterRestaurantsPanel {
      */
     setCheckBoxFilter(typeFilter, [...values]) {
 
-        if (!utils.isRightTypeFilter(typeFilter) || typeFilter.toLowerCase() !== 'cuisines') throw new Error(`FilterRestaurantsPanel: typeFilter is incorrect`);
+        if (!utils.isString(typeFilter) || typeFilter.toLowerCase() !== 'cuisines') throw new Error(`FilterRestaurantsPanel: typeFilter is incorrect`);
         utils.rightValues(values);
 
         return this.getAllCheckBoxes()

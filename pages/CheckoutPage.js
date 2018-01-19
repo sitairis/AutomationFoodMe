@@ -1,6 +1,5 @@
 let Page = require('./Page');
 let baseEl = require('../elements/BaseElement');
-let button = require('../elements/Button');
 let log = require('../lib/Logger');
 
 class CheckoutPage  extends Page {

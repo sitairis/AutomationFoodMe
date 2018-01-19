@@ -35,14 +35,14 @@ class RestaurantPage  extends Page {
         return this.rootCard.findElementByCSS(`ul.unstyled`);
     }
 
-    /**
-     * список заказанных блюд
-     * @returns {ElementArrayFinder}
-     */
-    getAllOrderList() {
-        log.step('RestaurantPage', 'getAllOrderList', 'get array dishes from order');
-        return this.getOrder().all(by.repeater(`item in cart.items`));
-    }
+    // /**
+    //  * список заказанных блюд
+    //  * @returns {ElementArrayFinder}
+    //  */
+    // getAllOrderList() {
+    //     log.step('RestaurantPage', 'getAllOrderList', 'get array dishes from order');
+    //     return this.getOrder().all(by.repeater(`item in cart.items`));
+    // }
 
     /**
      * вернуть перечень блюд из меню

@@ -92,7 +92,6 @@ class FilterRestaurantsPanel {
      * @returns {promise.Promise<any>}
      */
     clearCheckFilter() {
-
         return this.getAllCheckBoxes()
             .each((checkbox) => {
                 checkbox.isSelected()

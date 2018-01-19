@@ -7,8 +7,7 @@ let utils = require(`../../lib/utils`);
 let log = require('../../lib/Logger');
 
 describe('test for checkout page', () => {
-
-
+    
     afterEach(() => {
         let btnClear = $('[ng-click="cart.reset()"]');
         let btnHome = element(by.cssContainingText('a','Home'));

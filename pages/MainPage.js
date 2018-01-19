@@ -18,9 +18,8 @@ class MainPage extends Page {
     openRestaurant(index) {
         if (!utils.isRightIndex(index)) throw new Error(`MainPage: index is incorrect`);
 
-        let restaurant = this.rootRestaurantList.findElementsByCSS(`img.img-rounded.pull-left`).get(index);
-
-        return restaurant.click()
+        return this.rootRestaurantList.findElementsByCSS(`img.img-rounded.pull-left`)
+            .get(index).click()
             .then(() => log.step('MainPage', 'openRestaurant', 'click on selected restaurant'));
     }
 
@@ -30,36 +29,38 @@ class MainPage extends Page {
      */
     getAllRestaurants() {
         log.step('MainPage', 'getAllRestaurants', 'get all list of restaurants');
-
         return element.all(by.repeater(`restaurant in restaurants`));
     }
 
     /**
-     * вернуть отсортированный по популярности по убыванию массив ресторанов
-     * @returns {Array}
+     * вернет отсортированный массив
+     * @param typeProp
+     * @param typeSort
      */
-    sortRestaurantsByPopularityDesc() {
-        return this.getRestaurantProperties('rating')
+    sortRestaurants(typeProp, typeSort) {
+        return this.getRestaurantProperties(typeProp)
             .then((unsorted) => {
-                log.step('MainPage', 'sortRestaurantsByPopularityDesc', 'get sorted by rating array - {prop,index}');
+                log.step('MainPage', 'sortRestaurants', 'get sorted array - {prop,index}');
 
-                return unsorted.sort((a, b) => b.prop - a.prop);
+                return unsorted.sort((a, b) => this._forSort(typeSort, a, b));
             })
             .catch(console.log.bind(console));
     }
 
     /**
-     * вернуть отсортированный по цене по возрастанию массив ресторанов
-     * @returns {Array}
+     *
+     * @param typeSort
+     * @param a
+     * @param b
+     * @returns {number}
+     * @private
      */
-    sortRestaurantsByPriceAsc() {
-        return this.getRestaurantProperties('price')
-            .then((unsorted) => {
-                log.step('MainPage', 'sortRestaurantsByPriceAsc', 'get sorted by price array - {prop,index}');
-
-                return unsorted.sort((a, b) => a.prop - b.prop);
-            })
-            .catch(console.log.bind(console));
+    _forSort(typeSort, a, b) {
+        if(typeSort === 'desc') {
+            return b.prop - a.prop
+        } else {
+            return a.prop - b.prop;
+        }
     }
 
     /**
@@ -82,9 +83,9 @@ class MainPage extends Page {
      * @returns {Object}
      */
     findPopularCheapestRestaurant() {
-        return this.sortRestaurantsByPopularityDesc()
+        return this.sortRestaurants('rating', 'desc')
             .then((ratingArray) => {
-                return this.sortRestaurantsByPriceAsc()
+                return this.sortRestaurants('price', 'asc')
                     .then((priceArray) => {
                         log.step('MainPage', 'findPopularCheapestRestaurant', 'get array by price/rating - {prop,index}');
 

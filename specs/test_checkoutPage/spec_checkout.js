@@ -28,9 +28,11 @@ describe('test for checkout page', () => {
 
         if (!UsersData.cuisine || UsersData.cuisine.length === 0) {
             log.testStep('test for checkout page', 1, 'get random cuisine index');
+
             selectedCuisines = utils.getRandomCuisine(0, FiltersData.CUISINE.length - 1);
         } else {
             log.testStep('test for checkout page', 1, 'get cuisine(s) names from UsersData');
+
             selectedCuisines = UsersData.cuisine;
         }
 

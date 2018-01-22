@@ -42,20 +42,20 @@ class MainPage extends Page {
             .then((unsorted) => {
                 log.step('MainPage', 'sortRestaurants', 'get sorted array - {prop,index}');
 
-                return unsorted.sort((a, b) => this._forSort(typeSort, a, b));
+                return unsorted.sort((a, b) => this._setTypeSort(typeSort, a, b));
             })
             .catch(console.log.bind(console));
     }
 
     /**
-     *
+     * выбрать тип сортировки
      * @param typeSort
      * @param a
      * @param b
      * @returns {number}
      * @private
      */
-    _forSort(typeSort, a, b) {
+    _setTypeSort(typeSort, a, b) {
         if(typeSort === 'desc') {
             return b.prop - a.prop
         } else {

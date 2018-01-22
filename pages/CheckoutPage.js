@@ -16,7 +16,7 @@ class CheckoutPage  extends Page {
     }
 
     /**
-     * кликнет на кнопку 'perchase'
+     * кликнет на кнопку 'purchase'
      */
     clickBtnPurchase() {
         return this.btnPurchase.isEnabled()

@@ -25,14 +25,18 @@ describe('test for restaurant page', () => {
                 let restaurantPage = new RestaurantPage();
 
                 log.testStep('test for restaurant page', 2, 'add dish to order');
+
                 return restaurantPage.addToOrder(2)
                     .then(() => {
                         log.testStep('test for restaurant page', 3, 'get order price');
+
                         return restaurantPage.getTotalPrice()
                     })
                     .then((price) => {
                         let testPrice = price.getText();
+
                         log.testStep('test for restaurant page', 4, 'verify price');
+
                         expect(testPrice).toEqual('Total: $6.95');
                     });
             });

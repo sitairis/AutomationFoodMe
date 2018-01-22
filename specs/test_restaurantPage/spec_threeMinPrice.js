@@ -35,6 +35,7 @@ describe('test for restaurant page', () => {
                         let threeMinPrices = SortedPrices.slice(0, 3);
 
                         nameList = SortedPrices.map((price) => price.name);
+
                         return threeMinPrices.forEach((price) => restaurantPage.addToOrder(price.index));
                     })
                     .then(() => {

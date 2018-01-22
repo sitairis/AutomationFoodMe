@@ -60,7 +60,6 @@ class CheckoutPage  extends Page {
      */
     selectOption(option) {
         return this.cmbCardType.click()
-            .then(() => $(`[value=${option}]`).click())//dubClick /выпадающий список сворачивается после двойного клика
             .then(() => $(`[value=${option}]`).click())
             .then(() => log.step('CheckoutPage', 'selectOption','select cord type'));
     }

@@ -1,6 +1,5 @@
 let utils = require(`../lib/utils`);
 let Page = require('./Page');
-let Button = require('../elements/Button');
 let BaseElement = require('../elements/BaseElement');
 let log = require('../lib/Logger');
 
@@ -11,13 +10,13 @@ class RestaurantPage  extends Page {
         this.className = 'RestaurantPage';
         this.rootMenu = new BaseElement('rootMenu', `div.span8.fm-panel.fm-menu-list`);
         this.rootCard = $(`div.span4.fm-panel.fm-cart`);
-        this.btnCheckout = new Button('Checkout', `div.pull-right`);
+        this.btnCheckout = $(`div.pull-right`);
     }
 
     /**
      * добавить блюдо в заказ
      * @param index
-     * @returns {!webdriver.promise.Promise.<void>}
+     * @returns {promise.Promise.<void>}
      */
     addToOrder(index) {
         if (!utils.isValidIndex(index)) throw new Error(`RestaurantPage: index is incorrect`);
@@ -35,7 +34,7 @@ class RestaurantPage  extends Page {
     getOrderElementsCollect() {
         log.step(this.className, 'getOrderElementsCollect', 'get element with order');
 
-        return this.rootCard.all(by.repeater('item in cart.items'));
+        return this.rootCard.all(by.repeater('item in cart.items'))
     }
 
     /**
@@ -113,8 +112,9 @@ class RestaurantPage  extends Page {
      * клик на кнупку 'checkout'
      */
     makeCheckout() {
-        return this.btnCheckout.click()
-            .then(() => log.step(this.className, 'makeCheckout', 'click on btnCheckout'));
+        return utils.doClick(this.btnCheckout, 'click on btnCheckout')
+            .then(() => log.step(this.className, 'makeCheckout', 'click on btnCheckout'))
+            .catch(() => Promise.reject(`${this.className} : Error --- makeCheckout`));
     }
 
     /**
@@ -124,14 +124,13 @@ class RestaurantPage  extends Page {
     getRestaurantInfo() {
         log.step(this.className, 'getRestaurantInfo', 'get restaurant info');
 
-
         return $$('div.span10').map((curElem) => {
             return {
                 name: curElem.$('h3').getText(),
                 description: curElem.$('.span4').getText()
             }
         })
-            .catch(() => Promise.reject(`${this.className} : Error --- sortMenuByPriceDec`));
+            .catch(() => Promise.reject(`${this.className} : Error --- getRestaurantInfo`));
     }
 }
 

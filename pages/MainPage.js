@@ -29,6 +29,7 @@ class MainPage extends Page {
      */
     getAllRestaurants() {
         log.step('MainPage', 'getAllRestaurants', 'get all list of restaurants');
+
         return element.all(by.repeater(`restaurant in restaurants`));
     }
 
@@ -38,6 +39,9 @@ class MainPage extends Page {
      * @param typeSort
      */
     sortRestaurants(typeProp, typeSort) {
+        if (!utils.isString(typeProp)) throw new Error(`MainPage: typeProp is not a string`);
+        if (!utils.isString(typeSort)) throw new Error(`MainPage: typeSort is not a string`);
+
         return this.getRestaurantProperties(typeProp)
             .then((unsorted) => {
                 log.step('MainPage', 'sortRestaurants', 'get sorted array - {prop,index}');
@@ -68,6 +72,8 @@ class MainPage extends Page {
      * @param prop
      */
     getRestaurantProperties(prop) {
+        if (!utils.isString(prop)) throw new Error(`MainPage: prop is not a string`);
+
         log.step('MainPage', 'getRestaurantProperties', 'get array by price/rating - {prop,index}');
 
         return this.getAllRestaurants().map((currentRating, index) => {
@@ -83,9 +89,9 @@ class MainPage extends Page {
      * @returns {Object}
      */
     findPopularCheapestRestaurant() {
-        return this.sortRestaurants('rating', 'desc')
+        return this.sortRestaurants("rating", "desc")
             .then((ratingArray) => {
-                return this.sortRestaurants('price', 'asc')
+                return this.sortRestaurants("price", "asc")
                     .then((priceArray) => {
                         log.step('MainPage', 'findPopularCheapestRestaurant', 'get array by price/rating - {prop,index}');
 

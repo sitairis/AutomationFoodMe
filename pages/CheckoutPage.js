@@ -1,6 +1,7 @@
 let Page = require('./Page');
 let baseEl = require('../elements/BaseElement');
 let log = require('../lib/Logger');
+let utils = require('../lib/utils');
 
 class CheckoutPage  extends Page {
 
@@ -29,6 +30,8 @@ class CheckoutPage  extends Page {
      * @returns {ActionSequence | promise.Promise<void> | promise.Promise<void> | * | ActionSequence | webdriver.promise.Promise<void>}
      */
     typeCVC(cvc) {
+        if (!utils.isRightCVC(cvc)) throw new Error(`CheckoutPage: cvc = ${cvc} is incorrect`);
+
         return this.txbCVC.sendKeys(cvc)
             .then(() => log.step('CheckoutPage', 'typeCVC','type CVC field'));
     }
@@ -40,6 +43,8 @@ class CheckoutPage  extends Page {
      * @returns {ActionSequence | promise.Promise<void> | promise.Promise<void> | * | ActionSequence | webdriver.promise.Promise<void>}
      */
     typeExpire(dd, yyyy) {
+        if (!utils.isRightExpire(dd, yyyy)) throw new Error(`CheckoutPage: expire = ${dd}/${yyyy} is incorrect`);
+
         return this.txbExpire.sendKeys(`${dd}/${yyyy}`)
             .then(() => log.step('CheckoutPage', 'typeExpire','type expire field'));
     }
@@ -50,6 +55,8 @@ class CheckoutPage  extends Page {
      * @returns {ActionSequence | promise.Promise<void> | promise.Promise<void> | * | ActionSequence | webdriver.promise.Promise<void>}
      */
     typeNumberCard(number) {
+        if (!utils.isRightCardNumber(number)) throw new Error(`CheckoutPage: number = ${number} is incorrect`);
+
         return this.txbNumderCard.sendKeys(number)
             .then(() => log.step('CheckoutPage', 'typeNumberCard','type curd number field'));
     }
@@ -59,6 +66,9 @@ class CheckoutPage  extends Page {
      * @param option
      */
     selectOption(option) {
+        if (!utils.isString(option)) throw new Error(`CheckoutPage: option is not a string`);
+        if (!utils.isRightOption(option)) throw new Error(`CheckoutPage: not found option = ${option}`);
+
         return this.cmbCardType.click()
             .then(() => $(`[value=${option}]`).click())
             .then(() => log.step('CheckoutPage', 'selectOption','select cord type'));
@@ -78,7 +88,6 @@ class CheckoutPage  extends Page {
      * вернет массив объектов с информацией о содержимом заказа {value, name, qty}
      */
     getPropertiesOfOrderItems() {
-
         log.step('CheckoutPage', 'getPropertiesOfOrderItems','get prices and names from order list');
 
         return this.getAllOrderItems().map((item) => {

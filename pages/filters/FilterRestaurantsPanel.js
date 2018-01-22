@@ -5,6 +5,7 @@ let log = require('../../lib/Logger');
 class FilterRestaurantsPanel {
 
     constructor() {
+        this.className = `FilterRestaurantsPanel`;
         this.rootCheckBoxFilter = element(by.model(`filter.cuisine`));
     }
 
@@ -14,12 +15,13 @@ class FilterRestaurantsPanel {
      * @param ratingValue
      */
     setRatingFilter(typeFilter, ratingValue) {
-
-        return this._getRootRadioBtnFilterElement(typeFilter)
+        let ratingElement = this._getRootRadioBtnFilterElement(typeFilter)
             .$$(`li[ng-class="style"]`)
-            .get(Number.parseInt(ratingValue))
-            .click()
-            .then(() => log.step('FilterRestaurantsPanel', 'setRatingFilter', 'set rating/price filter'));
+            .get(Number.parseInt(ratingValue));
+
+        return utils.doClick(ratingElement, 'set rating/price filter')
+            .then(() => log.step(`${this.className}`, 'setRatingFilter', 'set rating/price filter'))
+            .catch(() => Promise.reject(` : Error --- setRatingFilter`));
     }
 
     /**
@@ -54,13 +56,14 @@ class FilterRestaurantsPanel {
         if (!Array.isArray(values)) throw new Error(`FilterRestaurantsPanel: values is not an array`);
         if (utils.isEmptyArray(values)) throw new Error(`FilterRestaurantsPanel: values is empty`);
 
-        return this.getAllCheckBoxes()
+        return this.getCheckBoxesElementsCollect()
             .each((checkbox) => {
                 checkbox.getAttribute('value')
                     .then((text) => {
                         values.forEach((el) => {
                             if (el === text) {
-                                checkbox.click();
+                                utils.doClick(checkbox, 'click on checkbox');
+
                                 log.step('FilterRestaurantsPanel', 'setCheckBoxFilter', '');
                             }
                         });
@@ -83,8 +86,9 @@ class FilterRestaurantsPanel {
             .$(`ul + a[ng-click="select(null)"]`);
         browser.driver.actions().mouseMove(btnClear).perform();
 
-        return btnClear.click()
-            .then(() => log.step('FilterRestaurantsPanel', 'clearRadioFilter', ''));
+        return utils.doClick(btnClear, 'click on button Clear')
+            .then(() => log.step('FilterRestaurantsPanel', 'clearRadioFilter', ''))
+            .catch(() => Promise.reject(` : Error --- clickBtnPurchase`));
     }
 
     /**
@@ -92,10 +96,10 @@ class FilterRestaurantsPanel {
      * @returns {promise.Promise<any>}
      */
     clearCheckFilter() {
-        return this.getAllCheckBoxes().each((checkbox) => {
+        return this.getCheckBoxesElementsCollect().each((checkbox) => {
             checkbox.isSelected().then((selected) => {
                 if (selected === true) {
-                    checkbox.click();
+                    utils.doClick(checkbox, 'clear checkbox filter');
 
                     log.step('FilterRestaurantsPanel', 'clearCheckFilter', '');
                 }
@@ -110,8 +114,8 @@ class FilterRestaurantsPanel {
      * вернет массив элементов 'кухни'
      * @returns {ElementArrayFinder | *}
      */
-    getAllCheckBoxes() {
-        log.step('FilterRestaurantsPanel', 'getAllCheckBoxes', '');
+    getCheckBoxesElementsCollect() {
+        log.step('FilterRestaurantsPanel', 'getCheckBoxesElementsCollect', '');
 
         return this.rootCheckBoxFilter.$$(`input[type="checkbox"]`);
     }

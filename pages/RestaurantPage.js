@@ -8,6 +8,7 @@ class RestaurantPage  extends Page {
 
     constructor() {
         super(`Restaurant Page`);
+        this.className = 'RestaurantPage';
         this.rootMenu = new BaseElement('rootMenu', `div.span8.fm-panel.fm-menu-list`);
         this.rootCard = $(`div.span4.fm-panel.fm-cart`);
         this.btnCheckout = new Button('Checkout', `div.pull-right`);
@@ -20,17 +21,19 @@ class RestaurantPage  extends Page {
      */
     addToOrder(index) {
         if (!utils.isRightIndex(index)) throw new Error(`RestaurantPage: index is incorrect`);
+        let btnAddDishToOrder = this.getPriceListElementsCollect().get(index).$(`a`);
 
-        return this.getAllPriceList().get(index).$(`a`).click()
-            .then(() => log.step('RestaurantPage', 'addToOrder', 'click on selected dish'));
+        return utils.doClick(btnAddDishToOrder, 'click on selected dish')
+            .then(() => log.step(this.className, 'addToOrder', 'click on selected dish'))
+            .catch(() => Promise.reject(`${this.className} : Error --- addToOrder`));
     }
 
     /**
      * вернуть элемент с перечнем блюд в заказе
      * @returns {ElementArrayFinder}
      */
-    getOrder() {
-        log.step('RestaurantPage', 'getOrder', 'get element with order');
+    getOrderElementsCollect() {
+        log.step(this.className, 'getOrderElementsCollect', 'get element with order');
 
         return this.rootCard.all(by.repeater('item in cart.items'));
     }
@@ -39,8 +42,8 @@ class RestaurantPage  extends Page {
      * вернуть перечень блюд из меню
      * @returns {ElementArrayFinder}
      */
-    getAllPriceList() {
-        log.step('RestaurantPage', 'getAllPriceList', 'get price list');
+    getPriceListElementsCollect() {
+        log.step(this.className, 'getPriceListElementsCollect', 'get price list');
 
         return this.rootMenu.findElementsByRepeater('menuItem in restaurant.menuItems');
     }
@@ -49,8 +52,8 @@ class RestaurantPage  extends Page {
      * вернуть элемент со стоимостью заказа
      * @returns {ElementFinder}
      */
-    getTotalPrice() {
-        log.step('RestaurantPage', 'getTotalPrice', 'get total cost');
+    getTotalPriceElement() {
+        log.step(this.className, 'getTotalPriceElement', 'get total cost');
 
         return this.rootCard.$(`b.ng-binding`);
     }
@@ -63,7 +66,7 @@ class RestaurantPage  extends Page {
     // removeOrderItem(index) {
     //     if (!utils.isRightIndex(index)) throw new Error(`RestaurantPage: index is incorrect`);
     //
-    //     let btnRemove = this.getOrder().$$(`a`).get(index);
+    //     let btnRemove = this.getOrderElementsCollect().$$(`a`).get(index);
     //     browser.driver.actions().mouseMove(btnRemove).perform();
     //
     //     return btnRemove.click()
@@ -75,19 +78,25 @@ class RestaurantPage  extends Page {
      * @returns {promise.Promise<any>}
      */
     sortMenuByPriceDec() {
-        return this.getAllPriceList().map((item, index) => {
+        return this.getPriceListElementsCollect().map((item, index) => {
+            return item.evaluate('menuItem')
+                .then((menuItem) => {
+                    log.step(this.className, 'sortMenuByPriceDec', 'return objects array');
 
-            return {
-                value: item.evaluate('menuItem.price'),
-                name: item.evaluate('menuItem.name'),
-                index: index
-            };
+                    return {
+                        value: menuItem.price,
+                        name: menuItem.name,
+                        index: index
+                    }
+                })
+
         })
             .then((unSorted) => {
-                log.step('RestaurantPage', 'sortMenuByPriceDec', 'get sorted by prices array ');
+                log.step(this.className, 'sortMenuByPriceDec', 'get sorted by prices array ');
 
                 return unSorted.sort((a, b) => a.value - b.value)
-            });
+            })
+            .catch(() => Promise.reject(`${this.className} : Error --- sortMenuByPriceDec`));
     }
 
     /**
@@ -96,7 +105,8 @@ class RestaurantPage  extends Page {
     getOrderNamesList() {
         log.step('RestaurantPage', 'getOrderNamesList', 'get array of dishes names');
 
-        return this.getOrder().map((item) => item.evaluate('item.name'));
+        return this.getOrderElementsCollect().map((item) => item.evaluate('item.name'))
+            .catch(() => Promise.reject(`${this.className} : Error --- sortMenuByPriceDec`));
     }
 
     /**
@@ -104,7 +114,7 @@ class RestaurantPage  extends Page {
      */
     makeCheckout() {
         return this.btnCheckout.click()
-            .then(() => log.step('RestaurantPage', 'makeCheckout', 'click on btnCheckout'));
+            .then(() => log.step(this.className, 'makeCheckout', 'click on btnCheckout'));
     }
 
     /**
@@ -112,14 +122,16 @@ class RestaurantPage  extends Page {
      * @returns {promise.Promise<any[]>}
      */
     getRestaurantInfo() {
-        log.step('RestaurantPage', 'getRestaurantInfo', 'get restaurant info');
+        log.step(this.className, 'getRestaurantInfo', 'get restaurant info');
 
-        return $$('div.span10').map((el) => {
+
+        return $$('div.span10').map((curElem) => {
             return {
-                name: el.evaluate('restaurant.name'),
-                description: el.evaluate('restaurant.description')
+                name: curElem.$('h3').getText(),
+                description: curElem.$('.span4').getText()
             }
-        });
+        })
+            .catch(() => Promise.reject(`${this.className} : Error --- sortMenuByPriceDec`));
     }
 }
 

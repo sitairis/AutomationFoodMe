@@ -92,9 +92,8 @@ class RestaurantPage  extends Page {
 
     /**
      * вернуть массив названий блюд из заказа
-     * @param orderList
      */
-    getOrderNamesList(orderList) {
+    getOrderNamesList() {
         log.step('RestaurantPage', 'getOrderNamesList', 'get array of dishes names');
 
         return this.getOrder().map((item) => item.evaluate('item.name'));

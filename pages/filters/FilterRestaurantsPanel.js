@@ -19,7 +19,7 @@ class FilterRestaurantsPanel {
             .$$(`li[ng-class="style"]`)
             .get(Number.parseInt(ratingValue))
             .click()
-            .then(() => log.step('FilterRestaurantsPanel', 'setRatingFilter','set rating/price filter'));
+            .then(() => log.step('FilterRestaurantsPanel', 'setRatingFilter', 'set rating/price filter'));
     }
 
     /**
@@ -29,9 +29,9 @@ class FilterRestaurantsPanel {
      * @private
      */
     _getRootRadioBtnFilterElement(typeFilter) {
-        log.step('FilterRestaurantsPanel', '_getRootRadioBtnFilterElement','get root element for filter');
-
         if (!utils.isRightTypeFilter(typeFilter)) throw new Error(`FilterRestaurantsPanel: typeFilter is incorrect`);
+
+        log.step('FilterRestaurantsPanel', '_getRootRadioBtnFilterElement', 'get root element for filter');
 
         let root = null;
         FiltersData.TYPES_RADIO_FILTERS.forEach((item) => {
@@ -50,7 +50,6 @@ class FilterRestaurantsPanel {
      * @returns {promise.Promise<any>}
      */
     setCheckBoxFilter(typeFilter, [...values]) {
-
         if (!utils.isString(typeFilter) || typeFilter.toLowerCase() !== 'cuisines') throw new Error(`FilterRestaurantsPanel: typeFilter is incorrect`);
         if (!Array.isArray(values)) throw new Error(`FilterRestaurantsPanel: values is not an array`);
         if (utils.isEmptyArray(values)) throw new Error(`FilterRestaurantsPanel: values is empty`);
@@ -62,7 +61,7 @@ class FilterRestaurantsPanel {
                         values.forEach((el) => {
                             if (el === text) {
                                 checkbox.click();
-                                log.step('FilterRestaurantsPanel', 'setCheckBoxFilter','');
+                                log.step('FilterRestaurantsPanel', 'setCheckBoxFilter', '');
                             }
                         });
                     });
@@ -85,7 +84,7 @@ class FilterRestaurantsPanel {
         browser.driver.actions().mouseMove(btnClear).perform();
 
         return btnClear.click()
-            .then(() => log.step('FilterRestaurantsPanel', 'clearRadioFilter',''));
+            .then(() => log.step('FilterRestaurantsPanel', 'clearRadioFilter', ''));
     }
 
     /**
@@ -93,16 +92,15 @@ class FilterRestaurantsPanel {
      * @returns {promise.Promise<any>}
      */
     clearCheckFilter() {
-        return this.getAllCheckBoxes()
-            .each((checkbox) => {
-                checkbox.isSelected()
-                    .then((selected) => {
-                        if (selected === true) {
-                            checkbox.click();
-                            log.step('FilterRestaurantsPanel', 'clearCheckFilter','');
-                        }
-                    })
+        return this.getAllCheckBoxes().each((checkbox) => {
+            checkbox.isSelected().then((selected) => {
+                if (selected === true) {
+                    checkbox.click();
+
+                    log.step('FilterRestaurantsPanel', 'clearCheckFilter', '');
+                }
             })
+        })
             .catch((err) => {
                 throw new Error(`FilterRestaurantsPanel: Error --- clearCheckFilter: ${err.message}`);
             });
@@ -113,7 +111,7 @@ class FilterRestaurantsPanel {
      * @returns {ElementArrayFinder | *}
      */
     getAllCheckBoxes() {
-        log.step('FilterRestaurantsPanel', 'getAllCheckBoxes','');
+        log.step('FilterRestaurantsPanel', 'getAllCheckBoxes', '');
 
         return this.rootCheckBoxFilter.$$(`input[type="checkbox"]`);
     }

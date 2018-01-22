@@ -5,6 +5,7 @@ class ThankYouPage extends Page{
 
     constructor(){
         super('Thank you page');
+        this.className = 'ThankYouPage';
         this.content = $('p.ng-binding');
     }
 
@@ -18,19 +19,21 @@ class ThankYouPage extends Page{
                 log.step('ThankYouPage', 'getID','get order id');
 
                 return id;
-            });
+            })
+            .catch(() => Promise.reject(`${this.className} : Error --- getID`));
     }
 
     /**
      * вернет строку с orderID
      */
-    getLineWithOrderID() {
+    getStringWithOrderID() {
         return this.content.getText()
             .then((text) => {
-                log.step('ThankYouPage', 'getLineWithOrderID','get text which contain order id');
+                log.step('ThankYouPage', 'getStringWithOrderID','get text which contain order id');
 
                 return text;
-            });
+            })
+            .catch(() => Promise.reject(`${this.className} : Error --- getStringWithOrderID`));
     }
 }
 

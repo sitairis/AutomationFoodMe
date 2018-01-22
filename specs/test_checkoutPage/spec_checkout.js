@@ -44,7 +44,7 @@ describe('test for checkout page', () => {
                     .then((sortedPrices) => {
                         let dishes = sortedPrices.slice(0, UsersData.personsAmount);
 
-                        listProperties = utils.getListValues(sortedPrices);
+                        listProperties = utils.getListRestaurantInfo(sortedPrices);
 
                         log.testStep('test for checkout page', 6, 'add dishes to order');
                         return dishes.forEach((dish) => restaurantPage.addToOrder(dish.index))
@@ -58,7 +58,7 @@ describe('test for checkout page', () => {
 
                         log.testStep('test for checkout page', 8, 'compare order list and dishes list');
                         return checkoutPage.getPropertiesOfOrderItems()
-                            .then((properties) => utils.getListValues(properties))
+                            .then((properties) => utils.getListRestaurantInfo(properties))
                             .then((properties) => properties.forEach((property, index) => expect(property).toEqual(listProperties[index])));
                     });
             });

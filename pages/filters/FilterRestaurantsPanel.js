@@ -31,7 +31,7 @@ class FilterRestaurantsPanel {
      * @private
      */
     _getRootRadioBtnFilterElement(typeFilter) {
-        if (!utils.isRightTypeFilter(typeFilter)) throw new Error(`${this.className} : typeFilter is incorrect`);
+        if (!utils.isValidTypeFilter(typeFilter)) throw new Error(`${this.className} : typeFilter is incorrect`);
 
         log.step(this.className, '_getRootRadioBtnFilterElement', 'get root element for filter');
 

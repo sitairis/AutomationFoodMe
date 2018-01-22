@@ -44,6 +44,7 @@ describe('test for rating filter', () => {
  */
 function recursGetCountRatedRestaurants(filterPanel, mainPage, maxRating) {
     log.step('test for rating filter', 'recursGetCountRatedRestaurants','get restaurants count');
+
     return filterPanel.setRatingFilter('rating', maxRating)
         .then(() => {
             return mainPage.getAllRestaurants().count()

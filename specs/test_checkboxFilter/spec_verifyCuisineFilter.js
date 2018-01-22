@@ -30,6 +30,6 @@ describe('test for checkbox filter', () => {
 
         log.testStep('Verify cuisine filter', 2, 'check cuisine(s)');
         filterPanel.setCheckBoxFilter(`Cuisines`, utils.getCuisinesName(cuisines))
-            .then(() => expect(mainPage.getAllRestaurants().count()).toEqual(utils.getTotalCount(cuisines)));
+            .then(() => expect(mainPage.getRestaurantsElementsCollect().count()).toEqual(utils.getTotalCount(cuisines)));
     });
 });

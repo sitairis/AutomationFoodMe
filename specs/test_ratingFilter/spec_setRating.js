@@ -47,7 +47,7 @@ function recursGetCountRatedRestaurants(filterPanel, mainPage, maxRating) {
 
     return filterPanel.setRatingFilter('rating', maxRating)
         .then(() => {
-            return mainPage.getAllRestaurants().count()
+            return mainPage.getRestaurantsElementsCollect().count()
         })
         .then((count) => {
             if (count) {

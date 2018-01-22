@@ -20,7 +20,7 @@ class RestaurantPage  extends Page {
      * @returns {!webdriver.promise.Promise.<void>}
      */
     addToOrder(index) {
-        if (!utils.isRightIndex(index)) throw new Error(`RestaurantPage: index is incorrect`);
+        if (!utils.isValidIndex(index)) throw new Error(`RestaurantPage: index is incorrect`);
         let btnAddDishToOrder = this.getPriceListElementsCollect().get(index).$(`a`);
 
         return utils.doClick(btnAddDishToOrder, 'click on selected dish')
@@ -64,7 +64,7 @@ class RestaurantPage  extends Page {
     //  * @returns {*}
     //  */
     // removeOrderItem(index) {
-    //     if (!utils.isRightIndex(index)) throw new Error(`RestaurantPage: index is incorrect`);
+    //     if (!utils.isValidIndex(index)) throw new Error(`RestaurantPage: index is incorrect`);
     //
     //     let btnRemove = this.getOrderElementsCollect().$$(`a`).get(index);
     //     browser.driver.actions().mouseMove(btnRemove).perform();

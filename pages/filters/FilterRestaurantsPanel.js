@@ -31,7 +31,7 @@ class FilterRestaurantsPanel {
      * @private
      */
     _getRootRadioBtnFilterElement(typeFilter) {
-        if (!utils.isRightTypeFilter(typeFilter)) throw new Error(`FilterRestaurantsPanel: typeFilter is incorrect`);
+        if (!utils.isRightTypeFilter(typeFilter)) throw new Error(`${this.className} : typeFilter is incorrect`);
 
         log.step(this.className, '_getRootRadioBtnFilterElement', 'get root element for filter');
 
@@ -52,9 +52,9 @@ class FilterRestaurantsPanel {
      * @returns {promise.Promise<any>}
      */
     setCheckBoxFilter(typeFilter, [...values]) {
-        if (!utils.isString(typeFilter) || typeFilter.toLowerCase() !== 'cuisines') throw new Error(`FilterRestaurantsPanel: typeFilter is incorrect`);
-        if (!Array.isArray(values)) throw new Error(`FilterRestaurantsPanel: values is not an array`);
-        if (utils.isEmptyArray(values)) throw new Error(`FilterRestaurantsPanel: values is empty`);
+        if (!utils.isString(typeFilter) || typeFilter.toLowerCase() !== 'cuisines') throw new Error(`${this.className}: typeFilter is incorrect`);
+        if (!Array.isArray(values)) throw new Error(`${this.className}: values is not an array`);
+        if (utils.isEmptyArray(values)) throw new Error(`${this.className}: values is empty`);
 
         return this.getCheckBoxesElementsCollect()
             .each((checkbox) => {

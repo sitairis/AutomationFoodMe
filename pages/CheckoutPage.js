@@ -8,7 +8,6 @@ class CheckoutPage  extends Page {
     constructor() {
         super(`Checkout Page`);
         this.className = 'CheckoutPage';
-
         this.root = new baseEl('root', 'table');
         this.cmbCardType = element(by.model('cart.payment.type'));
         this.txbNumderCard = element(by.model('cart.payment.number'));
@@ -21,9 +20,8 @@ class CheckoutPage  extends Page {
      * кликнет на кнопку 'purchase'
      */
     clickBtnPurchase() {
-        return this.btnPurchase.isEnabled()
-            .then(() => utils.doClick(this.btnPurchase, 'click on btnPurchase'))
-            .then(() => log.step(this.className, 'clickBtnPurchase','click on btnPurchase'))
+        return utils.doClick(this.btnPurchase, 'click on btnPurchase')
+            .then(() => log.step(this.className, 'clickBtnPurchase', 'click on btnPurchase'))
             .catch(() => Promise.reject(`${this.className} : Error --- clickBtnPurchase`));
     }
 
@@ -33,10 +31,10 @@ class CheckoutPage  extends Page {
      * @returns {promise.Promise<void>}
      */
     typeCVC(cvc) {
-        if (!utils.isRightCVC(cvc)) throw new Error(`CheckoutPage: cvc = ${cvc} is incorrect`);
+        if (!utils.isValidCVC(cvc)) throw new Error(`CheckoutPage: cvc = ${cvc} is incorrect`);
 
         return utils.doSendKeys(this.txbCVC, `${cvc}`, 'type CVC field')
-            .then(() => log.step(`${this.className}`, 'typeCVC','type CVC field'))
+            .then(() => log.step(`${this.className}`, 'typeCVC', 'type CVC field'))
             .catch(() => Promise.reject(`${this.className} : Error --- typeCVC`));
     }
 
@@ -47,10 +45,10 @@ class CheckoutPage  extends Page {
      * @returns {promise.Promise<void>}
      */
     typeExpire(dd, yyyy) {
-        if (!utils.isRightExpire(dd, yyyy)) throw new Error(`CheckoutPage: expire = ${dd}/${yyyy} is incorrect`);
+        if (!utils.isValidExpire(dd, yyyy)) throw new Error(`CheckoutPage: expire = ${dd}/${yyyy} is incorrect`);
 
         return utils.doSendKeys(this.txbExpire, `${dd}/${yyyy}`, 'type expire field')
-            .then(() => log.step('CheckoutPage', 'typeExpire','type expire field'))
+            .then(() => log.step('CheckoutPage', 'typeExpire', 'type expire field'))
             .catch(() => Promise.reject(`${this.className} : Error --- typeExpire`));
     }
 
@@ -60,10 +58,10 @@ class CheckoutPage  extends Page {
      * @returns {ActionSequence | promise.Promise<void> | promise.Promise<void> | * | ActionSequence | webdriver.promise.Promise<void>}
      */
     typeNumberCard(number) {
-        if (!utils.isRightCardNumber(number)) throw new Error(`CheckoutPage: number = ${number} is incorrect`);
+        if (!utils.isValidCardNumber(number)) throw new Error(`CheckoutPage: number = ${number} is incorrect`);
 
         return utils.doSendKeys(this.txbNumderCard, `${number}`, 'type curd number field')
-            .then(() => log.step('CheckoutPage', 'typeNumberCard','type curd number field'))
+            .then(() => log.step('CheckoutPage', 'typeNumberCard', 'type curd number field'))
             .catch(() => Promise.reject(`${this.className} : Error --- typeNumberCard`));
     }
 
@@ -73,11 +71,11 @@ class CheckoutPage  extends Page {
      */
     selectOption(option) {
         if (!utils.isString(option)) throw new Error(`CheckoutPage: option is not a string`);
-        if (!utils.isRightOption(option)) throw new Error(`CheckoutPage: not found option = ${option}`);
+        if (!utils.isValidOption(option)) throw new Error(`CheckoutPage: not found option = ${option}`);
 
         return utils.doClick(this.cmbCardType, 'select card type')
             .then(() => utils.doClick(this.cmbCardType.$(`[value=${option}]`), 'select card type'))
-            .then(() => log.step('CheckoutPage', 'selectOption','select card type'))
+            .then(() => log.step('CheckoutPage', 'selectOption', 'select card type'))
             .catch(() => Promise.reject(`${this.className} : Error --- selectOption`));
     }
 
@@ -86,7 +84,7 @@ class CheckoutPage  extends Page {
      * @returns {ElementArrayFinder}
      */
     getOrderItemsElementsCollect() {
-        log.step('CheckoutPage', 'getOrderItemsElementsCollect','get all items from order');
+        log.step('CheckoutPage', 'getOrderItemsElementsCollect', 'get all items from order');
 
         return this.root.findElementsByRepeater(`item in cart.items`);
     }
@@ -95,22 +93,20 @@ class CheckoutPage  extends Page {
      * вернет массив объектов с информацией о содержимом заказа {value, name, qty}
      */
     getPropertiesOfOrderItems() {
-        log.step('CheckoutPage', 'getPropertiesOfOrderItems','get prices and names from order list');
-
         return this.getOrderItemsElementsCollect().map((item) => {
 
             return item.evaluate('item')
                 .then((itemProperties) => {
+                    log.step('CheckoutPage', 'getPropertiesOfOrderItems', 'get prices and names from order list');
                     return {
                         value: itemProperties.price,
                         name: itemProperties.name,
-                        qty : itemProperties.qty
+                        qty: itemProperties.qty
                     }
                 })
-        });
+        })
+            .catch(() => Promise.reject(`${this.className} : Error --- getPropertiesOfOrderItems`));
     }
-
-
 }
 
 module.exports = CheckoutPage;

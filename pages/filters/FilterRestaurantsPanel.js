@@ -88,7 +88,7 @@ class FilterRestaurantsPanel {
 
         return utils.doClick(btnClear, 'click on button Clear')
             .then(() => log.step(this.className, 'clearRadioFilter', ''))
-            .catch(() => Promise.reject(`${this.className} : Error --- clickBtnPurchase`));
+            .catch(() => Promise.reject(`${this.className} : Error --- clearRadioFilter`));
     }
 
     /**

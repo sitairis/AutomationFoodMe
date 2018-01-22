@@ -6,6 +6,10 @@ class DeliverForm {
         this.btnDeliver = $(`a.pull-right`);
     }
 
+    /**
+     * нажатие кнопки 'Change'
+     * @returns {promise.Promise<any>}
+     */
     changeDeliver() {
         return utils.doClick(this.btnDeliver, 'click on btnDeliver')
             .then(() => log.step('DeliverForm', 'changeDeliver','click on btnDeliver'))

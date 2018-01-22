@@ -1,19 +1,13 @@
 let Page = require('./Page');
-let utils = require(`../utils/utils`);
+let utils = require(`../lib/utils`);
+let baseEl = require('../elements/BaseElement');
+let log = require('../lib/Logger');
 
 class MainPage extends Page {
 
     constructor() {
         super(`main page`);
-        this.rootRestaurantList = $(`div.span9.fm-panel.fm-restaurant-list`);
-    }
-
-    /**
-     * вернет заголовок с количеством ресторанов
-     * @returns {*}
-     */
-    getListTitle() {
-        return this.rootRestaurantList.$(`h4`).getText();
+        this.rootRestaurantList = new baseEl('a', `div.span9.fm-panel.fm-restaurant-list`);
     }
 
     /**
@@ -24,9 +18,82 @@ class MainPage extends Page {
     openRestaurant(index) {
         if (!utils.isRightIndex(index)) throw new Error(`MainPage: index is incorrect`);
 
-        return this.rootRestaurantList.$$(`img.img-rounded.pull-left`).get(index).click();
+        return this.rootRestaurantList.findElementsByCSS(`img.img-rounded.pull-left`)
+            .get(index).click()
+            .then(() => log.step('MainPage', 'openRestaurant', 'click on selected restaurant'));
     }
 
+    /**
+     * вернуть все рестораны
+     * @returns {ElementArrayFinder}
+     */
+    getAllRestaurants() {
+        log.step('MainPage', 'getAllRestaurants', 'get all list of restaurants');
+        return element.all(by.repeater(`restaurant in restaurants`));
+    }
+
+    /**
+     * вернет отсортированный массив
+     * @param typeProp
+     * @param typeSort
+     */
+    sortRestaurants(typeProp, typeSort) {
+        return this.getRestaurantProperties(typeProp)
+            .then((unsorted) => {
+                log.step('MainPage', 'sortRestaurants', 'get sorted array - {prop,index}');
+
+                return unsorted.sort((a, b) => this._forSort(typeSort, a, b));
+            })
+            .catch(console.log.bind(console));
+    }
+
+    /**
+     *
+     * @param typeSort
+     * @param a
+     * @param b
+     * @returns {number}
+     * @private
+     */
+    _forSort(typeSort, a, b) {
+        if(typeSort === 'desc') {
+            return b.prop - a.prop
+        } else {
+            return a.prop - b.prop;
+        }
+    }
+
+    /**
+     * вернуть массив объектов ресторанов
+     * @param prop
+     */
+    getRestaurantProperties(prop) {
+        log.step('MainPage', 'getRestaurantProperties', 'get array by price/rating - {prop,index}');
+
+        return this.getAllRestaurants().map((currentRating, index) => {
+            return {
+                prop: currentRating.evaluate(`restaurant.${prop}`),
+                index: index
+            };
+        })
+    }
+
+    /**
+     * вернуть самый популярный, одновременно и самый дешевый ресторан
+     * @returns {Object}
+     */
+    findPopularCheapestRestaurant() {
+        return this.sortRestaurants('rating', 'desc')
+            .then((ratingArray) => {
+                return this.sortRestaurants('price', 'asc')
+                    .then((priceArray) => {
+                        log.step('MainPage', 'findPopularCheapestRestaurant', 'get array by price/rating - {prop,index}');
+
+                        return ratingArray.find((currentRating, index) => currentRating.index === priceArray[index].index);
+                    })
+            })
+            .catch(console.log.bind(console));
+    }
 }
 
 module.exports = MainPage;

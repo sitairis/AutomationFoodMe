@@ -4,16 +4,17 @@
   "description": "",
   "main": "spec.js",
   "scripts": {
-    "upwd": "node_modules/.bin/webdriver-manager update",
-    "wd": "node_modules/.bin/webdriver-manager start",
-    "test": "node node_modules/protractor/bin/protractor ./conf.js --suite all",
-    "expl" : "protractor --elementExplorer"
+    "upwd": "webdriver-manager update",
+    "wd": "webdriver-manager start",
+    "test": "protractor ./conf.js --suite all",
+    "expl": "protractor --elementExplorer"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "jasmine": "^2.8.0",
     "protractor": "^5.2.2",
-    "selenium-webdriver": "^3.6.0"
+    "selenium-webdriver": "^3.6.0",
+    "winston": "^2.4.0"
   }
 }

@@ -7,7 +7,7 @@
     },
     {
       "index": "2",
-      "description": "set popular rating",
+      "description": "find the most rated restaurant",
       "expected": "range of restaurants"
     },
     {

@@ -12,8 +12,9 @@ exports.config = {
         }
     },
     suites: {
-        checkout: './specs/test_CheckoutPage/spec_checkout.js',
-        restPage: './specs/test_RestaurantPage/*.js',
+        checkout: './specs/test_checkoutPage/*.js',
+        order: './specs/test_makeOrder/*.js',
+        restPage: './specs/test_restaurantPage/*.js',
         rating: './specs/test_ratingFilter/*.js',
         checkbox: './specs/test_checkboxFilter/*.js',
         all: './specs/*/*.js'
@@ -22,6 +23,7 @@ exports.config = {
     onPrepare: function () {
         let AuthPage = require('./pages/AuthPage');
         let DeliverForm = require('./pages/Deliver');
+        let UsersData = require('./UsersData');
 
         beforeAll((done) => {
             let authorizationForm = new AuthPage();
@@ -30,7 +32,7 @@ exports.config = {
 
             authorizationForm.navigate()
                 .then(() => browser.ignoreSynchronization = false)
-                .then(() => authorizationForm.authorizate("name", "address"))
+                .then(() => authorizationForm.authorizate(UsersData.nameDeliver, UsersData.address))
                 .then(() => done())
                 .catch(err => done.fail(err));
         });

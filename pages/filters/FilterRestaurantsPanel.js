@@ -1,5 +1,6 @@
-let utils = require('../../utils/utils');
-let filtersData = require('./filtersData');
+let utils = require('../../lib/utils');
+let FiltersData = require('./FiltersData');
+let log = require('../../lib/Logger');
 
 class FilterRestaurantsPanel {
 
@@ -8,16 +9,17 @@ class FilterRestaurantsPanel {
     }
 
     /**
-     *
+     * кликнуть на рейтинг
      * @param typeFilter
      * @param ratingValue
-     * @returns {*}
      */
     setRatingFilter(typeFilter, ratingValue) {
 
         return this._getRootRadioBtnFilterElement(typeFilter)
             .$$(`li[ng-class="style"]`)
-            .get(Number.parseInt(ratingValue)).click();
+            .get(Number.parseInt(ratingValue))
+            .click()
+            .then(() => log.step('FilterRestaurantsPanel', 'setRatingFilter','set rating/price filter'));
     }
 
     /**
@@ -27,10 +29,12 @@ class FilterRestaurantsPanel {
      * @private
      */
     _getRootRadioBtnFilterElement(typeFilter) {
+        log.step('FilterRestaurantsPanel', '_getRootRadioBtnFilterElement','get root element for filter');
+
         if (!utils.isRightTypeFilter(typeFilter)) throw new Error(`FilterRestaurantsPanel: typeFilter is incorrect`);
 
         let root = null;
-        filtersData.TYPES_RADIO_FILTERS.forEach((item) => {
+        FiltersData.TYPES_RADIO_FILTERS.forEach((item) => {
             if (typeFilter.toLowerCase() === item) {
                 root = element(by.model(`$parent.filter.${item}`));
             }
@@ -40,21 +44,25 @@ class FilterRestaurantsPanel {
     }
 
     /**
-     *
+     * кликает на 'кухни'
      * @param typeFilter
      * @param values
      * @returns {promise.Promise<any>}
      */
     setCheckBoxFilter(typeFilter, [...values]) {
-        if (!utils.isRightTypeFilter(typeFilter) || typeFilter.toLowerCase() !== 'cuisines') throw new Error(`FilterRestaurantsPanel: typeFilter is incorrect`);
-        utils.RightValues(values);
+
+        if (!utils.isString(typeFilter) || typeFilter.toLowerCase() !== 'cuisines') throw new Error(`FilterRestaurantsPanel: typeFilter is incorrect`);
+        utils.rightValues(values);
 
         return this.getAllCheckBoxes()
             .each((checkbox) => {
                 checkbox.getAttribute('value')
                     .then((text) => {
                         values.forEach((el) => {
-                            if (el === text) checkbox.click()
+                            if (el === text) {
+                                checkbox.click();
+                                log.step('FilterRestaurantsPanel', 'setCheckBoxFilter','');
+                            }
                         });
                     });
             })
@@ -75,12 +83,12 @@ class FilterRestaurantsPanel {
             .$(`ul + a[ng-click="select(null)"]`);
         browser.driver.actions().mouseMove(btnClear).perform();
 
-        return btnClear.click();
-
+        return btnClear.click()
+            .then(() => log.step('FilterRestaurantsPanel', 'clearRadioFilter',''));
     }
 
     /**
-     *
+     * очищает фильтр с 'кухнями'
      * @returns {promise.Promise<any>}
      */
     clearCheckFilter() {
@@ -88,7 +96,10 @@ class FilterRestaurantsPanel {
             .each((checkbox) => {
                 checkbox.isSelected()
                     .then((selected) => {
-                        if (selected === true) checkbox.click();
+                        if (selected === true) {
+                            checkbox.click();
+                            log.step('FilterRestaurantsPanel', 'clearCheckFilter','');
+                        }
                     })
             })
             .catch((err) => {
@@ -97,10 +108,12 @@ class FilterRestaurantsPanel {
     }
 
     /**
-     *
+     * вернет массив элементов 'кухни'
      * @returns {ElementArrayFinder | *}
      */
     getAllCheckBoxes() {
+        log.step('FilterRestaurantsPanel', 'getAllCheckBoxes','');
+
         return this.rootCheckBoxFilter.$$(`input[type="checkbox"]`);
     }
 }

@@ -1,88 +1,81 @@
-let utils = require(`../utils/utils`);
+let utils = require(`../lib/utils`);
 let Page = require('./Page');
+let Button = require('../elements/Button');
+let BaseElement = require('../elements/BaseElement');
+let log = require('../lib/Logger');
 
 class RestaurantPage  extends Page {
 
     constructor() {
         super(`Restaurant Page`);
-        this.rootMenu = $(`div.span8.fm-panel.fm-menu-list`);
+        this.rootMenu = new BaseElement('rootMenu', `div.span8.fm-panel.fm-menu-list`);
         this.rootCard = $(`div.span4.fm-panel.fm-cart`);
-        this.btnCheckout = $(`div.pull-right`);
-    }
-
-    /**
-     * получить перечень блюд из меню
-     * @returns {ElementArrayFinder}
-     */
-    getAllMenu() {
-        return this.rootMenu.$$(`li.ng-scope`);
+        this.btnCheckout = new Button('Checkout', `div.pull-right`);
     }
 
     /**
      * добавить блюдо в заказ
      * @param index
-     * @returns {*}
+     * @returns {!webdriver.promise.Promise.<void>}
      */
     addToOrder(index) {
         if (!utils.isRightIndex(index)) throw new Error(`RestaurantPage: index is incorrect`);
 
-        return this.getAllMenu().get(index).$(`a`).click();
+        return this.getAllPriceList().get(index).$(`a`).click()
+            .then(() => log.step('RestaurantPage', 'addToOrder', 'click on selected dish'));
     }
 
     /**
-     * получить элемент с перечнем блюд в заказе
-     * @returns {ElementFinder}
-     */
-    getOrder() {
-        return this.rootCard.$(`ul.unstyled`);
-    }
-
-    /**
-     * список заказанных блюд
+     * вернуть элемент с перечнем блюд в заказе
      * @returns {ElementArrayFinder}
      */
-    getAllOrderList() {
-        return this.getOrder().all(by.repeater(`item in cart.items`));
+    getOrder() {
+        log.step('RestaurantPage', 'getOrder', 'get element with order');
+
+        return this.rootCard.all(by.repeater('item in cart.items'));
     }
 
     /**
-     *
+     * вернуть перечень блюд из меню
      * @returns {ElementArrayFinder}
      */
     getAllPriceList() {
-        return this.rootMenu.all(by.repeater('menuItem in restaurant.menuItems'));
+        log.step('RestaurantPage', 'getAllPriceList', 'get price list');
+
+        return this.rootMenu.findElementsByRepeater('menuItem in restaurant.menuItems');
     }
 
     /**
-     * получить элемент со стоимостью заказа
+     * вернуть элемент со стоимостью заказа
      * @returns {ElementFinder}
      */
-    getOrderPrice() {
+    getTotalPrice() {
+        log.step('RestaurantPage', 'getTotalPrice', 'get total cost');
+
         return this.rootCard.$(`b.ng-binding`);
     }
 
+    // /**
+    //  * удалить блюдо из заказа
+    //  * @param index
+    //  * @returns {*}
+    //  */
+    // removeOrderItem(index) {
+    //     if (!utils.isRightIndex(index)) throw new Error(`RestaurantPage: index is incorrect`);
+    //
+    //     let btnRemove = this.getOrder().$$(`a`).get(index);
+    //     browser.driver.actions().mouseMove(btnRemove).perform();
+    //
+    //     return btnRemove.click()
+    //         .then(() => log.step('RestaurantPage', 'removeOrderItem', 'click on btnRemove dish'));
+    // }
+
     /**
-     * удалить блюдо из заказа
-     * @param index
-     * @returns {*}
+     * вернуть сорированный по цене по убыванию массив объектов
+     * @returns {promise.Promise<any>}
      */
-    removeOrderItem(index) {
-        if (!utils.isRightIndex(index)) throw new Error(`RestaurantPage: index is incorrect`);
-
-        let btnRemove = this.getOrder().$$(`a`).get(index);
-        browser.driver.actions().mouseMove(btnRemove).perform();
-
-        return btnRemove.click();
-    }
-
-    /**
-     *
-     * @param allItems
-     * @returns {Array}
-     */
-    sortPriceByDec(allItems) {
-
-        return allItems.map((item, index) => {
+    sortMenuByPriceDec() {
+        return this.getAllPriceList().map((item, index) => {
 
             return {
                 value: item.evaluate('menuItem.price'),
@@ -90,23 +83,44 @@ class RestaurantPage  extends Page {
                 index: index
             };
         })
-            .then((unSorted) => unSorted.sort((a, b) => a.value - b.value));
+            .then((unSorted) => {
+                log.step('RestaurantPage', 'sortMenuByPriceDec', 'get sorted by prices array ');
+
+                return unSorted.sort((a, b) => a.value - b.value)
+            });
     }
 
     /**
-     * названия блюд из заказа
-     * @param orderList     *
+     * вернуть массив названий блюд из заказа
+     * @param orderList
      */
     getOrderNamesList(orderList) {
-        return orderList.$$('li').map((item) => item.evaluate('item.name'));
+        log.step('RestaurantPage', 'getOrderNamesList', 'get array of dishes names');
+
+        return this.getOrder().map((item) => item.evaluate('item.name'));
     }
 
     /**
-     *
-     * @returns {*}
+     * клик на кнупку 'checkout'
      */
     makeCheckout() {
-        return this.btnCheckout.click();
+        return this.btnCheckout.click()
+            .then(() => log.step('RestaurantPage', 'makeCheckout', 'click on btnCheckout'));
+    }
+
+    /**
+     * вернеть массив с информацией о ресторане
+     * @returns {promise.Promise<any[]>}
+     */
+    getRestaurantInfo() {
+        log.step('RestaurantPage', 'getRestaurantInfo', 'get restaurant info');
+
+        return $$('div.span10').map((el) => {
+            return {
+                name: el.evaluate('restaurant.name'),
+                description: el.evaluate('restaurant.description')
+            }
+        });
     }
 }
 

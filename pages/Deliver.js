@@ -1,10 +1,13 @@
+let log = require('../lib/Logger');
+
 class DeliverForm {
     constructor() {
-        this.deliver = $(`a.pull-right`);
+        this.btnDeliver = $(`a.pull-right`);
     }
 
     changeDeliver() {
-        return this.deliver.click();
+        return this.btnDeliver.click()
+            .then(() => log.step('DeliverForm', 'changeDeliver','click on btnDeliver'));
     }
 }
 

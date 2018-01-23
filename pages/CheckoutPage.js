@@ -31,8 +31,6 @@ class CheckoutPage  extends Page {
      * @returns {promise.Promise<void>}
      */
     typeCVC(cvc) {
-        if (!utils.isValidCVC(cvc)) throw new Error(`CheckoutPage: cvc = ${cvc} is incorrect`);
-
         return utils.doSendKeys(this.txbCVC, `${cvc}`, 'type CVC field')
             .then(() => log.step(`${this.className}`, 'typeCVC', 'type CVC field'))
             .catch(() => Promise.reject(`${this.className} : Error --- typeCVC`));
@@ -45,8 +43,6 @@ class CheckoutPage  extends Page {
      * @returns {promise.Promise<void>}
      */
     typeExpire(dd, yyyy) {
-        if (!utils.isValidExpire(dd, yyyy)) throw new Error(`CheckoutPage: expire = ${dd}/${yyyy} is incorrect`);
-
         return utils.doSendKeys(this.txbExpire, `${dd}/${yyyy}`, 'type expire field')
             .then(() => log.step('CheckoutPage', 'typeExpire', 'type expire field'))
             .catch(() => Promise.reject(`${this.className} : Error --- typeExpire`));
@@ -55,11 +51,9 @@ class CheckoutPage  extends Page {
     /**
      * записать номер карты
      * @param number
-     * @returns {ActionSequence | promise.Promise<void> | promise.Promise<void> | * | ActionSequence | webdriver.promise.Promise<void>}
+     * @returns promise.Promise<void>}
      */
     typeNumberCard(number) {
-        if (!utils.isValidCardNumber(number)) throw new Error(`CheckoutPage: number = ${number} is incorrect`);
-
         return utils.doSendKeys(this.txbNumderCard, `${number}`, 'type curd number field')
             .then(() => log.step('CheckoutPage', 'typeNumberCard', 'type curd number field'))
             .catch(() => Promise.reject(`${this.className} : Error --- typeNumberCard`));

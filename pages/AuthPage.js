@@ -1,5 +1,6 @@
 let log = require('../lib/Logger');
 let utils = require('../lib/utils');
+let UsersData = require('../UsersData');
 
 class AuthPage {
     constructor() {
@@ -16,7 +17,7 @@ class AuthPage {
     navigate() {
         return browser.get('#/customer')
             .then(() => log.step(this.className, 'navigate','open AuthPage'))
-            .catch(() => Promise.reject(`${this.className} : Error --- navigate`));
+            .catch((errorMessage) => Promise.reject(`${this.className} : Error --- navigate : ${errorMessage}`));
     }
 
     /**
@@ -28,7 +29,19 @@ class AuthPage {
         return this.fillInputName(name)
             .then(() => this.fillInputAddress(address))
             .then(() => this.pressFindRestaurantsButton())
-            .catch(() => Promise.reject(new Error(`${this.className} : Error --- authorizate`)));
+            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- authorizate : ${errorMessage}`)));
+    }
+
+    /**
+     *
+     */
+    doLogIn() {
+        browser.ignoreSynchronization = true;
+
+        return this.navigate()
+            .then(() => browser.ignoreSynchronization = false)
+            .then(() => this.authorizate(UsersData.nameDeliver, UsersData.address))
+            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- doLogIn : ${errorMessage}`)));
     }
 
     /**
@@ -39,7 +52,7 @@ class AuthPage {
     fillInputName(name) {
         return utils.doSendKeys(this.inputName, name, `type deliver's name`)
             .then(() =>  log.step(this.className, 'fillInputName',`type deliver's name`))
-            .catch(() => Promise.reject(new Error(`${this.className} : Error --- fillInputName`)));
+            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- fillInputName : ${errorMessage}`)));
     }
 
     /**
@@ -49,7 +62,7 @@ class AuthPage {
     pressFindRestaurantsButton() {
         return utils.doClick(this.btnFindRestaurants, `click on button 'Find Restaurants'`)
             .then(() => log.step(this.className, 'pressFindRestaurantsButton',`click on button 'Find Restaurants'`))
-            .catch(() => Promise.reject(new Error(`${this.className} : Error --- pressFindRestaurantsButton`)));
+            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- pressFindRestaurantsButton : ${errorMessage}`)));
     }
 
     /**
@@ -60,7 +73,7 @@ class AuthPage {
     fillInputAddress(address) {
         return utils.doSendKeys(this.inputAddress, address, `type deliver's address`)
             .then(() => log.step(this.className, 'fillInputAddress',`type deliver's address`))
-            .catch(() => Promise.reject(new Error(`${this.className} : Error --- fillInputAddress`)));
+            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- fillInputAddress : ${errorMessage}`)));
     }
 }
-module.exports = AuthPage;
+module.exports = new AuthPage();

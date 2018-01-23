@@ -17,7 +17,7 @@ class MainPage extends Page {
      * @returns {*}
      */
     openRestaurant(index) {
-        if (!utils.isValidIndex(index)) {
+        if (!utils.isIndexPositive(index)) {
             log.error(`${this.className} : openRestaurant : index is incorrect`);
             throw new Error(`${this.className} : openRestaurant : index is incorrect`);
         }
@@ -119,4 +119,4 @@ class MainPage extends Page {
     }
 }
 
-module.exports = MainPage;
+module.exports = new MainPage();

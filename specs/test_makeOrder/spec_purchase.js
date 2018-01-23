@@ -39,7 +39,7 @@ describe('test for purchase', () => {
         let filterPanel = new FilterPanel();
 
         log.testStep('test for purchase', 1, 'get cuisine(s) array from FiltersData');
-        let cuisines = utils.getCuisines();
+        let cuisines = utils.getCuisinesObjectsArray();
 
         log.testStep('test for purchase', 2, 'check cuisine(s)');
         filterPanel.setCheckBoxFilter(`Cuisines`, utils.getCuisinesName(cuisines))
@@ -75,7 +75,7 @@ describe('test for purchase', () => {
                         let checkoutPage = new CheckoutPage();
 
                         log.testStep('test for purchase', 9, 'save info about items in order');
-                        checkoutPage.getPropertiesOfOrderItems()
+                        checkoutPage.getInfoOfOrderItems()
                             .then((arrayItems) => {
                                 orderData.items = arrayItems;
                                 return orderData;

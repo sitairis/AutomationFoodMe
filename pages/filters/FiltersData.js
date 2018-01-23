@@ -11,6 +11,10 @@ exports.CUISINE = [
         countRatedRestaurants: {
             rating: 2,
             count: 1
+        },
+        countCheapest: {
+            rating: 2,
+            count: 1
         }
     },
     {
@@ -19,13 +23,21 @@ exports.CUISINE = [
         countRatedRestaurants: {
             rating: 4,
             count: 1
+        }, countCheapest: {
+            rating: 4,
+            count: 1
         }
+
     },
     {
         name:`barbecue`,
         countRestaurants : 2,
         countRatedRestaurants: {
             rating: 2,
+            count: 2
+        },
+        countCheapest: {
+            rating: 3,
             count: 2
         }
     },
@@ -35,6 +47,10 @@ exports.CUISINE = [
         countRatedRestaurants: {
             rating: 5,
             count: 1
+        },
+        countCheapest: {
+            rating: 1,
+            count: 1
         }
     },
     {
@@ -43,6 +59,10 @@ exports.CUISINE = [
         countRatedRestaurants: {
             rating: 4,
             count: 2
+        },
+        countCheapest: {
+            rating: 1,
+            count: 1
         }
     },
     {
@@ -50,6 +70,10 @@ exports.CUISINE = [
         countRestaurants : 2,
         countRatedRestaurants: {
             rating: 4,
+            count: 1
+        },
+        countCheapest: {
+            rating: 1,
             count: 1
         }
     },
@@ -59,6 +83,10 @@ exports.CUISINE = [
         countRatedRestaurants: {
             rating: 5,
             count: 1
+        },
+        countCheapest: {
+            rating: 3,
+            count: 3
         }
     },
     {
@@ -66,6 +94,10 @@ exports.CUISINE = [
         countRestaurants : 4,
         countRatedRestaurants: {
             rating: 5,
+            count: 1
+        },
+        countCheapest: {
+            rating: 3,
             count: 1
         }
     },
@@ -75,6 +107,10 @@ exports.CUISINE = [
         countRatedRestaurants: {
             rating: 5,
             count: 1
+        },
+        countCheapest: {
+            rating: 3,
+            count: 1
         }
     },
     {
@@ -82,6 +118,10 @@ exports.CUISINE = [
         countRestaurants : 4,
         countRatedRestaurants: {
             rating: 5,
+            count: 1
+        },
+        countCheapest: {
+            rating: 2,
             count: 1
         }
     },
@@ -91,6 +131,10 @@ exports.CUISINE = [
         countRatedRestaurants: {
             rating: 5,
             count: 2
+        },
+        countCheapest: {
+            rating: 1,
+            count: 1
         }
     },
     {
@@ -99,6 +143,10 @@ exports.CUISINE = [
         countRatedRestaurants: {
             rating: 5,
             count: 1
+        },
+        countCheapest: {
+            rating: 3,
+            count: 1
         }
     },
     {
@@ -106,6 +154,10 @@ exports.CUISINE = [
         countRestaurants: 1,
         countRatedRestaurants: {
             rating: 1,
+            count: 1
+        },
+        countCheapest: {
+            rating: 2,
             count: 1
         }
     }

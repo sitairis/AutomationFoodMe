@@ -1,32 +1,17 @@
-let FilterPanel = require(`../../pages/filters/FilterRestaurantsPanel`);
-let MainPage = require(`../../pages/MainPage`);
+let filterPanel = require(`../../pages/filters/FilterRestaurantsPanel`);
+let mainPage = require(`../../pages/MainPage`);
 let utils = require(`../../lib/utils`);
 let log = require('../../lib/Logger');
+let authForm = require('../../pages/AuthPage');
+
 
 describe('test for checkbox filter', () => {
 
-    beforeEach(() => {
-        let filterPanel = new FilterPanel();
+    beforeAll(() => authForm.doLogIn());
 
-        filterPanel.clearRadioFilter(`Rating`)
-            .then(() => filterPanel.clearRadioFilter(`Price`))
-            .then(() => filterPanel.clearCheckFilter());
-    });
-
-    afterEach(() => {
-        let filterPanel = new FilterPanel();
-
-        filterPanel.clearRadioFilter(`Rating`)
-            .then(() => filterPanel.clearRadioFilter(`Price`))
-            .then(() => filterPanel.clearCheckFilter());
-    });
-
-    it('should get countRestaurants of restaurants list', () => {
-        let mainPage = new MainPage();
-        let filterPanel = new FilterPanel();
-
+    it('should verify cuisines filter', () => {
         log.testStep('Verify cuisine filter', 1, 'get cuisine(s) array from FiltersData');
-        let cuisines = utils.getCuisines();
+        let cuisines = utils.getCuisinesObjectsArray();
 
         log.testStep('Verify cuisine filter', 2, 'check cuisine(s)');
         filterPanel.setCheckBoxFilter(`Cuisines`, utils.getCuisinesName(cuisines))

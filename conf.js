@@ -6,6 +6,8 @@ exports.config = {
     browser.get('http://localhost:5000/#/menu/babythai');*/
     specs: ['./specs/*/*.js'],
     capabilities: {
+        shardTestFiles: true,
+        maxInstances: 10,
         browserName: 'chrome',
         chromeOptions: {
             args: ['headless', 'disable-gpu']
@@ -20,31 +22,31 @@ exports.config = {
         all: './specs/*/*.js'
     },
 
-    onPrepare: function () {
-        let AuthPage = require('./pages/AuthPage');
-        let DeliverForm = require('./pages/Deliver');
-        let UsersData = require('./UsersData');
-
-        beforeAll((done) => {
-            let authorizationForm = new AuthPage();
-
-            browser.ignoreSynchronization = true;
-
-            authorizationForm.navigate()
-                .then(() => browser.ignoreSynchronization = false)
-                .then(() => authorizationForm.authorizate(UsersData.nameDeliver, UsersData.address))
-                .then(() => done())
-                .catch(err => done.fail(err));
-        });
-
-        afterAll((done) => {
-            let deliverForm = new DeliverForm();
-
-            $(`ul.nav a[href="#/"]`).click()
-                .then(() => deliverForm.changeDeliver())
-                .then(() => done())
-                .catch(err => done.fail(err));
-
-        });
-    }
+    // onPrepare: function () {
+    //     let AuthPage = require('./pages/AuthPage');
+    //     let DeliverForm = require('./pages/Deliver');
+    //     let UsersData = require('./UsersData');
+    //
+    //     beforeAll((done) => {
+    //         let authorizationForm = new AuthPage();
+    //
+    //         browser.ignoreSynchronization = true;
+    //
+    //         authorizationForm.navigate()
+    //             .then(() => browser.ignoreSynchronization = false)
+    //             .then(() => authorizationForm.authorizate(UsersData.nameDeliver, UsersData.address))
+    //             .then(() => done())
+    //             .catch(err => done.fail(err));
+    //     });
+    //
+    //     afterAll((done) => {
+    //         let deliverForm = new DeliverForm();
+    //
+    //         $(`ul.nav a[href="#/"]`).click()
+    //             .then(() => deliverForm.changeDeliver())
+    //             .then(() => done())
+    //             .catch(err => done.fail(err));
+    //
+    //     });
+    // }
 };

@@ -37,4 +37,4 @@ class ThankYouPage extends Page{
     }
 }
 
-module.exports = ThankYouPage;
+module.exports = new ThankYouPage();

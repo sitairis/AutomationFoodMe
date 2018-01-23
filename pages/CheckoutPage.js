@@ -92,11 +92,11 @@ class CheckoutPage  extends Page {
     /**
      * вернет массив объектов с информацией о содержимом заказа {value, name, qty}
      */
-    getPropertiesOfOrderItems() {
+    getInfoOfOrderItems() {
         return this.getOrderItemsElementsCollect().map((item) => {
             return item.evaluate('item')
                 .then((itemProperties) => {
-                    log.step(this.className, 'getPropertiesOfOrderItems', 'get prices and names from order list');
+                    log.step(this.className, 'getInfoOfOrderItems', 'get prices and names from order list');
                     return {
                         value: itemProperties.price,
                         name: itemProperties.name,
@@ -104,8 +104,8 @@ class CheckoutPage  extends Page {
                     }
                 })
         })
-            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- getPropertiesOfOrderItems : ${errorMessage}`)));
+            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- getInfoOfOrderItems : ${errorMessage}`)));
     }
 }
 
-module.exports = CheckoutPage;
+module.exports = new CheckoutPage();

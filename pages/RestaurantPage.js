@@ -19,7 +19,7 @@ class RestaurantPage  extends Page {
      * @returns {promise.Promise.<void>}
      */
     addToOrder(index) {
-        if (!utils.isValidIndex(index)) {
+        if (!utils.isIndexPositive(index)) {
             log.error(`${this.className} : addToOrder : index is incorrect`);
             throw new Error(`${this.className} : addToOrder : index is incorrect`);
         }
@@ -123,4 +123,4 @@ class RestaurantPage  extends Page {
     }
 }
 
-module.exports = RestaurantPage;
+module.exports = new RestaurantPage();

@@ -17,4 +17,4 @@ class DeliverForm {
     }
 }
 
-module.exports = DeliverForm;
+module.exports = new DeliverForm();

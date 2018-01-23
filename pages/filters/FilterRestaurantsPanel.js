@@ -15,6 +15,11 @@ class FilterRestaurantsPanel {
      * @param ratingValue
      */
     setRatingFilter(typeFilter, ratingValue) {
+        if (!utils.isValidRatingValue(ratingValue)) {
+            log.error(`${this.className} : setRatingFilter : ratingValue is incorrect`);
+            throw new Error(`${this.className} : setRatingFilter : ratingValue is incorrect ${ratingValue}`);
+        }
+
         let ratingElement = this._getRootRadioBtnFilterElement(typeFilter)
             .$$(`li[ng-class="style"]`)
             .get(Number.parseInt(ratingValue));
@@ -33,7 +38,7 @@ class FilterRestaurantsPanel {
     _getRootRadioBtnFilterElement(typeFilter) {
         if (!utils.isValidTypeFilter(typeFilter)) {
             log.error(`${this.className} : _getRootRadioBtnFilterElement : typeFilter is incorrect`);
-            throw new Error(`${this.className} : typeFilter is incorrect`);
+            throw new Error(`${this.className} : _getRootRadioBtnFilterElement : typeFilter is incorrect`);
         }
 
         log.step(this.className, '_getRootRadioBtnFilterElement', 'get root element for filter');
@@ -136,4 +141,4 @@ class FilterRestaurantsPanel {
     }
 }
 
-module.exports = FilterRestaurantsPanel;
+module.exports = new FilterRestaurantsPanel();

@@ -20,7 +20,7 @@ class ThankYouPage extends Page{
 
                 return id;
             })
-            .catch(() => Promise.reject(`${this.className} : Error --- getID`));
+            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- getID : ${errorMessage}`)));
     }
 
     /**
@@ -33,7 +33,7 @@ class ThankYouPage extends Page{
 
                 return text;
             })
-            .catch(() => Promise.reject(`${this.className} : Error --- getStringWithOrderID`));
+            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- getStringWithOrderID : ${errorMessage}`)));
     }
 }
 

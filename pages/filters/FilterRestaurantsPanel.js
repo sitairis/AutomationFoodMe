@@ -21,7 +21,7 @@ class FilterRestaurantsPanel {
 
         return utils.doClick(ratingElement, 'set rating/price filter')
             .then(() => log.step(`${this.className}`, 'setRatingFilter', 'set rating/price filter'))
-            .catch(() => Promise.reject(`${this.className} : Error --- setRatingFilter`));
+            .catch((errorMessage) => Promise.reject(`${this.className} : Error --- setRatingFilter : ${errorMessage}`));
     }
 
     /**
@@ -31,7 +31,10 @@ class FilterRestaurantsPanel {
      * @private
      */
     _getRootRadioBtnFilterElement(typeFilter) {
-        if (!utils.isValidTypeFilter(typeFilter)) throw new Error(`${this.className} : typeFilter is incorrect`);
+        if (!utils.isValidTypeFilter(typeFilter)) {
+            log.error(`${this.className} : _getRootRadioBtnFilterElement : typeFilter is incorrect`);
+            throw new Error(`${this.className} : typeFilter is incorrect`);
+        }
 
         log.step(this.className, '_getRootRadioBtnFilterElement', 'get root element for filter');
 
@@ -52,15 +55,24 @@ class FilterRestaurantsPanel {
      * @returns {promise.Promise<any>}
      */
     setCheckBoxFilter(typeFilter, [...values]) {
-        if (!utils.isString(typeFilter) || typeFilter.toLowerCase() !== 'cuisines') throw new Error(`${this.className}: typeFilter is incorrect`);
-        if (!Array.isArray(values)) throw new Error(`${this.className}: values is not an array`);
-        if (utils.isEmptyArray(values)) throw new Error(`${this.className}: values is empty`);
+        if (!utils.isString(typeFilter) || typeFilter.toLowerCase() !== 'cuisines') {
+            log.error(`${this.className}: setCheckBoxFilter : typeFilter is incorrect`);
+            throw new Error(`${this.className}: setCheckBoxFilter : typeFilter is incorrect`);
+        }
+        if (!Array.isArray(values)) {
+            log.error(`${this.className}: setCheckBoxFilter : values is not an array`);
+            throw new Error(`${this.className}: setCheckBoxFilter : values is not an array`);
+        }
+        if (utils.isEmptyArray(values)) {
+            log.error(`${this.className}: setCheckBoxFilter : values is empty`);
+            throw new Error(`${this.className}: setCheckBoxFilter : values is empty`);
+        }
 
         return this.getCheckBoxesElementsCollect()
             .each((checkbox) => {
-                checkbox.getAttribute('value')
+                return checkbox.getAttribute('value')
                     .then((text) => {
-                        values.forEach((el) => {
+                        return values.forEach((el) => {
                             if (el === text) {
                                 utils.doClick(checkbox, 'click on checkbox');
 
@@ -69,8 +81,8 @@ class FilterRestaurantsPanel {
                         });
                     });
             })
-            .catch((err) => {
-                throw new Error(`${this.className} : Error --- setCheckBoxFilter: ${err.message}`);
+            .catch((errorMessage) => {
+                throw new Error(`${this.className} : Error --- setCheckBoxFilter : ${errorMessage}`);
             });
     }
 
@@ -80,7 +92,10 @@ class FilterRestaurantsPanel {
      * @returns {*}
      */
     clearRadioFilter(typeFilter) {
-        if (!typeFilter) throw new Error(`${this.className} : typeFilter is undefined`);
+        if (!typeFilter) {
+            log.error(`${this.className} : clearRadioFilter : typeFilter is undefined`);
+            throw new Error(`${this.className} : clearRadioFilter : typeFilter is undefined`);
+        }
 
         let btnClear = this._getRootRadioBtnFilterElement(typeFilter.toLowerCase())
             .$(`ul + a[ng-click="select(null)"]`);
@@ -88,7 +103,7 @@ class FilterRestaurantsPanel {
 
         return utils.doClick(btnClear, 'click on button Clear')
             .then(() => log.step(this.className, 'clearRadioFilter', ''))
-            .catch(() => Promise.reject(`${this.className} : Error --- clearRadioFilter`));
+            .catch((errorMessage) => Promise.reject(`${this.className} : Error --- clearRadioFilter : ${errorMessage}`));
     }
 
     /**
@@ -105,8 +120,8 @@ class FilterRestaurantsPanel {
                 }
             })
         })
-            .catch((err) => {
-                throw new Error(`${this.className} : Error --- clearCheckFilter: ${err.message}`);
+            .catch((errorMessage) => {
+                throw new Error(`${this.className} : Error --- clearCheckFilter: ${errorMessage}`);
             });
     }
 

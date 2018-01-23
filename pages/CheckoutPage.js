@@ -22,7 +22,7 @@ class CheckoutPage  extends Page {
     clickBtnPurchase() {
         return utils.doClick(this.btnPurchase, 'click on btnPurchase')
             .then(() => log.step(this.className, 'clickBtnPurchase', 'click on btnPurchase'))
-            .catch(() => Promise.reject(`${this.className} : Error --- clickBtnPurchase`));
+            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- clickBtnPurchase : ${errorMessage}`)));
     }
 
     /**
@@ -33,7 +33,7 @@ class CheckoutPage  extends Page {
     typeCVC(cvc) {
         return utils.doSendKeys(this.txbCVC, `${cvc}`, 'type CVC field')
             .then(() => log.step(`${this.className}`, 'typeCVC', 'type CVC field'))
-            .catch(() => Promise.reject(`${this.className} : Error --- typeCVC`));
+            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- typeCVC : ${errorMessage}`)));
     }
 
     /**
@@ -44,8 +44,8 @@ class CheckoutPage  extends Page {
      */
     typeExpire(dd, yyyy) {
         return utils.doSendKeys(this.txbExpire, `${dd}/${yyyy}`, 'type expire field')
-            .then(() => log.step('CheckoutPage', 'typeExpire', 'type expire field'))
-            .catch(() => Promise.reject(`${this.className} : Error --- typeExpire`));
+            .then(() => log.step(this.className, 'typeExpire', 'type expire field'))
+            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- typeExpire : ${errorMessage}`)));
     }
 
     /**
@@ -55,8 +55,8 @@ class CheckoutPage  extends Page {
      */
     typeNumberCard(number) {
         return utils.doSendKeys(this.txbNumderCard, `${number}`, 'type curd number field')
-            .then(() => log.step('CheckoutPage', 'typeNumberCard', 'type curd number field'))
-            .catch(() => Promise.reject(`${this.className} : Error --- typeNumberCard`));
+            .then(() => log.step(this.className, 'typeNumberCard', 'type curd number field'))
+            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- typeNumberCard : ${errorMessage}`)));
     }
 
     /**
@@ -64,13 +64,19 @@ class CheckoutPage  extends Page {
      * @param option
      */
     selectOption(option) {
-        if (!utils.isString(option)) throw new Error(`CheckoutPage: option is not a string`);
-        if (!utils.isValidOption(option)) throw new Error(`CheckoutPage: not found option = ${option}`);
+        if (!utils.isString(option)) {
+            log.error(`${this.className} : selectOption : option is not a string`);
+            throw new Error(`${this.className} : selectOption : option is not a string`);
+        }
+        if (!utils.isValidOption(option)) {
+            log.error(`${this.className} : selectOption : not found option = ${option}`);
+            throw new Error(`${this.className} : selectOption : not found option = ${option}`);
+        }
 
         return utils.doClick(this.cmbCardType, 'select card type')
             .then(() => utils.doClick(this.cmbCardType.$(`[value=${option}]`), 'select card type'))
-            .then(() => log.step('CheckoutPage', 'selectOption', 'select card type'))
-            .catch(() => Promise.reject(`${this.className} : Error --- selectOption`));
+            .then(() => log.step(this.className, 'selectOption', 'select card type'))
+            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- selectOption : ${errorMessage}`)));
     }
 
     /**
@@ -78,7 +84,7 @@ class CheckoutPage  extends Page {
      * @returns {ElementArrayFinder}
      */
     getOrderItemsElementsCollect() {
-        log.step('CheckoutPage', 'getOrderItemsElementsCollect', 'get all items from order');
+        log.step(this.className, 'getOrderItemsElementsCollect', 'get all items from order');
 
         return this.root.findElementsByRepeater(`item in cart.items`);
     }
@@ -88,10 +94,9 @@ class CheckoutPage  extends Page {
      */
     getPropertiesOfOrderItems() {
         return this.getOrderItemsElementsCollect().map((item) => {
-
             return item.evaluate('item')
                 .then((itemProperties) => {
-                    log.step('CheckoutPage', 'getPropertiesOfOrderItems', 'get prices and names from order list');
+                    log.step(this.className, 'getPropertiesOfOrderItems', 'get prices and names from order list');
                     return {
                         value: itemProperties.price,
                         name: itemProperties.name,
@@ -99,7 +104,7 @@ class CheckoutPage  extends Page {
                     }
                 })
         })
-            .catch(() => Promise.reject(`${this.className} : Error --- getPropertiesOfOrderItems`));
+            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- getPropertiesOfOrderItems : ${errorMessage}`)));
     }
 }
 

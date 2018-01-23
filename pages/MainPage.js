@@ -17,11 +17,16 @@ class MainPage extends Page {
      * @returns {*}
      */
     openRestaurant(index) {
-        if (!utils.isValidIndex(index)) throw new Error(`${this.className} : index is incorrect`);
+        if (!utils.isValidIndex(index)) {
+            log.error(`${this.className} : openRestaurant : index is incorrect`);
+            throw new Error(`${this.className} : openRestaurant : index is incorrect`);
+        }
         let elementForClick = this.rootRestaurantList.findElementsByCSS(`img.img-rounded.pull-left`)
             .get(index);
+
         return utils.doClick(elementForClick, 'click on selected restaurant')
-            .then(() => log.step(this.className, 'openRestaurant', 'click on selected restaurant'));
+            .then(() => log.step(this.className, 'openRestaurant', 'click on selected restaurant'))
+            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- openRestaurant : ${errorMessage}`)));
     }
 
     /**
@@ -40,8 +45,14 @@ class MainPage extends Page {
      * @param typeSort
      */
     sortRestaurants(typeProp, typeSort) {
-        if (!utils.isString(typeProp)) throw new Error(`${this.className} : typeProp is not a string`);
-        if (!utils.isString(typeSort)) throw new Error(`${this.className} : typeSort is not a string`);
+        if (!utils.isString(typeProp)) {
+            log.error(`${this.className} : sortRestaurants : typeProp is not a string`);
+            throw new Error(`${this.className} : sortRestaurants : typeProp is not a string`);
+        }
+        if (!utils.isString(typeSort)) {
+            log.error(`${this.className} : sortRestaurants : typeSort is not a string`);
+            throw new Error(`${this.className} : sortRestaurants : typeSort is not a string`);
+        }
 
         return this.getRestaurantProperties(typeProp)
             .then((unsorted) => {
@@ -49,7 +60,7 @@ class MainPage extends Page {
 
                 return unsorted.sort((a, b) => this._setTypeSort(typeSort, a, b));
             })
-            .catch(() => Promise.reject(`${this.className} : Error --- sortRestaurants`));
+            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- sortRestaurants : ${errorMessage}`)));
     }
 
     /**
@@ -71,7 +82,10 @@ class MainPage extends Page {
      * @param prop
      */
     getRestaurantProperties(prop) {
-        if (!utils.isString(prop)) throw new Error(`${this.className} : prop is not a string`);
+        if (!utils.isString(prop)) {
+            log.error(`${this.className} : prop is not a string`);
+            throw new Error(`${this.className} : getRestaurantProperties : prop is not a string`);
+        }
 
         log.step(this.className, 'getRestaurantProperties', 'get array by price/rating - {prop,index}');
 
@@ -81,7 +95,7 @@ class MainPage extends Page {
                 index: index
             };
         })
-            .catch(() => Promise.reject(`${this.className} : Error --- getRestaurantProperties`));
+            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- getRestaurantProperties : ${errorMessage}`)));
     }
 
     /**
@@ -100,7 +114,7 @@ class MainPage extends Page {
 
                 return firstArray.find((currentElement, index) => currentElement.index === secondArray[index].index);
             })
-            .catch(() => Promise.reject(`${this.className} : Error --- findPopularCheapestRestaurant`));
+            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- findPopularCheapestRestaurant : ${errorMessage}`)));
 
     }
 }

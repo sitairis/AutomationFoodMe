@@ -19,12 +19,16 @@ class RestaurantPage  extends Page {
      * @returns {promise.Promise.<void>}
      */
     addToOrder(index) {
-        if (!utils.isValidIndex(index)) throw new Error(`RestaurantPage: index is incorrect`);
+        if (!utils.isValidIndex(index)) {
+            log.error(`${this.className} : addToOrder : index is incorrect`);
+            throw new Error(`${this.className} : addToOrder : index is incorrect`);
+        }
+
         let btnAddDishToOrder = this.getPriceListElementsCollect().get(index).$(`a`);
 
         return utils.doClick(btnAddDishToOrder, 'click on selected dish')
             .then(() => log.step(this.className, 'addToOrder', 'click on selected dish'))
-            .catch(() => Promise.reject(`${this.className} : Error --- addToOrder`));
+            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- addToOrder : ${errorMessage}`)));
     }
 
     /**
@@ -57,21 +61,6 @@ class RestaurantPage  extends Page {
         return this.rootCard.$(`b.ng-binding`);
     }
 
-    // /**
-    //  * удалить блюдо из заказа
-    //  * @param index
-    //  * @returns {*}
-    //  */
-    // removeOrderItem(index) {
-    //     if (!utils.isValidIndex(index)) throw new Error(`RestaurantPage: index is incorrect`);
-    //
-    //     let btnRemove = this.getOrderElementsCollect().$$(`a`).get(index);
-    //     browser.driver.actions().mouseMove(btnRemove).perform();
-    //
-    //     return btnRemove.click()
-    //         .then(() => log.step('RestaurantPage', 'removeOrderItem', 'click on btnRemove dish'));
-    // }
-
     /**
      * вернуть сорированный по цене по убыванию массив объектов
      * @returns {promise.Promise<any>}
@@ -95,17 +84,17 @@ class RestaurantPage  extends Page {
 
                 return unSorted.sort((a, b) => a.value - b.value)
             })
-            .catch(() => Promise.reject(`${this.className} : Error --- sortMenuByPriceDec`));
+            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- sortMenuByPriceDec : ${errorMessage}`)));
     }
 
     /**
      * вернуть массив названий блюд из заказа
      */
     getOrderNamesList() {
-        log.step('RestaurantPage', 'getOrderNamesList', 'get array of dishes names');
+        log.step(this.className, 'getOrderNamesList', 'get array of dishes names');
 
         return this.getOrderElementsCollect().map((item) => item.evaluate('item.name'))
-            .catch(() => Promise.reject(`${this.className} : Error --- sortMenuByPriceDec`));
+            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- sortMenuByPriceDec : ${errorMessage}`)));
     }
 
     /**
@@ -114,7 +103,7 @@ class RestaurantPage  extends Page {
     makeCheckout() {
         return utils.doClick(this.btnCheckout, 'click on btnCheckout')
             .then(() => log.step(this.className, 'makeCheckout', 'click on btnCheckout'))
-            .catch(() => Promise.reject(`${this.className} : Error --- makeCheckout`));
+            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- makeCheckout : ${errorMessage}`)));
     }
 
     /**
@@ -130,7 +119,7 @@ class RestaurantPage  extends Page {
                 description: curElem.$('.span4').getText()
             }
         })
-            .catch(() => Promise.reject(`${this.className} : Error --- getRestaurantInfo`));
+            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- getRestaurantInfo : ${errorMessage}`)));
     }
 }
 

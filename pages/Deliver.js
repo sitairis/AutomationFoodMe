@@ -13,7 +13,7 @@ class DeliverForm {
     changeDeliver() {
         return utils.doClick(this.btnDeliver, 'click on btnDeliver')
             .then(() => log.step('DeliverForm', 'changeDeliver','click on btnDeliver'))
-            .catch(() => Promise.reject(`DeliverForm : Error --- changeDeliver`));
+            .catch((errorMessage) => Promise.reject(new Error(`DeliverForm : Error --- changeDeliver : ${errorMessage}`)));
     }
 }
 

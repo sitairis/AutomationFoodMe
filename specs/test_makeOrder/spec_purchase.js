@@ -1,24 +1,15 @@
-let MainPage = require(`../../pages/MainPage`);
-let RestaurantPage = require(`../../pages/RestaurantPage`);
-let CheckoutPage = require(`../../pages/CheckoutPage`);
-let FilterPanel = require(`../../pages/filters/FilterRestaurantsPanel`);
+let mainPage = require(`../../pages/MainPage`);
+let restaurantPage = require(`../../pages/RestaurantPage`);
+let checkoutPage = require(`../../pages/CheckoutPage`);
+let filterPanel = require(`../../pages/filters/FilterRestaurantsPanel`);
 let UsersData = require('../../UsersData');
 let utils = require('../../lib/utils');
-let ThankYouPage = require('../../pages/ThankYouPage');
+let thankYouPage = require('../../pages/ThankYouPage');
 let log = require('../../lib/Logger');
+let authForm = require('../../pages/AuthPage');
 
 describe('test for purchase', () => {
-
-    afterEach(() => {
-        let btnHome = element(by.cssContainingText('a', 'Home'));
-
-        btnHome.click()
-            .then(() => {
-                let filterPanel = new FilterPanel();
-
-                filterPanel.clearCheckFilter();
-            });
-    });
+    beforeAll(() => authForm.doLogIn());
 
     it('should click on purchase, get ID and make json file', () => {
 
@@ -35,76 +26,80 @@ describe('test for purchase', () => {
             }
         };
 
-        let mainPage = new MainPage();
-        let filterPanel = new FilterPanel();
-
         log.testStep('test for purchase', 1, 'get cuisine(s) array from FiltersData');
-        let cuisines = utils.getCuisinesObjectsArray();
-
-        log.testStep('test for purchase', 2, 'check cuisine(s)');
-        filterPanel.setCheckBoxFilter(`Cuisines`, utils.getCuisinesName(cuisines))
+        setCuisineFilter(3)
+            .then(() => openPopularCheapestRestaurant())
             .then(() => {
-                log.testStep('test for purchase', 3, 'get the most popular and the cheapest restaurant');
-                return mainPage.findPopularCheapestRestaurant()
-            })
-            .then((restaurant) => {
-                log.testStep('test for purchase', 4, 'open selected restaurant');
-                return mainPage.openRestaurant(restaurant.index)
-            })
-            .then(() => {
-                let restaurantPage = new RestaurantPage();
                 log.testStep('test for purchase', 5, 'save info about restaurant');
                 return restaurantPage.getRestaurantInfo()
-                    .then((obj) => {
-                        orderData.restaurant = obj;
-                        return orderData;
-                    })
-                    .then(() => log.testStep('test for purchase', 6, 'get sorted price list'))
-                    .then(() => restaurantPage.sortMenuByPriceDec())
-                    .then((sortedPrices) => {
-                        let minPrices = sortedPrices.slice(0, UsersData.personsAmount);
-
-                        log.testStep('test for purchase', 7, 'add dishes to order');
-                        return minPrices.forEach((dish) => restaurantPage.addToOrder(dish.index))
-                    })
-                    .then(() => {
-                        log.testStep('test for purchase', 8, 'make checkout');
-                        return restaurantPage.makeCheckout()
-                    })
-                    .then(() => {
-                        let checkoutPage = new CheckoutPage();
-
-                        log.testStep('test for purchase', 9, 'save info about items in order');
-                        checkoutPage.getInfoOfOrderItems()
-                            .then((arrayItems) => {
-                                orderData.items = arrayItems;
-                                return orderData;
-                            })
-                            .then(() => log.testStep('test for purchase', 10, 'type payment info'))
-                            .then(() => checkoutPage.selectOption(UsersData.type))
-                            .then(() => checkoutPage.typeNumberCard(UsersData.numberCard))
-                            .then(() => checkoutPage.typeExpire(UsersData.expire.dd, UsersData.expire.yyyy))
-                            .then(() => checkoutPage.typeCVC(UsersData.CVC))
-                            .then(() => {
-                                log.testStep('test for purchase', 11, 'purchase');
-                                return checkoutPage.clickBtnPurchase()
-                            })
-                            .then(() => {
-                                log.testStep('test for purchase', 12, 'open ThankYouPage');
-                                let thankYouPage = new ThankYouPage();
-
-                                log.testStep('test for purchase', 13, 'save orderID');
-                                return thankYouPage.getID()
-                                    .then((id) => {
-                                        orderData.orderID = id;
-                                        return orderData;
-                                    })
-                                    .then(() => utils.createInfoJSON(orderData))
-                                    .then(() => log.testStep('test for purchase', 14, 'verify line with orderID'))
-                                    .then(() => thankYouPage.getStringWithOrderID())
-                                    .then((text) => expect(text.match(/ID is \d\d\d\d\d\d\d\d\d\d\d\d\d/)).not.toBe(null));
-                            })
-                    })
             })
-    });
+            .then((obj) => {
+                orderData.restaurant = obj;
+                return orderData;
+            })
+            .then(() => addRandomDishesToOrder())
+            .then(() => {
+                log.testStep('test for purchase', 8, 'make checkout');
+                return restaurantPage.makeCheckout()
+            })
+            .then(() => {
+                log.testStep('test for purchase', 9, 'save info about items in order');
+                checkoutPage.getInfoOfOrderItems()
+            })
+            .then((arrayItems) => {
+                orderData.items = arrayItems;
+                return orderData;
+            })
+            .then(() => {
+                log.testStep('test for purchase', 10, 'type payment info');
+                return typeCardData();
+            })
+            .then(() => {
+                log.testStep('test for purchase', 11, 'purchase');
+                return checkoutPage.clickBtnPurchase()
+            })
+            .then(() => {
+                log.testStep('test for purchase', 13, 'save orderID');
+                return thankYouPage.getID()
+            })
+            .then((id) => {
+                orderData.orderID = id;
+                return orderData;
+            })
+            .then(() => utils.createInfoJSON(orderData))
+            .then(() => log.testStep('test for purchase', 14, 'verify line with orderID'))
+            .then(() => thankYouPage.getStringWithOrderID())
+            .then((text) => expect(text.match(/ID is \d\d\d\d\d\d\d\d\d\d\d\d\d/)).not.toBe(null));
+    })
 });
+
+/**
+ *
+ */
+function setCuisineFilter(number) {
+    return filterPanel.setCheckBoxFilter(`Cuisines`, utils.getRandomCuisinesNames(number));
+}
+
+/**
+ *
+ */
+function openPopularCheapestRestaurant() {
+    return mainPage.findPopularCheapestRestaurant()
+        .then((restaurant) => mainPage.openRestaurant(restaurant.index));
+}
+
+function addRandomDishesToOrder(count) {
+    return restaurantPage.getPriceListElementsCollect().count()
+        .then((count) => {
+            for (let i = 0; i < count; i++) {
+                restaurantPage.addToOrder(utils.getRandomNumber(0, count));
+            }
+        })
+}
+
+function typeCardData() {
+return checkoutPage.selectOption(UsersData.type)
+        .then(() => checkoutPage.typeNumberCard(UsersData.numberCard))
+        .then(() => checkoutPage.typeExpire(UsersData.expire.dd, UsersData.expire.yyyy))
+        .then(() => checkoutPage.typeCVC(UsersData.CVC))
+}

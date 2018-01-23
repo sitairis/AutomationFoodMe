@@ -1,32 +1,22 @@
-let MainPage = require(`../../pages/MainPage`);
-let RestaurantPage = require(`../../pages/RestaurantPage`);
+let mainPage = require(`../../pages/MainPage`);
+let restaurantPage = require(`../../pages/RestaurantPage`);
 let log = require('../../lib/Logger');
+let authForm = require('../../pages/AuthPage');
+let utils = require(`../../lib/utils`);
 
 describe('test for restaurant page', () => {
 
-    afterEach(() => {
-        let btnClear = $('[ng-click="cart.reset()"]');
-        let btnHome = element(by.cssContainingText('a','Home'));
-        let btnCheckout = $(`div.pull-right`);
-
-        btnCheckout.click()
-            .then(() => btnClear.click())
-            .then(() => btnHome.click());
-
-    });
+    beforeAll(() => authForm.doLogIn());
 
     it('should open restaurant, select dish and compare results', () => {
 
-        let mainPage = new MainPage();
-
         log.testStep('test for restaurant page', 1, 'open restaurant');
-        mainPage.openRestaurant(2)
+        mainPage.openRestaurant(utils.getRandomNumber(0, 39))
             .then(() => {
-                let restaurantPage = new RestaurantPage();
-
                 log.testStep('test for restaurant page', 2, 'add dish to order');
 
-                return restaurantPage.addToOrder(2)
+                return addRandomDishesToOrder(3)
+            })
                     .then(() => {
                         log.testStep('test for restaurant page', 3, 'get order price');
 
@@ -37,8 +27,16 @@ describe('test for restaurant page', () => {
 
                         log.testStep('test for restaurant page', 4, 'verify price');
 
-                        expect(testPrice).toEqual('Total: $6.95');
+                        // expect(testPrice.match()).toEqual('Total: $6.95');
                     });
-            });
     });
 });
+
+function addRandomDishesToOrder(count) {
+    return restaurantPage.getPriceListElementsCollect().count()
+        .then((count) => {
+            for (let i = 0; i < count; i++) {
+                restaurantPage.addToOrder(utils.getRandomNumber(0, count));
+            }
+        })
+}

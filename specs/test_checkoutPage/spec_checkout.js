@@ -47,7 +47,7 @@ describe('test for checkout page', () => {
  *
  */
 function setCuisineFilter(number) {
-    return filterPanel.setCheckBoxFilter(`Cuisines`, utils.getRandomCuisinesNames(number));
+    return filterPanel.setCheckBoxFilter(`Cuisines`, utils.getRandomCuisinesArrayObj(number));
 }
 
 /**

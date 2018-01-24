@@ -7,7 +7,7 @@ exports.config = {
     specs: ['./specs/*/*.js'],
     capabilities: {
         shardTestFiles: true,
-        maxInstances: 10,
+        maxInstances: 3,
         browserName: 'chrome',
         chromeOptions: {
             args: ['headless', 'disable-gpu']
@@ -16,7 +16,7 @@ exports.config = {
     suites: {
         checkout: './specs/test_checkoutPage/*.js',
         order: './specs/test_makeOrder/*.js',
-        restPage: './specs/test_restaurantPage/*.js',
+        restPage: './specs/test_restaurantPage/spec_menuList.js',
         rating: './specs/test_ratingFilter/*.js',
         checkbox: './specs/test_checkboxFilter/*.js',
         all: './specs/*/*.js'

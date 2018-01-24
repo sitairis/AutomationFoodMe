@@ -41,6 +41,8 @@ class RestaurantPage  extends Page {
         return this.rootCard.all(by.repeater('item in cart.items'))
     }
 
+
+
     /**
      * вернуть перечень блюд из меню
      * @returns {ElementArrayFinder}

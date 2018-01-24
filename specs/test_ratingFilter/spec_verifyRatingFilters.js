@@ -19,7 +19,7 @@ describe('test for rating filter', () => {
     it('should find the most popular restaurant and then the cheapest restaurant', () => {
 
         log.testStep('test for filters', 1, 'get cuisine(s) array from FiltersData');
-        let cuisines = utils.getRandomCuisinesNames(3);
+        let cuisines = utils.getRandomCuisinesArrayObj(3);
 
         log.testStep('test for filters', 2, 'checked cuisines');
         filterPanel.setCheckBoxFilter(`Cuisines`, utils.getCuisinesName(cuisines))

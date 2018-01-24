@@ -72,8 +72,6 @@ class MainPage extends Page {
      * @private
      */
     _setTypeSort(typeSort, a, b) {
-        log.step(this.className, '_setTypeSort', '');
-
         return typeSort === 'desc' ? b.prop - a.prop : a.prop - b.prop;
     }
 

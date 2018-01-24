@@ -22,21 +22,34 @@ describe('test for restaurant page', () => {
 
                         return restaurantPage.getTotalPriceElement()
                     })
-                    .then((price) => {
-                        let testPrice = price.getText();
-
-                        log.testStep('test for restaurant page', 4, 'verify price');
-
-                        // expect(testPrice.match()).toEqual('Total: $6.95');
-                    });
+                    .then((totalPriceElement) => totalPriceElement.getText())
+            .then((totalPrice) => {
+                log.testStep('test for restaurant page', 4, 'verify price');
+                expect(totalPrice.match(/\d+\.\d+/g)[0]).toEqual(culcTotalPriceOfOrder());
+            })
     });
 });
 
-function addRandomDishesToOrder(count) {
+function addRandomDishesToOrder(countDishes) {
     return restaurantPage.getPriceListElementsCollect().count()
         .then((count) => {
-            for (let i = 0; i < count; i++) {
+            for (let i = 0; i < countDishes; i++) {
                 restaurantPage.addToOrder(utils.getRandomNumber(0, count));
             }
         })
 }
+
+/**
+ *
+ * @returns {promise.Promise<any>}
+ */
+function culcTotalPriceOfOrder() {
+    return restaurantPage.getOrderElementsCollect().map((currentItem) => {
+        return currentItem.evaluate('item')
+            .then((item) => item.price)
+    })
+        .then((orderItems) => orderItems.reduce((total, currentItem) => {
+                return total + currentItem
+            },0).toFixed(2))
+}
+

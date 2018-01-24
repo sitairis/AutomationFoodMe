@@ -7,9 +7,15 @@ let utils = require('../../lib/utils');
 let thankYouPage = require('../../pages/ThankYouPage');
 let log = require('../../lib/Logger');
 let authForm = require('../../pages/AuthPage');
+let faker = require('faker');
 
 describe('test for purchase', () => {
-    beforeAll(() => authForm.doLogIn());
+    beforeAll(() => {
+        let randomName = faker.name.findName();
+        let randomAddress = `${faker.address.city()}, ${faker.address.streetAddress()}`;
+        authForm.doLogIn(randomName, randomAddress);
+    });
+
 
     it('should click on purchase, get ID and make json file', () => {
 

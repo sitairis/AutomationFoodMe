@@ -1,6 +1,5 @@
 let log = require('../lib/Logger');
 let utils = require('../lib/utils');
-let UsersData = require('../UsersData');
 
 class AuthPage {
     constructor() {
@@ -35,12 +34,12 @@ class AuthPage {
     /**
      *
      */
-    doLogIn() {
+    doLogIn(name, address) {
         browser.ignoreSynchronization = true;
 
         return this.navigate()
             .then(() => browser.ignoreSynchronization = false)
-            .then(() => this.authorizate(UsersData.nameDeliver, UsersData.address))
+            .then(() => this.authorizate(name, address))
             .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- doLogIn : ${errorMessage}`)));
     }
 

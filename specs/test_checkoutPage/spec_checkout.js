@@ -6,10 +6,15 @@ let UsersData = require(`../../UsersData`);
 let utils = require(`../../lib/utils`);
 let log = require('../../lib/Logger');
 let authForm = require('../../pages/AuthPage');
+let faker = require('faker');
 
 describe('test for checkout page', () => {
 
-    beforeAll(() => authForm.doLogIn());
+    beforeAll(() => {
+        let randomName = faker.name.findName();
+        let randomAddress = `${faker.address.city()}, ${faker.address.streetAddress()}`;
+        authForm.doLogIn(randomName, randomAddress);
+    });
 
 
     it('should make checkout and compare names and prices of dishes', () => {

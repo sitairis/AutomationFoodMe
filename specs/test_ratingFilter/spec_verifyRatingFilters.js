@@ -3,10 +3,15 @@ let authForm = require('../../pages/AuthPage');
 let mainPage = require(`../../pages/MainPage`);
 let utils = require('../../lib/utils');
 let log = require('../../lib/Logger');
+let faker = require('faker');
 
 describe('test for rating filter', () => {
 
-    beforeAll(() => authForm.doLogIn());
+    beforeAll(() => {
+        let randomName = faker.name.findName();
+        let randomAddress = `${faker.address.city()}, ${faker.address.streetAddress()}`;
+        authForm.doLogIn(randomName, randomAddress);
+    });
 
     let filterDataArray = [{
         filterName: 'rating',
@@ -25,8 +30,13 @@ describe('test for rating filter', () => {
         filterPanel.setCheckBoxFilter(`Cuisines`, utils.getCuisinesName(cuisines))
             .then(() => {
                 log.testStep('test for filters', 3, 'verify counts');
-                filterDataArray.forEach((filterObj) => expect(recursGetCountRatedRestaurants(filterObj.filterName, filterObj.startValue))
-                    .toEqual(utils.getCountRatedRestaurants(cuisines, filterObj.filterName)))
+                filterDataArray.forEach((filterObj) => {
+                    recursGetCountRatedRestaurants(filterObj.filterName, filterObj.startValue)
+                        .then((expectRestaurantCount) => {
+                            return filterPanel.clearRadioFilter(filterObj.filterName)
+                                .then(() => expect(expectRestaurantCount).toEqual(utils.getCountRatedRestaurants(filterObj.filterName, cuisines)))
+                        })
+                })
             })
     });
 });
@@ -44,9 +54,10 @@ function recursGetCountRatedRestaurants(filterName, startValue) {
 
     return filterPanel.setRatingFilter(filterName, startValue)
         .then(() => mainPage.getRestaurantsElementsCollect().count())
-        .then((count) => {
-            if (count) {
-                return count;
+        .then((c) => {
+            console.log(`${c} ${startValue} ${filterName}`);
+            if (c !== 0) {
+                return c;
             } else {
                 filterName === 'rating' ? startValue-- : startValue++;
                 return recursGetCountRatedRestaurants(filterName, startValue);

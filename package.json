@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "faker": "^4.1.0",
     "jasmine": "^2.8.0",
     "protractor": "^5.2.2",
     "selenium-webdriver": "^3.6.0",

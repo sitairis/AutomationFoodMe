@@ -1,7 +1,5 @@
-let mainPage = require(`../../pages/MainPage`);
 let restaurantPage = require(`../../pages/RestaurantPage`);
 let checkoutPage = require(`../../pages/CheckoutPage`);
-let filterPanel = require(`../../pages/filters/FilterRestaurantsPanel`);
 let UsersData = require(`../../UsersData`);
 let utils = require(`../../lib/utils`);
 let log = require('../../lib/Logger');
@@ -15,7 +13,6 @@ describe('test for checkout page', () => {
         let randomAddress = `${faker.address.city()}, ${faker.address.streetAddress()}`;
         authForm.doLogIn(randomName, randomAddress);
     });
-
 
     it('should make checkout and compare names and prices of dishes', () => {
         let infoArrayLinesFromRestPage = [];

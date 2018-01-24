@@ -13,7 +13,6 @@ describe('test for checkbox filter', () => {
         authForm.doLogIn(randomName, randomAddress);
     });
 
-
     it('should verify cuisines filter', () => {
         log.testStep('Verify cuisine filter', 1, 'get cuisine(s) array from FiltersData');
         let cuisines = utils.getCuisinesObjectsArray();

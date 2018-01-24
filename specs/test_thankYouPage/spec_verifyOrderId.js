@@ -1,7 +1,5 @@
-let mainPage = require(`../../pages/MainPage`);
 let restaurantPage = require(`../../pages/RestaurantPage`);
 let checkoutPage = require(`../../pages/CheckoutPage`);
-let filterPanel = require(`../../pages/filters/FilterRestaurantsPanel`);
 let UsersData = require('../../UsersData');
 let utils = require('../../lib/utils');
 let thankYouPage = require('../../pages/ThankYouPage');

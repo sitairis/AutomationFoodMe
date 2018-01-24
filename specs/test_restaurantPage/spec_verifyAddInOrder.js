@@ -14,7 +14,6 @@ describe('test for restaurant page', () => {
         authForm.doLogIn(randomName, randomAddress);
     });
 
-
     it('should open restaurant, select dish and compare results', () => {
 
         log.testStep('test for restaurant page', 1, 'open restaurant');
@@ -50,4 +49,3 @@ function culcTotalPriceOfOrder() {
                 return total + currentItem
             },0).toFixed(2))
 }
-

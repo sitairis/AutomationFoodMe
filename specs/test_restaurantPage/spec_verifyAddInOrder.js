@@ -21,7 +21,7 @@ describe('test for restaurant page', () => {
             .then(() => {
                 log.testStep('test for restaurant page', 2, 'add dish to order');
 
-                return utils.addRandomDishesToOrder(3)
+                return utils.addRandomDishesInOrder(3)
             })
                     .then(() => {
                         log.testStep('test for restaurant page', 3, 'get order price');

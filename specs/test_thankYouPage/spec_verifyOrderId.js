@@ -41,7 +41,7 @@ describe('test for purchase', () => {
                 orderData.restaurant = obj;
                 return orderData;
             })
-            .then(() => utils.addRandomDishesToOrder())
+            .then(() => utils.addRandomDishesInOrder(3))
             .then(() => {
                 log.testStep('test for purchase', 8, 'make checkout');
                 return restaurantPage.makeCheckout()

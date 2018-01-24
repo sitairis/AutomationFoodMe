@@ -21,8 +21,8 @@ describe('test for checkout page', () => {
         let infoArrayLinesFromRestPage = [];
 
         log.testStep('test for checkout page', 1, 'check cuisine(s) and open restaurant');
-        setCuisineFilter(3)
-            .then(() => openPopularCheapestRestaurant())
+        utils.setCuisineFilter(3)
+            .then(() => utils.openPopularCheapestRestaurant())
             .then(() => {
                 log.testStep('test for checkout page', 2, 'get sorted price list');
                 return restaurantPage.sortMenuByPriceDec();
@@ -47,18 +47,3 @@ describe('test for checkout page', () => {
             .then((infoArrayLines) => infoArrayLines.forEach((line, index) => expect(line).toEqual(infoArrayLinesFromRestPage[index])));
     });
 });
-
-/**
- *
- */
-function setCuisineFilter(number) {
-    return filterPanel.setCheckBoxFilter(`Cuisines`, utils.getRandomCuisinesArrayObj(number));
-}
-
-/**
- *
- */
-function openPopularCheapestRestaurant() {
-         return mainPage.findPopularCheapestRestaurant()
-             .then((restaurant) => mainPage.openRestaurant(restaurant.index));
-}

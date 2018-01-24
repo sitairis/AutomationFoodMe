@@ -89,15 +89,15 @@ class RestaurantPage  extends Page {
             .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- sortMenuByPriceDec : ${errorMessage}`)));
     }
 
-    /**
-     * вернуть массив названий блюд из заказа
-     */
-    getOrderNamesList() {
-        log.step(this.className, 'getOrderNamesList', 'get array of dishes names');
-
-        return this.getOrderElementsCollect().map((item) => item.evaluate('item.name'))
-            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- sortMenuByPriceDec : ${errorMessage}`)));
-    }
+    // /**
+    //  * вернуть массив названий блюд из заказа
+    //  */
+    // getOrderNamesList() {
+    //     log.step(this.className, 'getOrderNamesList', 'get array of dishes names');
+    //
+    //     return this.getOrderElementsCollect().map((item) => item.evaluate('item.name'))
+    //         .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- sortMenuByPriceDec : ${errorMessage}`)));
+    // }
 
     /**
      * клик на кнупку 'checkout'

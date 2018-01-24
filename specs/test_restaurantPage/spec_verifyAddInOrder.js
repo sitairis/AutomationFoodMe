@@ -22,7 +22,7 @@ describe('test for restaurant page', () => {
             .then(() => {
                 log.testStep('test for restaurant page', 2, 'add dish to order');
 
-                return addRandomDishesToOrder(3)
+                return utils.addRandomDishesToOrder(3)
             })
                     .then(() => {
                         log.testStep('test for restaurant page', 3, 'get order price');
@@ -36,15 +36,6 @@ describe('test for restaurant page', () => {
             })
     });
 });
-
-function addRandomDishesToOrder(countDishes) {
-    return restaurantPage.getPriceListElementsCollect().count()
-        .then((count) => {
-            for (let i = 0; i < countDishes; i++) {
-                restaurantPage.addToOrder(i);//
-            }
-        })
-}
 
 /**
  *

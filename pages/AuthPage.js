@@ -2,6 +2,7 @@ let log = require('../lib/Logger');
 let utils = require('../lib/utils');
 
 class AuthPage {
+
     constructor() {
         this.className = 'AuthPage';
         this.inputName = element(by.model('customerName'));
@@ -11,7 +12,7 @@ class AuthPage {
     }
 
     /**
-     * переходить по ссылке
+     * открыть страницу авторизации
      */
     navigate() {
         return browser.get('#/customer')
@@ -32,7 +33,7 @@ class AuthPage {
     }
 
     /**
-     *
+     * провести авторизацию
      */
     doLogIn(name, address) {
         browser.ignoreSynchronization = true;

@@ -33,8 +33,8 @@ describe('test for purchase', () => {
         };
 
         log.testStep('test for purchase', 1, 'get cuisine(s) array from FiltersData');
-        setCuisineFilter(3)
-            .then(() => openPopularCheapestRestaurant())
+        utils.setCuisineFilter(3)
+            .then(() => utils.openPopularCheapestRestaurant())
             .then(() => {
                 log.testStep('test for purchase', 5, 'save info about restaurant');
                 return restaurantPage.getRestaurantInfo()
@@ -43,7 +43,7 @@ describe('test for purchase', () => {
                 orderData.restaurant = obj;
                 return orderData;
             })
-            .then(() => addRandomDishesToOrder())
+            .then(() => utils.addRandomDishesToOrder())
             .then(() => {
                 log.testStep('test for purchase', 8, 'make checkout');
                 return restaurantPage.makeCheckout()
@@ -80,32 +80,11 @@ describe('test for purchase', () => {
 });
 
 /**
- *
+ * заполнит поля для платежа
  */
-function setCuisineFilter(number) {
-    return filterPanel.setCheckBoxFilter(`Cuisines`, utils.getRandomCuisinesArrayObj(number));
-}
-
-/**
- *
- */
-function openPopularCheapestRestaurant() {
-    return mainPage.findPopularCheapestRestaurant()
-        .then((restaurant) => mainPage.openRestaurant(restaurant.index));
-}
-
-function addRandomDishesToOrder(count) {
-    return restaurantPage.getPriceListElementsCollect().count()
-        .then((count) => {
-            for (let i = 0; i < count; i++) {
-                restaurantPage.addToOrder(utils.getRandomNumber(0, count));
-            }
-        })
-}
-
 function typeCardData() {
-return checkoutPage.selectOption(UsersData.type)
+    return checkoutPage.selectOption(UsersData.type)
         .then(() => checkoutPage.typeNumberCard(UsersData.numberCard))
         .then(() => checkoutPage.typeExpire(UsersData.expire.dd, UsersData.expire.yyyy))
-        .then(() => checkoutPage.typeCVC(UsersData.CVC))
+        .then(() => checkoutPage.typeCVC(UsersData.CVC));
 }

@@ -4,7 +4,6 @@ let utils = require(`../../lib/utils`);
 let log = require('../../lib/Logger');
 let authForm = require('../../pages/AuthPage');
 let faker = require('faker');
-let getInfo = require('../../lib/getInfo');
 let rest = require('../../restaurants');
 describe('test for checkbox filter', () => {
 

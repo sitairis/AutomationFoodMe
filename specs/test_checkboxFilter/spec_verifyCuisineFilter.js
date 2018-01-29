@@ -4,7 +4,8 @@ let utils = require(`../../lib/utils`);
 let log = require('../../lib/Logger');
 let authForm = require('../../pages/AuthPage');
 let faker = require('faker');
-
+let getInfo = require('../../lib/getInfo');
+let rest = require('../../restaurants');
 describe('test for checkbox filter', () => {
 
     beforeAll(() => {
@@ -12,6 +13,11 @@ describe('test for checkbox filter', () => {
         let randomAddress = `${faker.address.city()}, ${faker.address.streetAddress()}`;
         authForm.doLogIn(randomName, randomAddress);
     });
+
+    afterEach(() => {
+        filterPanel.clearCheckFilter();
+    });
+
 
     it('should verify cuisines filter', () => {
         log.testStep('Verify cuisine filter', 1, 'get cuisine(s) array from FiltersData');
@@ -21,4 +27,15 @@ describe('test for checkbox filter', () => {
         filterPanel.setCheckBoxFilter(`Cuisines`, utils.getCuisinesName(cuisines))
             .then(() => expect(mainPage.getRestaurantsElementsCollect().count()).toEqual(utils.getTotalCount(cuisines)));
     });
+
+
+    it('should verify cuisines names', () => {
+        log.testStep('Verify cuisine filter', 1, 'get cuisine(s) array from FiltersData');
+       filterPanel.getCheckboxesValues()
+           .then((expectCuisines) => {
+               console.log(`${expectCuisines}`);
+               log.testStep('Verify cuisine filter', 2, 'check cuisine(s)');
+               expect(expectCuisines.sort()).toEqual(utils.dropRepeatingElement(utils.getArrayValuesByProperty(rest.array, 'cuisine')));
+           })
+        });
 });

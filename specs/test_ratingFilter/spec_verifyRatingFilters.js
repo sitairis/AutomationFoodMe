@@ -4,6 +4,7 @@ let mainPage = require(`../../pages/MainPage`);
 let utils = require('../../lib/utils');
 let log = require('../../lib/Logger');
 let faker = require('faker');
+const request = require('request');
 
 describe('test for rating filter', () => {
 
@@ -11,6 +12,25 @@ describe('test for rating filter', () => {
         let randomName = faker.name.findName();
         let randomAddress = `${faker.address.city()}, ${faker.address.streetAddress()}`;
         authForm.doLogIn(randomName, randomAddress);
+    });
+
+    let arrayRestaurants = [];
+
+    /**
+     * get info about all restaurants
+     */
+    request({method: 'get',
+        url: 'http://localhost:5000/api/restaurant',
+        headers: {
+            Accept:'application/json'
+        },
+        json: true
+    }, (err, response) => {
+        if (err) console.log(err);
+
+        if (response.statusCode === 200) {
+            arrayRestaurants = response.body;
+        }
     });
 
     let filterDataArray = [{
@@ -55,7 +75,6 @@ function recursGetCountRatedRestaurants(filterName, startValue) {
     return filterPanel.setRatingFilter(filterName, startValue)
         .then(() => mainPage.getRestaurantsElementsCollect().count())
         .then((c) => {
-            console.log(`${c} ${startValue} ${filterName}`);
             if (c !== 0) {
                 return c;
             } else {

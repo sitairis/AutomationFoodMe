@@ -20,5 +20,35 @@ exports.config = {
         rating: './specs/test_ratingFilter/*.js',
         checkbox: './specs/test_checkboxFilter/*.js',
         all: './specs/*/*.js'
+    },
+
+    onPrepare: function () {
+        /**
+         * get info about all restaurants
+         */
+        const request = require("request");
+
+        request({method: 'get',
+            url: 'http://localhost:5000/api/restaurant',
+            headers: {
+                Accept: 'application/json'
+            },
+            json: true
+        }, (err, responce) => {
+            if (err) throw new Error(err);
+
+            let obj = {
+                array : responce.body
+            };
+
+            let fs = require("fs");
+            fs.writeFile("./restaurants.json", JSON.stringify(obj), (err) => {
+                if (err) {
+                    console.error(err);
+                    return;
+                }
+                console.log("File has been created");
+            });
+        });
     }
 };

@@ -32,22 +32,28 @@ describe('test for purchase', () => {
 
         log.testStep('test for purchase', 1, 'get cuisine(s) array from FiltersData');
         utils.setCuisineFilter(3)
-            .then(() => utils.openPopularCheapestRestaurant())
             .then(() => {
-                log.testStep('test for purchase', 5, 'save info about restaurant');
+                log.testStep('test for purchase', 2, 'open restaurant');
+                return utils.openPopularCheapestRestaurant()
+            })
+            .then(() => {
+                log.testStep('test for purchase', 3, 'save info about restaurant');
                 return restaurantPage.getRestaurantInfo()
             })
             .then((obj) => {
                 orderData.restaurant = obj;
                 return orderData;
             })
-            .then(() => utils.addRandomDishesInOrder(3))
             .then(() => {
-                log.testStep('test for purchase', 8, 'make checkout');
+                log.testStep('test for purchase', 4, 'add 3 random dishes');
+                return utils.addRandomDishesInOrder(3);
+            })
+            .then(() => {
+                log.testStep('test for purchase', 5, 'make checkout');
                 return restaurantPage.makeCheckout()
             })
             .then(() => {
-                log.testStep('test for purchase', 9, 'save info about items in order');
+                log.testStep('test for purchase', 6, 'save info about items in order');
                 checkoutPage.getInfoOfOrderItems()
             })
             .then((arrayItems) => {
@@ -55,15 +61,15 @@ describe('test for purchase', () => {
                 return orderData;
             })
             .then(() => {
-                log.testStep('test for purchase', 10, 'type payment info');
+                log.testStep('test for purchase', 7, 'type payment info');
                 return typeCardData();
             })
             .then(() => {
-                log.testStep('test for purchase', 11, 'purchase');
+                log.testStep('test for purchase', 8, 'purchase');
                 return checkoutPage.clickBtnPurchase()
             })
             .then(() => {
-                log.testStep('test for purchase', 13, 'save orderID');
+                log.testStep('test for purchase', 9, 'save orderID');
                 return thankYouPage.getID()
             })
             .then((id) => {
@@ -71,7 +77,7 @@ describe('test for purchase', () => {
                 return orderData;
             })
             .then(() => utils.createInfoJSON(orderData))
-            .then(() => log.testStep('test for purchase', 14, 'verify line with orderID'))
+            .then(() => log.testStep('test for purchase', 10, 'verify line with orderID'))
             .then(() => thankYouPage.getStringWithOrderID())
             .then((text) => expect(text.match(/ID is \d\d\d\d\d\d\d\d\d\d\d\d\d/)).not.toBe(null));
     })

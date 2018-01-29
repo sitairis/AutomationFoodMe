@@ -50,7 +50,9 @@ class RestaurantPage  extends Page {
     getPriceListElementsCollect() {
         log.step(this.className, 'getPriceListElementsCollect', 'get price list');
 
-        return this.rootMenu.findElementsByRepeater('menuItem in restaurant.menuItems');
+        return $('div.span8.fm-panel.fm-menu-list').all(by.repeater('menuItem in restaurant.menuItems'));
+            // .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- getPriceListElementsCollect : ${errorMessage}`)));
+
     }
 
     /**

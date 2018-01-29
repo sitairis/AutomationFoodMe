@@ -17,7 +17,7 @@ describe('test for restaurant page', () => {
     it('should open restaurant, select dish and compare results', () => {
 
         log.testStep('test for restaurant page', 1, 'open restaurant');
-        mainPage.openRestaurant(0)//utils.getRandomNumber(0, 39)
+        mainPage.openRestaurant(utils.getRandomNumber(0, 38))
             .then(() => {
                 log.testStep('test for restaurant page', 2, 'add dish to order');
 

@@ -139,6 +139,16 @@ class FilterRestaurantsPanel {
 
         return this.rootCheckBoxFilter.$$(`input[type="checkbox"]`);
     }
+
+    /**
+     *
+     * @returns {promise.Promise<any[]>}
+     */
+    getCheckboxesValues() {
+       return this.getCheckBoxesElementsCollect().map((elem) => elem.getAttribute('value'));
+
+
+    }
 }
 
 module.exports = new FilterRestaurantsPanel();

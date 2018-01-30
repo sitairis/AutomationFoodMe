@@ -24,8 +24,7 @@ class RestaurantPage  extends Page {
             throw new Error(`${this.className} : addToOrder : index is incorrect`);
         }
 
-        let btnAddDishToOrder = this.getPriceListElementsCollect().get(index).$(`a`);
-
+        let btnAddDishToOrder = this.getPriceListElementsCollect().$$(`a`).get(index);
         return utils.doClick(btnAddDishToOrder, 'click on selected dish')
             .then(() => log.step(this.className, 'addToOrder', 'click on selected dish'))
             .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- addToOrder : ${errorMessage}`)));

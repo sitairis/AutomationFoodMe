@@ -14,19 +14,22 @@ describe('test for purchase', () => {
         let randomName = faker.name.findName();
         let randomAddress = `${faker.address.city()}, ${faker.address.streetAddress()}`;
         authForm.doLogIn(randomName, randomAddress);
+
+        request({
+            method: 'post',
+            url: 'http://localhost:5000/api/order',
+            headers: {
+                ContentType: 'application/json',
+                charset: 'UTF-8'
+            },
+            json: true
+        }, (err, response) => {
+            if (err) throw new Error(err);
+            fs.writeFileSync('./lib/orderId.json', JSON.stringify(response.body));
+        });
     });
 
-    request({
-        method: 'post',
-        url: 'http://localhost:5000/api/order',
-        headers: {
-            ContentType: 'application/json',
-            charset: 'UTF-8'
-        },
-        json: true
-    }, (err) => {
-        if (err) throw new Error(err);
-    }).pipe(fs.createWriteStream('../../lib/orderId.json'));
+
 
 
     it('should click on purchase, get ID and make json file', () => {
@@ -60,7 +63,7 @@ describe('test for purchase', () => {
             })
             .then(() => {
                 log.testStep('test for purchase', 4, 'add 3 random dishes');
-                return utils.addRandomDishesInOrder(3);
+                return addRandomDishesInOrder(3);
             })
             .then(() => {
                 log.testStep('test for purchase', 5, 'make checkout');
@@ -105,4 +108,14 @@ function typeCardData() {
         .then(() => checkoutPage.typeNumberCard(UsersData.numberCard))
         .then(() => checkoutPage.typeExpire(UsersData.expire.dd, UsersData.expire.yyyy))
         .then(() => checkoutPage.typeCVC(UsersData.CVC));
+}
+
+function addRandomDishesInOrder(countDishes) {
+    return restaurantPage.getPriceListElementsCollect().count()
+        .then((count) => {
+            for (let i = 0; i < countDishes; i++){
+                restaurantPage.addToOrder(utils.getRandomNumber(0, count));
+            }
+        })
+        .catch((errorMessage) => Promise.reject(new Error(` : Error --- addRandomDishesInOrder : ${errorMessage}`)));
 }

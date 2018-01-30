@@ -21,14 +21,14 @@ describe('test for restaurant page', () => {
             .then(() => {
                 log.testStep('test for restaurant page', 2, 'add dish to order');
 
-                return utils.addRandomDishesInOrder(3)
+                return addRandomDishesInOrder(3)
             })
-                    .then(() => {
-                        log.testStep('test for restaurant page', 3, 'get order price');
+            .then(() => {
+                log.testStep('test for restaurant page', 3, 'get order price');
 
-                        return restaurantPage.getTotalPriceElement()
-                    })
-                    .then((totalPriceElement) => totalPriceElement.getText())
+                return restaurantPage.getTotalPriceElement()
+            })
+            .then((totalPriceElement) => totalPriceElement.getText())
             .then((totalPrice) => {
                 log.testStep('test for restaurant page', 4, 'verify price');
                 expect(totalPrice.match(/\d+\.\d+/g)[0]).toEqual(culcTotalPriceOfOrder());
@@ -43,9 +43,19 @@ describe('test for restaurant page', () => {
 function culcTotalPriceOfOrder() {
     return restaurantPage.getOrderElementsCollect().map((currentItem) => {
         return currentItem.evaluate('item')
-            .then((item) => item.price)
+            .then((item) => {
+                return item.price;
+            })
     })
-        .then((orderItems) => orderItems.reduce((total, currentItem) => {
-                return total + currentItem
-            },0).toFixed(2))
+        .then((orderItems) => orderItems.reduce((total, currentItem) => total + currentItem, 0).toFixed(2))
+}
+
+function addRandomDishesInOrder(countDishes) {
+    return restaurantPage.getPriceListElementsCollect().count()
+        .then((count) => {
+            for (let i = 0; i < countDishes; i++) {
+                restaurantPage.addToOrder(utils.getRandomNumber(0, count));
+            }
+        })
+        .catch((errorMessage) => Promise.reject(new Error(` : Error --- addRandomDishesInOrder : ${errorMessage}`)));
 }

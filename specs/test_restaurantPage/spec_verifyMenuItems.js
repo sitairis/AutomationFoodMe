@@ -5,6 +5,7 @@ let authForm = require('../../pages/AuthPage');
 let utils = require(`../../lib/utils`);
 let faker = require('faker');
 let restInfoWithDetails = require('../../lib/restInfoWithDetails');
+let random = require(`../../lib/utils/random`);
 
 describe('test for restaurant page', () => {
 
@@ -18,7 +19,7 @@ describe('test for restaurant page', () => {
     it('should open restaurant, select dish and compare results', () => {
 
         log.testStep('test for restaurant page', 1, 'open restaurant');
-        mainPage.openRestaurant(utils.getRandomNumber(0, 38))
+        mainPage.openRestaurant(random.getRandomNumber(0, 38))
             .then(() => {
                 log.testStep('test for restaurant page', 2, 'get menu');
                 return restaurantPage.getMenuObjArray()

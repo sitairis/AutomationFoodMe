@@ -5,6 +5,8 @@ let utils = require('../../lib/utils');
 let thankYouPage = require('../../pages/ThankYouPage');
 let log = require('../../lib/Logger');
 let authForm = require('../../pages/AuthPage');
+let utilForCuisine = require('../../lib/utils/utilForCuisine');
+let random = require('../../lib/utils/random');
 
 describe('test for purchase', () => {
     beforeAll(() => {
@@ -27,7 +29,7 @@ describe('test for purchase', () => {
         };
 
         log.testStep('test for purchase', 1, 'get cuisine(s) array from FiltersData');
-        utils.setCuisineFilter(3)
+        utilForCuisine.setCuisineFilter(3)
             .then(() => {
                 log.testStep('test for purchase', 2, 'open restaurant');
                 return utils.openPopularCheapestRestaurant()
@@ -98,7 +100,7 @@ function addRandomDishesInOrder(countDishes) {
     return restaurantPage.getPriceListElementsCollect().count()
         .then((count) => {
             for (let i = 0; i < countDishes; i++){
-                restaurantPage.addToOrder(utils.getRandomNumber(0, count));
+                restaurantPage.addToOrder(random.getRandomNumber(0, count));
             }
         })
         .catch((errorMessage) => Promise.reject(new Error(` : Error --- addRandomDishesInOrder : ${errorMessage}`)));

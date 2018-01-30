@@ -2,6 +2,7 @@ let utils = require(`../lib/utils`);
 let Page = require('./Page');
 let BaseElement = require('../elements/BaseElement');
 let log = require('../lib/Logger');
+let valid = require('../lib/utils/valid');
 
 class RestaurantPage  extends Page {
 
@@ -19,7 +20,7 @@ class RestaurantPage  extends Page {
      * @returns {promise.Promise.<void>}
      */
     addToOrder(index) {
-        if (!utils.isIndexPositive(index)) {
+        if (!valid.isIndexPositive(index)) {
             log.error(`${this.className} : addToOrder : index is incorrect`);
             throw new Error(`${this.className} : addToOrder : index is incorrect`);
         }

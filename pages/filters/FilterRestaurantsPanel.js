@@ -1,6 +1,7 @@
 let utils = require('../../lib/utils');
 let FiltersData = require('./FiltersData');
 let log = require('../../lib/Logger');
+let valid = require('../../lib/utils/valid');
 
 class FilterRestaurantsPanel {
 
@@ -15,7 +16,7 @@ class FilterRestaurantsPanel {
      * @param ratingValue
      */
     setRatingFilter(typeFilter, ratingValue) {
-        if (!utils.isValidRatingValue(ratingValue)) {
+        if (!valid.isValidRatingValue(ratingValue)) {
             log.error(`${this.className} : setRatingFilter : ratingValue is incorrect`);
             throw new Error(`${this.className} : setRatingFilter : ratingValue is incorrect ${ratingValue}`);
         }
@@ -36,7 +37,7 @@ class FilterRestaurantsPanel {
      * @private
      */
     _getRootRadioBtnFilterElement(typeFilter) {
-        if (!utils.isValidTypeFilter(typeFilter)) {
+        if (!valid.isValidTypeFilter(typeFilter)) {
             log.error(`${this.className} : _getRootRadioBtnFilterElement : typeFilter is incorrect`);
             throw new Error(`${this.className} : _getRootRadioBtnFilterElement : typeFilter is incorrect`);
         }
@@ -60,7 +61,7 @@ class FilterRestaurantsPanel {
      * @returns {promise.Promise<any>}
      */
     setCheckBoxFilter(typeFilter, [...values]) {
-        if (!utils.isString(typeFilter) || typeFilter.toLowerCase() !== 'cuisines') {
+        if (!valid.isString(typeFilter) || typeFilter.toLowerCase() !== 'cuisines') {
             log.error(`${this.className}: setCheckBoxFilter : typeFilter is incorrect`);
             throw new Error(`${this.className}: setCheckBoxFilter : typeFilter is incorrect`);
         }
@@ -68,7 +69,7 @@ class FilterRestaurantsPanel {
             log.error(`${this.className}: setCheckBoxFilter : values is not an array`);
             throw new Error(`${this.className}: setCheckBoxFilter : values is not an array`);
         }
-        if (utils.isEmptyArray(values)) {
+        if (valid.isEmptyArray(values)) {
             log.error(`${this.className}: setCheckBoxFilter : values is empty`);
             throw new Error(`${this.className}: setCheckBoxFilter : values is empty`);
         }

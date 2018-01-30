@@ -2,6 +2,7 @@ let Page = require('./Page');
 let utils = require(`../lib/utils`);
 let baseEl = require('../elements/BaseElement');
 let log = require('../lib/Logger');
+let valid = require('../lib/utils/valid');
 
 class MainPage extends Page {
 
@@ -17,7 +18,7 @@ class MainPage extends Page {
      * @returns {*}
      */
     openRestaurant(index) {
-        if (!utils.isIndexPositive(index)) {
+        if (!valid.isIndexPositive(index)) {
             log.error(`${this.className} : openRestaurant : index is incorrect`);
             throw new Error(`${this.className} : openRestaurant : index is incorrect`);
         }
@@ -45,11 +46,11 @@ class MainPage extends Page {
      * @param typeSort
      */
     sortRestaurants(typeProp, typeSort) {
-        if (!utils.isString(typeProp)) {
+        if (!valid.isString(typeProp)) {
             log.error(`${this.className} : sortRestaurants : typeProp is not a string`);
             throw new Error(`${this.className} : sortRestaurants : typeProp is not a string`);
         }
-        if (!utils.isString(typeSort)) {
+        if (!valid.isString(typeSort)) {
             log.error(`${this.className} : sortRestaurants : typeSort is not a string`);
             throw new Error(`${this.className} : sortRestaurants : typeSort is not a string`);
         }
@@ -80,7 +81,7 @@ class MainPage extends Page {
      * @param prop
      */
     getRestaurantProperties(prop) {
-        if (!utils.isString(prop)) {
+        if (!valid.isString(prop)) {
             log.error(`${this.className} : prop is not a string`);
             throw new Error(`${this.className} : getRestaurantProperties : prop is not a string`);
         }

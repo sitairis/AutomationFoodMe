@@ -2,6 +2,7 @@ let Page = require('./Page');
 let baseEl = require('../elements/BaseElement');
 let log = require('../lib/Logger');
 let utils = require('../lib/utils');
+let valid = require('../lib/utils/valid');
 
 class CheckoutPage  extends Page {
 
@@ -64,11 +65,11 @@ class CheckoutPage  extends Page {
      * @param option
      */
     selectOption(option) {
-        if (!utils.isString(option)) {
+        if (!valid.isString(option)) {
             log.error(`${this.className} : selectOption : option is not a string`);
             throw new Error(`${this.className} : selectOption : option is not a string`);
         }
-        if (!utils.isValidOption(option)) {
+        if (!valid.isValidOption(option)) {
             log.error(`${this.className} : selectOption : not found option = ${option}`);
             throw new Error(`${this.className} : selectOption : not found option = ${option}`);
         }

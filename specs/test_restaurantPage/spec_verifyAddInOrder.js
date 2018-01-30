@@ -50,6 +50,11 @@ function culcTotalPriceOfOrder() {
         .then((orderItems) => orderItems.reduce((total, currentItem) => total + currentItem, 0).toFixed(2))
 }
 
+/**
+ * добавить случайное блюдо
+ * @param countDishes
+ * @returns {promise.Promise<any>}
+ */
 function addRandomDishesInOrder(countDishes) {
     return restaurantPage.getPriceListElementsCollect().count()
         .then((count) => {

@@ -42,6 +42,11 @@ describe('test for checkout page', () => {
     });
 });
 
+/**
+ * добавить случайное блюдо
+ * @param countDishes
+ * @returns {promise.Promise<any>}
+ */
 function addRandomDishesInOrder(countDishes) {
     return restaurantPage.getPriceListElementsCollect().count()
         .then((count) => {

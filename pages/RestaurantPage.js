@@ -63,7 +63,7 @@ class RestaurantPage  extends Page {
     }
 
     /**
-     *
+     * вернет массив объектов для меню
      * @returns {promise.Promise<any[]>}
      */
     getMenuObjArray() {
@@ -130,6 +130,10 @@ class RestaurantPage  extends Page {
             .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- getRestaurantInfo : ${errorMessage}`)));
     }
 
+    /**
+     * вернет название ресторана
+     * @returns {*|jQuery}
+     */
     getRestaurantName() {
         return $('div.span10').$('h3').getText();
     }

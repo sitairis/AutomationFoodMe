@@ -5,28 +5,10 @@ let utils = require('../../lib/utils');
 let thankYouPage = require('../../pages/ThankYouPage');
 let log = require('../../lib/Logger');
 let authForm = require('../../pages/AuthPage');
-let faker = require('faker');
-const request = require('request');
-const fs = require('fs');
 
 describe('test for purchase', () => {
     beforeAll(() => {
-        let randomName = faker.name.findName();
-        let randomAddress = `${faker.address.city()}, ${faker.address.streetAddress()}`;
-        authForm.doLogIn(randomName, randomAddress);
-
-        request({
-            method: 'post',
-            url: 'http://localhost:5000/api/order',
-            headers: {
-                ContentType: 'application/json',
-                charset: 'UTF-8'
-            },
-            json: true
-        }, (err, response) => {
-            if (err) throw new Error(err);
-            fs.writeFileSync('./lib/orderId.json', JSON.stringify(response.body));
-        });
+        authForm.doLogIn(UsersData.nameDeliver, UsersData.address);
     });
 
     it('should click on purchase, get ID and make json file', () => {
@@ -93,7 +75,7 @@ describe('test for purchase', () => {
             .then(() => utils.createJSONFile(orderData))
             .then(() => log.testStep('test for purchase', 10, 'verify line with orderID'))
             .then(() => thankYouPage.getStringWithOrderID())
-            .then((text) => expect(text.match(/ID is \d\d\d\d\d\d\d\d\d\d\d\d\d/)).not.toBe(null));
+            .then((text) => expect(text.match(/\d\d\d\d\d\d\d\d\d\d\d\d\d/)).not.toBe(null));
     })
 });
 
@@ -107,6 +89,11 @@ function typeCardData() {
         .then(() => checkoutPage.typeCVC(UsersData.CVC));
 }
 
+/**
+ * добавить случайное блюдо
+ * @param countDishes
+ * @returns {promise.Promise<any>}
+ */
 function addRandomDishesInOrder(countDishes) {
     return restaurantPage.getPriceListElementsCollect().count()
         .then((count) => {

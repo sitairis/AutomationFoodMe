@@ -5,6 +5,7 @@ let log = require('../../lib/Logger');
 let authForm = require('../../pages/AuthPage');
 let faker = require('faker');
 let mainPage= require('../../pages/MainPage');
+
 describe('test for checkout page', () => {
 
     beforeAll(() => {
@@ -12,8 +13,6 @@ describe('test for checkout page', () => {
         let randomAddress = `${faker.address.city()}, ${faker.address.streetAddress()}`;
         authForm.doLogIn(randomName, randomAddress);
     });
-
-    //проверить заказ на странице ресторана = на странице подтверждения
 
     it('should make checkout and compare names and prices of dishes', () => {
         let infoArrayLinesFromRestPage = [];

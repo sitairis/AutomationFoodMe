@@ -17,7 +17,6 @@ describe('test for checkbox filter', () => {
         log.testStep('Verify cuisine filter', 1, 'get cuisine(s) array from FiltersData');
         filterPanel.getCheckboxesValues()
             .then((expectCuisines) => {
-                console.log(`${expectCuisines}`);
                 log.testStep('Verify cuisine filter', 2, 'check cuisine(s)');
                 expect(expectCuisines.sort()).toEqual(utils.dropRepeatingElement(utils.getArrayValuesByProperty(restInfo.info, 'cuisine')));
             })

@@ -22,17 +22,11 @@ exports.config = {
         all: './specs/*/*.js'
     },
 
-    onPrepare: function () {
+    beforeLaunch: () => {
         let restaurants = require('./lib/restaurants');
         const request = require("request");
         const fs = require('fs');
 
-        beforeAll(() => {
-            getInfoAboutAllRestaurants();
-            getInfoAboutRestWithDetails();
-        });
-
-        function getInfoAboutAllRestaurants() {
             let firstRequestOpt = {
                 method: 'get',
                 url: 'http://localhost:5000/api/restaurant',
@@ -55,9 +49,7 @@ exports.config = {
                     console.log("File restaurants.json has been created");
                 });
             });
-        }
 
-        function getInfoAboutRestWithDetails() {
             let arrayOfIdRest = restaurants.info.map((curRest) => `${curRest.id}`);
 
             arrayOfIdRest.forEach((idRest) => {
@@ -80,13 +72,17 @@ exports.config = {
                 request(secondRequestOpt, (err, response) => {
                     if (err) throw new Error(err);
 
-                    let obj = JSON.parse(fs.readFileSync('./lib/restInfoWithDetails.json'));
+                    let data = fs.readFileSync('./lib/restInfoWithDetails.json');
+                    let obj = JSON.parse(data);
                     obj.info.push(response.body);
                     fs.writeFileSync(`./lib/restInfoWithDetails.json`, JSON.stringify(obj));
                 });
             });
-        }
+
+
+    },
+
+    onComplete: () => {
+        require('fs').writeFileSync(`./lib/restInfoWithDetails.json`, JSON.stringify({}));
     }
-
-
 };

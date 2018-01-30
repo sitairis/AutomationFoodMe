@@ -1,5 +1,5 @@
 let log = require('../lib/Logger');
-let utils = require('../lib/utils');
+let protrUtils = require('../lib/utils/protrUtils');
 
 class AuthPage {
 
@@ -50,7 +50,7 @@ class AuthPage {
      * @returns {promise.Promise<any>}
      */
     fillInputName(name) {
-        return utils.doSendKeys(this.inputName, name, `type deliver's name`)
+        return protrUtils.doSendKeys(this.inputName, name, `type deliver's name`)
             .then(() =>  log.step(this.className, 'fillInputName',`type deliver's name`))
             .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- fillInputName : ${errorMessage}`)));
     }
@@ -60,7 +60,7 @@ class AuthPage {
      * @returns {promise.Promise<any>}
      */
     pressFindRestaurantsButton() {
-        return utils.doClick(this.btnFindRestaurants, `click on button 'Find Restaurants'`)
+        return protrUtils.doClick(this.btnFindRestaurants, `click on button 'Find Restaurants'`)
             .then(() => log.step(this.className, 'pressFindRestaurantsButton',`click on button 'Find Restaurants'`))
             .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- pressFindRestaurantsButton : ${errorMessage}`)));
     }
@@ -71,7 +71,7 @@ class AuthPage {
      * @returns {promise.Promise<any>}
      */
     fillInputAddress(address) {
-        return utils.doSendKeys(this.inputAddress, address, `type deliver's address`)
+        return protrUtils.doSendKeys(this.inputAddress, address, `type deliver's address`)
             .then(() => log.step(this.className, 'fillInputAddress',`type deliver's address`))
             .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- fillInputAddress : ${errorMessage}`)));
     }

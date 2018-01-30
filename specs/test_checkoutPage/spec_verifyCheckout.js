@@ -1,6 +1,6 @@
 let restaurantPage = require(`../../pages/RestaurantPage`);
 let checkoutPage = require(`../../pages/CheckoutPage`);
-let utils = require(`../../lib/utils`);
+let servUtils = require(`../../lib/utils/servUtils`);
 let log = require('../../lib/Logger');
 let authForm = require('../../pages/AuthPage');
 let faker = require('faker');
@@ -27,7 +27,7 @@ describe('test for checkout page', () => {
             .then(() => restaurantPage.getOrderElementsCollect())
             .then(() => restaurantPage.getOrderInfoObjArray())
             .then((orderInfo) => {
-                infoArrayLinesFromRestPage = utils.getOrderInfoObjArray(orderInfo);
+                infoArrayLinesFromRestPage = servUtils.getOrderInfoObjArray(orderInfo);
                 return infoArrayLinesFromRestPage;
             })
             .then(() => {
@@ -38,7 +38,7 @@ describe('test for checkout page', () => {
                 log.testStep('test for checkout page', 4, 'compare order list and dishes list');
                 return checkoutPage.getInfoOfOrderItems();
             })
-            .then((infoObjArray) => utils.getOrderInfoObjArray(infoObjArray))
+            .then((infoObjArray) => servUtils.getOrderInfoObjArray(infoObjArray))
             .then((infoArrayLines) => infoArrayLines.forEach((line, index) => expect(line).toEqual(infoArrayLinesFromRestPage[index])));
     });
 });

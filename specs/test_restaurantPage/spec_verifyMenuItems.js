@@ -2,7 +2,7 @@ let mainPage = require(`../../pages/MainPage`);
 let restaurantPage = require(`../../pages/RestaurantPage`);
 let log = require('../../lib/Logger');
 let authForm = require('../../pages/AuthPage');
-let utils = require(`../../lib/utils`);
+let servUtils = require(`../../lib/utils/servUtils`);
 let faker = require('faker');
 let restInfoWithDetails = require('../../lib/restInfoWithDetails');
 let random = require(`../../lib/utils/random`);
@@ -24,7 +24,7 @@ describe('test for restaurant page', () => {
                 log.testStep('test for restaurant page', 2, 'get menu');
                 return restaurantPage.getMenuObjArray()
             })
-            .then((objArray) => utils.getMenuInfoObjArray(objArray))
+            .then((objArray) => servUtils.getMenuInfoObjArray(objArray))
             .then((menuItems) => {
                 restaurantPage.getRestaurantName()
                     .then((restName) => {

@@ -1,4 +1,4 @@
-let utils = require('../../lib/utils');
+let protrUtils = require('../../lib/utils/protrUtils');
 let FiltersData = require('./FiltersData');
 let log = require('../../lib/Logger');
 let valid = require('../../lib/utils/valid');
@@ -25,7 +25,7 @@ class FilterRestaurantsPanel {
             .$$(`li[ng-class="style"]`)
             .get(Number.parseInt(ratingValue));
 
-        return utils.doClick(ratingElement, 'set rating/price filter')
+        return protrUtils.doClick(ratingElement, 'set rating/price filter')
             .then(() => log.step(`${this.className}`, 'setRatingFilter', 'set rating/price filter'))
             .catch((errorMessage) => Promise.reject(`${this.className} : Error --- setRatingFilter : ${errorMessage}`));
     }
@@ -80,7 +80,7 @@ class FilterRestaurantsPanel {
                     .then((text) => {
                         return values.forEach((el) => {
                             if (el === text) {
-                                utils.doClick(checkbox, 'click on checkbox');
+                                protrUtils.doClick(checkbox, 'click on checkbox');
 
                                 log.step(this.className, 'setCheckBoxFilter', '');
                             }
@@ -107,7 +107,7 @@ class FilterRestaurantsPanel {
             .$(`ul + a[ng-click="select(null)"]`);
         browser.driver.actions().mouseMove(btnClear).perform();
 
-        return utils.doClick(btnClear, 'click on button Clear')
+        return protrUtils.doClick(btnClear, 'click on button Clear')
             .then(() => log.step(this.className, 'clearRadioFilter', ''))
             .catch((errorMessage) => Promise.reject(`${this.className} : Error --- clearRadioFilter : ${errorMessage}`));
     }
@@ -120,7 +120,7 @@ class FilterRestaurantsPanel {
         return this.getCheckBoxesElementsCollect().each((checkbox) => {
             checkbox.isSelected().then((selected) => {
                 if (selected === true) {
-                    utils.doClick(checkbox, 'clear checkbox filter');
+                    protrUtils.doClick(checkbox, 'clear checkbox filter');
 
                     log.step(this.className, 'clearCheckFilter', '');
                 }

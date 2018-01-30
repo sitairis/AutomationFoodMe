@@ -1,5 +1,5 @@
 let Page = require('./Page');
-let utils = require(`../lib/utils`);
+let protrUtils = require(`../lib/utils/protrUtils`);
 let baseEl = require('../elements/BaseElement');
 let log = require('../lib/Logger');
 let valid = require('../lib/utils/valid');
@@ -25,7 +25,7 @@ class MainPage extends Page {
         let elementForClick = this.rootRestaurantList.findElementsByCSS(`img.img-rounded.pull-left`)
             .get(index);
 
-        return utils.doClick(elementForClick, 'click on selected restaurant')
+        return protrUtils.doClick(elementForClick, 'click on selected restaurant')
             .then(() => log.step(this.className, 'openRestaurant', 'click on selected restaurant'))
             .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- openRestaurant : ${errorMessage}`)));
     }

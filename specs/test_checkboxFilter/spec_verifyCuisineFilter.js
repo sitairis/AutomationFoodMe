@@ -1,6 +1,6 @@
 let filterPanel = require(`../../pages/filters/FilterRestaurantsPanel`);
 let mainPage = require(`../../pages/MainPage`);
-let utils = require(`../../lib/utils`);
+let servUtils = require(`../../lib/utils/servUtils`);
 let log = require('../../lib/Logger');
 let authForm = require('../../pages/AuthPage');
 let faker = require('faker');
@@ -20,6 +20,6 @@ describe('test for checkbox filter', () => {
 
         log.testStep('Verify cuisine filter', 2, 'check cuisine(s)');
         filterPanel.setCheckBoxFilter(`Cuisines`, utilForCuisine.getCuisinesName(cuisines))
-            .then(() => expect(mainPage.getRestaurantsElementsCollect().count()).toEqual(utils.getTotalRestCount(cuisines)));
+            .then(() => expect(mainPage.getRestaurantsElementsCollect().count()).toEqual(servUtils.getTotalRestCount(cuisines)));
     });
 });

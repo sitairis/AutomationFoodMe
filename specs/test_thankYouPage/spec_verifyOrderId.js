@@ -1,7 +1,8 @@
 let restaurantPage = require(`../../pages/RestaurantPage`);
 let checkoutPage = require(`../../pages/CheckoutPage`);
 let UsersData = require('../../UsersData');
-let utils = require('../../lib/utils');
+let servUtils = require('../../lib/utils/servUtils');
+let protrUtils = require('../../lib/utils/protrUtils');
 let thankYouPage = require('../../pages/ThankYouPage');
 let log = require('../../lib/Logger');
 let authForm = require('../../pages/AuthPage');
@@ -32,7 +33,7 @@ describe('test for purchase', () => {
         utilForCuisine.setCuisineFilter(3)
             .then(() => {
                 log.testStep('test for purchase', 2, 'open restaurant');
-                return utils.openPopularCheapestRestaurant()
+                return protrUtils.openPopularCheapestRestaurant()
             })
             .then(() => {
                 log.testStep('test for purchase', 3, 'save info about restaurant');
@@ -74,7 +75,7 @@ describe('test for purchase', () => {
                 orderData.orderID = id;
                 return orderData;
             })
-            .then(() => utils.createJSONFile(orderData))
+            .then(() => servUtils.createJSONFile(orderData))
             .then(() => log.testStep('test for purchase', 10, 'verify line with orderID'))
             .then(() => thankYouPage.getStringWithOrderID())
             .then((text) => expect(text.match(/\d\d\d\d\d\d\d\d\d\d\d\d\d/)).not.toBe(null));

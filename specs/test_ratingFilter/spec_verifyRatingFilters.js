@@ -1,10 +1,10 @@
 let filterPanel = require(`../../pages/filters/FilterRestaurantsPanel`);
 let authForm = require('../../pages/AuthPage');
 let mainPage = require(`../../pages/MainPage`);
-let utils = require('../../lib/utils');
 let log = require('../../lib/Logger');
 let faker = require('faker');
 const request = require('request');
+let servUtil = require('../../lib/utils/servUtils');
 
 describe('test for rating filter', () => {
 
@@ -49,7 +49,7 @@ describe('test for rating filter', () => {
             recursGetCountRatedRestaurants(filterObj.filterName, filterObj.startValue)
                 .then((expectRestaurantCount) => {
                     return filterPanel.clearRadioFilter(filterObj.filterName)
-                        .then(() => expect(expectRestaurantCount).toEqual(utils.getCountRatedRestaurants(filterObj.filterName)))
+                        .then(() => expect(expectRestaurantCount).toEqual(servUtil.getCountRatedRestaurants(filterObj.filterName)))
                 });
         });
     });

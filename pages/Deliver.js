@@ -1,5 +1,5 @@
 let log = require('../lib/Logger');
-let utils = require('../lib/utils');
+let protrUtils = require('../lib/utils/protrUtils');
 
 class DeliverForm {
     constructor() {
@@ -11,7 +11,7 @@ class DeliverForm {
      * @returns {promise.Promise<any>}
      */
     changeDeliver() {
-        return utils.doClick(this.btnDeliver, 'click on btnDeliver')
+        return protrUtils.doClick(this.btnDeliver, 'click on btnDeliver')
             .then(() => log.step('DeliverForm', 'changeDeliver','click on btnDeliver'))
             .catch((errorMessage) => Promise.reject(new Error(`DeliverForm : Error --- changeDeliver : ${errorMessage}`)));
     }

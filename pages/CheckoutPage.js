@@ -1,7 +1,8 @@
 let Page = require('./Page');
 let baseEl = require('../elements/BaseElement');
 let log = require('../lib/Logger');
-let utils = require('../lib/utils');
+let protrUtils = require('../lib/utils/protrUtils');
+let servUtils = require('../lib/utils/servUtils');
 let valid = require('../lib/utils/valid');
 
 class CheckoutPage  extends Page {
@@ -21,7 +22,7 @@ class CheckoutPage  extends Page {
      * кликнет на кнопку 'purchase'
      */
     clickBtnPurchase() {
-        return utils.doClick(this.btnPurchase, 'click on btnPurchase')
+        return protrUtils.doClick(this.btnPurchase, 'click on btnPurchase')
             .then(() => log.step(this.className, 'clickBtnPurchase', 'click on btnPurchase'))
             .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- clickBtnPurchase : ${errorMessage}`)));
     }
@@ -32,7 +33,7 @@ class CheckoutPage  extends Page {
      * @returns {promise.Promise<void>}
      */
     typeCVC(cvc) {
-        return utils.doSendKeys(this.txbCVC, `${cvc}`, 'type CVC field')
+        return protrUtils.doSendKeys(this.txbCVC, `${cvc}`, 'type CVC field')
             .then(() => log.step(`${this.className}`, 'typeCVC', 'type CVC field'))
             .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- typeCVC : ${errorMessage}`)));
     }
@@ -44,7 +45,7 @@ class CheckoutPage  extends Page {
      * @returns {promise.Promise<void>}
      */
     typeExpire(dd, yyyy) {
-        return utils.doSendKeys(this.txbExpire, `${dd}/${yyyy}`, 'type expire field')
+        return protrUtils.doSendKeys(this.txbExpire, `${dd}/${yyyy}`, 'type expire field')
             .then(() => log.step(this.className, 'typeExpire', 'type expire field'))
             .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- typeExpire : ${errorMessage}`)));
     }
@@ -55,7 +56,7 @@ class CheckoutPage  extends Page {
      * @returns promise.Promise<void>}
      */
     typeNumberCard(number) {
-        return utils.doSendKeys(this.txbNumderCard, `${number}`, 'type curd number field')
+        return protrUtils.doSendKeys(this.txbNumderCard, `${number}`, 'type curd number field')
             .then(() => log.step(this.className, 'typeNumberCard', 'type curd number field'))
             .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- typeNumberCard : ${errorMessage}`)));
     }
@@ -74,8 +75,8 @@ class CheckoutPage  extends Page {
             throw new Error(`${this.className} : selectOption : not found option = ${option}`);
         }
 
-        return utils.doClick(this.cmbCardType, 'select card type')
-            .then(() => utils.doClick(this.cmbCardType.$(`[value=${option}]`), 'select card type'))
+        return protrUtils.doClick(this.cmbCardType, 'select card type')
+            .then(() => protrUtils.doClick(this.cmbCardType.$(`[value=${option}]`), 'select card type'))
             .then(() => log.step(this.className, 'selectOption', 'select card type'))
             .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- selectOption : ${errorMessage}`)));
     }
@@ -98,7 +99,7 @@ class CheckoutPage  extends Page {
             return item.evaluate('item')
                 .then((itemProperties) => {
                     log.step(this.className, 'getInfoOfOrderItems', 'get prices and names from order list');
-                    return utils.makeDishObject(itemProperties);
+                    return servUtils.makeDishObject(itemProperties);
                 })
         })
             .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- getInfoOfOrderItems : ${errorMessage}`)));

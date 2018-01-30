@@ -1,8 +1,9 @@
-let utils = require(`../lib/utils`);
+let protrUtils = require(`../lib/utils/protrUtils`);
 let Page = require('./Page');
 let BaseElement = require('../elements/BaseElement');
 let log = require('../lib/Logger');
 let valid = require('../lib/utils/valid');
+let servUtil = require('../lib/utils/servUtils');
 
 class RestaurantPage  extends Page {
 
@@ -26,7 +27,7 @@ class RestaurantPage  extends Page {
         }
 
         let btnAddDishToOrder = this.getPriceListElementsCollect().$$(`a`).get(index);
-        return utils.doClick(btnAddDishToOrder, 'click on selected dish')
+        return protrUtils.doClick(btnAddDishToOrder, 'click on selected dish')
             .then(() => log.step(this.className, 'addToOrder', 'click on selected dish'))
             .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- addToOrder : ${errorMessage}`)));
     }
@@ -73,7 +74,7 @@ class RestaurantPage  extends Page {
                 .then((menuItem) => {
                     log.step(this.className, 'getMenuObjArray', 'return objects array');
 
-                    return utils.makeMenuObject(menuItem, index);
+                    return servUtil.makeMenuObject(menuItem, index);
                 })
         })
     }
@@ -100,7 +101,7 @@ class RestaurantPage  extends Page {
             return curItem.evaluate('item')
                 .then((item) => {
                     log.step(this.className, 'getOrderInfoObjArray', 'get array of dishes names');
-                    return utils.makeDishObject(item);
+                    return servUtil.makeDishObject(item);
                 })
         })
             .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- sortMenuByPriceDec : ${errorMessage}`)));
@@ -110,7 +111,7 @@ class RestaurantPage  extends Page {
      * клик на кнупку 'checkout'
      */
     makeCheckout() {
-        return utils.doClick(this.btnCheckout, 'click on btnCheckout')
+        return protrUtils.doClick(this.btnCheckout, 'click on btnCheckout')
             .then(() => log.step(this.className, 'makeCheckout', 'click on btnCheckout'))
             .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- makeCheckout : ${errorMessage}`)));
     }

@@ -18,10 +18,9 @@ describe('test for checkout page', () => {
         let infoArrayLinesFromRestPage = [];
 
         log.testStep('test for checkout page', 1, 'check cuisine(s) and open restaurant');
-        mainPage.openRestaurant(utils.getRandomNumber(0, 38))
+        mainPage.openRestaurant(utils.getRandomNumber(0, 39))
             .then(() => {
                 log.testStep('test for restaurant page', 2, 'add dish to order');
-
                 return addRandomDishesInOrder(3)
             })
             .then(() => restaurantPage.getOrderElementsCollect())
@@ -31,11 +30,11 @@ describe('test for checkout page', () => {
                 return infoArrayLinesFromRestPage;
             })
             .then(() => {
-                log.testStep('test for checkout page', 4, 'make checkout');
+                log.testStep('test for checkout page', 3, 'make checkout');
                 return restaurantPage.makeCheckout()
             })
             .then(() => {
-                log.testStep('test for checkout page', 5, 'compare order list and dishes list');
+                log.testStep('test for checkout page', 4, 'compare order list and dishes list');
                 return checkoutPage.getInfoOfOrderItems();
             })
             .then((infoObjArray) => utils.getOrderInfoObjArray(infoObjArray))

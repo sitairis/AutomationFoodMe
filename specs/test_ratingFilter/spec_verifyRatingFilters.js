@@ -19,10 +19,11 @@ describe('test for rating filter', () => {
     /**
      * get info about all restaurants
      */
-    request({method: 'get',
+    request({
+        method: 'get',
         url: 'http://localhost:5000/api/restaurant',
         headers: {
-            Accept:'application/json'
+            Accept: 'application/json'
         },
         json: true
     }, (err, response) => {
@@ -36,28 +37,21 @@ describe('test for rating filter', () => {
     let filterDataArray = [{
         filterName: 'rating',
         startValue: 4
-        },{
+    }, {
         filterName: 'price',
         startValue: 0
     }];
 
     it('should find the most popular restaurant and then the cheapest restaurant', () => {
 
-        log.testStep('test for filters', 1, 'get cuisine(s) array from FiltersData');
-        let cuisines = utils.getRandomCuisinesArrayObj(3);
-
-        log.testStep('test for filters', 2, 'checked cuisines');
-        filterPanel.setCheckBoxFilter(`Cuisines`, utils.getCuisinesName(cuisines))
-            .then(() => {
-                log.testStep('test for filters', 3, 'verify counts');
-                filterDataArray.forEach((filterObj) => {
-                    recursGetCountRatedRestaurants(filterObj.filterName, filterObj.startValue)
-                        .then((expectRestaurantCount) => {
-                            return filterPanel.clearRadioFilter(filterObj.filterName)
-                                .then(() => expect(expectRestaurantCount).toEqual(utils.getCountRatedRestaurants(filterObj.filterName, cuisines)))
-                        })
-                })
-            })
+        log.testStep('test for filters', 1, 'verify counts');
+        filterDataArray.forEach((filterObj) => {
+            recursGetCountRatedRestaurants(filterObj.filterName, filterObj.startValue)
+                .then((expectRestaurantCount) => {
+                    return filterPanel.clearRadioFilter(filterObj.filterName)
+                        .then(() => expect(expectRestaurantCount).toEqual(utils.getCountRatedRestaurants(filterObj.filterName)))
+                });
+        });
     });
 });
 

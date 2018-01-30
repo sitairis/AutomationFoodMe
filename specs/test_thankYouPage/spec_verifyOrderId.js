@@ -29,9 +29,6 @@ describe('test for purchase', () => {
         });
     });
 
-
-
-
     it('should click on purchase, get ID and make json file', () => {
 
         let orderData = {

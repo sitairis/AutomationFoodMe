@@ -25,12 +25,12 @@ describe('test for checkout page', () => {
                 return restaurantPage.sortMenuByPriceDec();
             })
             .then((sortedPrices) => {
-                        let dishes = sortedPrices.slice(0, UsersData.personsAmount);
+                let dishes = sortedPrices.slice(0, UsersData.personsAmount);
 
-                        infoArrayLinesFromRestPage = utils.getListRestaurantInfo(sortedPrices);
+                infoArrayLinesFromRestPage = utils.getListRestaurantInfo(sortedPrices);
 
-                        log.testStep('test for checkout page', 3, 'add dishes to order');
-                        return dishes.forEach((dish) => restaurantPage.addToOrder(dish.index))
+                log.testStep('test for checkout page', 3, 'add dishes to order');
+                return dishes.forEach((dish) => restaurantPage.addToOrder(dish.index))
             })
             .then(() => {
                 log.testStep('test for checkout page', 4, 'make checkout');

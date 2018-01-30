@@ -23,79 +23,70 @@ exports.config = {
     },
 
     onPrepare: function () {
-        let restaurants = require('./restaurants');
+        let restaurants = require('./lib/restaurants');
         const request = require("request");
         const fs = require('fs');
 
         beforeAll(() => {
-            request({method: 'get',
+            getInfoAboutAllRestaurants();
+            getInfoAboutRestWithDetails();
+        });
+
+        function getInfoAboutAllRestaurants() {
+            let firstRequestOpt = {
+                method: 'get',
                 url: 'http://localhost:5000/api/restaurant',
                 headers: {
                     Accept: 'application/json'
                 },
                 json: true
-            }, (err, responce) => {
+            };
+
+            request(firstRequestOpt, (err, response) => {
                 if (err) throw new Error(err);
 
                 let objForAllRst = {
-                    array: responce.body
+                    info: response.body
                 };
 
-                fs.writeFile("./restaurants.json", JSON.stringify(objForAllRst), (err) => {
-                    if (err) {
-                        console.error(err);
-                        return;
-                    }
-                    console.log("File has been created");
+                fs.writeFile("./lib/restaurants.json", JSON.stringify(objForAllRst), (err) => {
+                    if (err) throw new Error(err.message);
+
+                    console.log("File restaurants.json has been created");
                 });
-
             });
+        }
 
+        function getInfoAboutRestWithDetails() {
+            let arrayOfIdRest = restaurants.info.map((curRest) => `${curRest.id}`);
 
+            arrayOfIdRest.forEach((idRest) => {
 
-            fs.writeFile("./restaurantInfo.json", JSON.stringify(objForRestInfo), (err) => {
-                if (err) {
-                    console.error(err);
-                    return;
-                }
-                console.log("File has been created");
-            });
-
-
-
-            let arrr = restaurants.array.map((curRest) => `http://localhost:5000/api/restaurant/${curRest.id}`);
-
-            // console.log(arrr);
-
-
-            arrr.forEach((a) => {
-                request({
+                let secondRequestOpt = {
                     method: 'get',
-                    url: a,
+                    url: `http://localhost:5000/api/restaurant/${idRest}`,
                     headers: {
                         Accept: 'application/json'
                     },
                     json: true
-                }, (err, resp) => {
+                };
+
+                let objForRestInfo = {
+                    info: []
+                };
+
+                fs.writeFileSync(`./lib/restInfoWithDetails.json`, JSON.stringify(objForRestInfo));
+
+                request(secondRequestOpt, (err, response) => {
                     if (err) throw new Error(err);
 
-                    fs.readFile('./restaurantInfo.json', (err, data) => {
-                        if (err) throw new Error(err.message);
-
-                        let obj = JSON.parse(data);
-
-                        obj.push(resp.body);
-
-                        fs.writeFile('./restaurantInfo.json', JSON.stringify(obj), (error) => {
-                            if (error) throw new Error(error.message);
-
-                            console.log("File has been update");
-                        })
-                    });
-
+                    let obj = JSON.parse(fs.readFileSync('./lib/restInfoWithDetails.json'));
+                    obj.info.push(response.body);
+                    fs.writeFileSync(`./lib/restInfoWithDetails.json`, JSON.stringify(obj));
                 });
             });
-        });
-
+        }
     }
+
+
 };

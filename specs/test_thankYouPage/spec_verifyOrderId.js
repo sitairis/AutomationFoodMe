@@ -6,6 +6,8 @@ let thankYouPage = require('../../pages/ThankYouPage');
 let log = require('../../lib/Logger');
 let authForm = require('../../pages/AuthPage');
 let faker = require('faker');
+const request = require('request');
+const fs = require('fs');
 
 describe('test for purchase', () => {
     beforeAll(() => {
@@ -13,6 +15,18 @@ describe('test for purchase', () => {
         let randomAddress = `${faker.address.city()}, ${faker.address.streetAddress()}`;
         authForm.doLogIn(randomName, randomAddress);
     });
+
+    request({
+        method: 'post',
+        url: 'http://localhost:5000/api/order',
+        headers: {
+            ContentType: 'application/json',
+            charset: 'UTF-8'
+        },
+        json: true
+    }, (err) => {
+        if (err) throw new Error(err);
+    }).pipe(fs.createWriteStream('../../lib/orderId.json'));
 
 
     it('should click on purchase, get ID and make json file', () => {

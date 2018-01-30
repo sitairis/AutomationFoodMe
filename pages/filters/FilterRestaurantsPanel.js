@@ -141,12 +141,11 @@ class FilterRestaurantsPanel {
     }
 
     /**
-     *
+     * вернет массив со значениями атребута value
      * @returns {promise.Promise<any[]>}
      */
     getCheckboxesValues() {
        return this.getCheckBoxesElementsCollect().map((elem) => elem.getAttribute('value'));
-
 
     }
 }

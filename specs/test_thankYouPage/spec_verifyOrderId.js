@@ -90,7 +90,7 @@ describe('test for purchase', () => {
                 orderData.orderID = id;
                 return orderData;
             })
-            .then(() => utils.createInfoJSON(orderData))
+            .then(() => utils.createJSONFile(orderData))
             .then(() => log.testStep('test for purchase', 10, 'verify line with orderID'))
             .then(() => thankYouPage.getStringWithOrderID())
             .then((text) => expect(text.match(/ID is \d\d\d\d\d\d\d\d\d\d\d\d\d/)).not.toBe(null));

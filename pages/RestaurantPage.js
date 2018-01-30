@@ -129,6 +129,10 @@ class RestaurantPage  extends Page {
         })
             .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- getRestaurantInfo : ${errorMessage}`)));
     }
+
+    getRestaurantName() {
+        return $('div.span10').$('h3').getText();
+    }
 }
 
 module.exports = new RestaurantPage();

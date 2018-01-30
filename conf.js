@@ -83,6 +83,6 @@ exports.config = {
 
     onComplete: () => {
         console.log('onComplete');
-        require('fs').writeFileSync(`./lib/restInfoWithDetails.json`, JSON.stringify({}));
+        // require('fs').writeFileSync(`./lib/restInfoWithDetails.json`, JSON.stringify({}));
     }
 };

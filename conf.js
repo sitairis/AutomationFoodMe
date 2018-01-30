@@ -23,6 +23,7 @@ exports.config = {
     },
 
     beforeLaunch: () => {
+        console.log('beforeLaunch');
         let restaurants = require('./lib/restaurants');
         const request = require("request");
         const fs = require('fs');
@@ -78,11 +79,10 @@ exports.config = {
                     fs.writeFileSync(`./lib/restInfoWithDetails.json`, JSON.stringify(obj));
                 });
             });
-
-
     },
 
     onComplete: () => {
+        console.log('onComplete');
         require('fs').writeFileSync(`./lib/restInfoWithDetails.json`, JSON.stringify({}));
     }
 };

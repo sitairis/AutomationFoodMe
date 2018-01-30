@@ -97,11 +97,7 @@ class CheckoutPage  extends Page {
             return item.evaluate('item')
                 .then((itemProperties) => {
                     log.step(this.className, 'getInfoOfOrderItems', 'get prices and names from order list');
-                    return {
-                        value: itemProperties.price,
-                        name: itemProperties.name,
-                        qty: itemProperties.qty
-                    }
+                    return utils.makeDishObject(itemProperties);
                 })
         })
             .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- getInfoOfOrderItems : ${errorMessage}`)));

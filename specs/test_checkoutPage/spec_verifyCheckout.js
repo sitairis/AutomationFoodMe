@@ -1,11 +1,10 @@
 let restaurantPage = require(`../../pages/RestaurantPage`);
 let checkoutPage = require(`../../pages/CheckoutPage`);
-let UsersData = require(`../../UsersData`);
 let utils = require(`../../lib/utils`);
 let log = require('../../lib/Logger');
 let authForm = require('../../pages/AuthPage');
 let faker = require('faker');
-
+let mainPage= require('../../pages/MainPage');
 describe('test for checkout page', () => {
 
     beforeAll(() => {
@@ -14,23 +13,23 @@ describe('test for checkout page', () => {
         authForm.doLogIn(randomName, randomAddress);
     });
 
+    //проверить заказ на странице ресторана = на странице подтверждения
+
     it('should make checkout and compare names and prices of dishes', () => {
         let infoArrayLinesFromRestPage = [];
 
         log.testStep('test for checkout page', 1, 'check cuisine(s) and open restaurant');
-        utils.setCuisineFilter(3)
-            .then(() => utils.openPopularCheapestRestaurant())
+        mainPage.openRestaurant(utils.getRandomNumber(0, 38))
             .then(() => {
-                log.testStep('test for checkout page', 2, 'get sorted price list');
-                return restaurantPage.sortMenuByPriceDec();
+                log.testStep('test for restaurant page', 2, 'add dish to order');
+
+                return addRandomDishesInOrder(3)
             })
-            .then((sortedPrices) => {
-                let dishes = sortedPrices.slice(0, UsersData.personsAmount);
-
-                infoArrayLinesFromRestPage = utils.getListRestaurantInfo(sortedPrices);
-
-                log.testStep('test for checkout page', 3, 'add dishes to order');
-                return dishes.forEach((dish) => restaurantPage.addToOrder(dish.index))
+            .then(() => restaurantPage.getOrderElementsCollect())
+            .then(() => restaurantPage.getOrderInfoObjArray())
+            .then((orderInfo) => {
+                infoArrayLinesFromRestPage = utils.getOrderInfoObjArray(orderInfo);
+                return infoArrayLinesFromRestPage;
             })
             .then(() => {
                 log.testStep('test for checkout page', 4, 'make checkout');
@@ -40,7 +39,17 @@ describe('test for checkout page', () => {
                 log.testStep('test for checkout page', 5, 'compare order list and dishes list');
                 return checkoutPage.getInfoOfOrderItems();
             })
-            .then((infoObjArray) => utils.getListRestaurantInfo(infoObjArray))
+            .then((infoObjArray) => utils.getOrderInfoObjArray(infoObjArray))
             .then((infoArrayLines) => infoArrayLines.forEach((line, index) => expect(line).toEqual(infoArrayLinesFromRestPage[index])));
     });
 });
+
+function addRandomDishesInOrder(countDishes) {
+    return restaurantPage.getPriceListElementsCollect().count()
+        .then((count) => {
+            for (let i = 0; i < countDishes; i++){
+                restaurantPage.addToOrder(utils.getRandomNumber(0, count));
+            }
+        })
+        .catch((errorMessage) => Promise.reject(new Error(` : Error --- addRandomDishesInOrder : ${errorMessage}`)));
+}

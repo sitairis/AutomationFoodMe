@@ -42,7 +42,6 @@ class RestaurantPage  extends Page {
     }
 
 
-
     /**
      * вернуть перечень блюд из меню
      * @returns {ElementArrayFinder}
@@ -50,8 +49,7 @@ class RestaurantPage  extends Page {
     getPriceListElementsCollect() {
         log.step(this.className, 'getPriceListElementsCollect', 'get price list');
 
-        return $('div.span8.fm-panel.fm-menu-list').all(by.repeater('menuItem in restaurant.menuItems'));
-            // .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- getPriceListElementsCollect : ${errorMessage}`)));
+        return element.all(by.repeater('menuItem in restaurant.menuItems'));
 
     }
 
@@ -66,23 +64,26 @@ class RestaurantPage  extends Page {
     }
 
     /**
+     *
+     * @returns {promise.Promise<any[]>}
+     */
+    getMenuObjArray() {
+        return this.getPriceListElementsCollect().map((item, index) => {
+            return item.evaluate('menuItem')
+                .then((menuItem) => {
+                    log.step(this.className, 'getMenuObjArray', 'return objects array');
+
+                    return utils.makeMenuObject(menuItem, index);
+                })
+        })
+    }
+
+    /**
      * вернуть сорированный по цене по убыванию массив объектов
      * @returns {promise.Promise<any>}
      */
     sortMenuByPriceDec() {
-        return this.getPriceListElementsCollect().map((item, index) => {
-            return item.evaluate('menuItem')
-                .then((menuItem) => {
-                    log.step(this.className, 'sortMenuByPriceDec', 'return objects array');
-
-                    return {
-                        value: menuItem.price,
-                        name: menuItem.name,
-                        index: index
-                    }
-                })
-
-        })
+        return this.getMenuObjArray()
             .then((unSorted) => {
                 log.step(this.className, 'sortMenuByPriceDec', 'get sorted by prices array ');
 
@@ -91,15 +92,19 @@ class RestaurantPage  extends Page {
             .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- sortMenuByPriceDec : ${errorMessage}`)));
     }
 
-    // /**
-    //  * вернуть массив названий блюд из заказа
-    //  */
-    // getOrderNamesList() {
-    //     log.step(this.className, 'getOrderNamesList', 'get array of dishes names');
-    //
-    //     return this.getOrderElementsCollect().map((item) => item.evaluate('item.name'))
-    //         .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- sortMenuByPriceDec : ${errorMessage}`)));
-    // }
+    /**
+     * вернуть массив названий блюд из заказа
+     */
+    getOrderInfoObjArray() {
+        return this.getOrderElementsCollect().map((curItem) => {
+            return curItem.evaluate('item')
+                .then((item) => {
+                    log.step(this.className, 'getOrderInfoObjArray', 'get array of dishes names');
+                    return utils.makeDishObject(item);
+                })
+        })
+            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- sortMenuByPriceDec : ${errorMessage}`)));
+    }
 
     /**
      * клик на кнупку 'checkout'

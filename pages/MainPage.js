@@ -1,6 +1,5 @@
 let Page = require('./Page');
 let protrUtils = require(`../lib/utils/protrUtils`);
-let baseEl = require('../elements/BaseElement');
 let log = require('../lib/Logger');
 let valid = require('../lib/utils/valid');
 
@@ -9,7 +8,7 @@ class MainPage extends Page {
     constructor() {
         super(`main page`);
         this.className = 'MainPage';
-        this.rootRestaurantList = new baseEl('a', `div.span9.fm-panel.fm-restaurant-list`);
+        this.rootRestaurantList = $(`div.span9.fm-panel.fm-restaurant-list`);
     }
 
     /**
@@ -22,8 +21,7 @@ class MainPage extends Page {
             log.error(`${this.className} : openRestaurant : index is incorrect`);
             throw new Error(`${this.className} : openRestaurant : index is incorrect`);
         }
-        let elementForClick = this.rootRestaurantList.findElementsByCSS(`img.img-rounded.pull-left`)
-            .get(index);
+        let elementForClick = this.rootRestaurantList.$$(`img.img-rounded.pull-left`).get(index);
 
         return protrUtils.doClick(elementForClick, 'click on selected restaurant')
             .then(() => log.step(this.className, 'openRestaurant', 'click on selected restaurant'))

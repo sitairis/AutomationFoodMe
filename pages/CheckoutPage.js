@@ -1,5 +1,4 @@
 let Page = require('./Page');
-let baseEl = require('../elements/BaseElement');
 let log = require('../lib/Logger');
 let protrUtils = require('../lib/utils/protrUtils');
 let servUtils = require('../lib/utils/servUtils');
@@ -10,7 +9,7 @@ class CheckoutPage  extends Page {
     constructor() {
         super(`Checkout Page`);
         this.className = 'CheckoutPage';
-        this.root = new baseEl('root', 'table');
+        this.root = $('table');
         this.cmbCardType = element(by.model('cart.payment.type'));
         this.txbNumderCard = element(by.model('cart.payment.number'));
         this.txbExpire = element(by.model('cart.payment.expire'));
@@ -88,7 +87,7 @@ class CheckoutPage  extends Page {
     getOrderItemsElementsCollect() {
         log.step(this.className, 'getOrderItemsElementsCollect', 'get all items from order');
 
-        return this.root.findElementsByRepeater(`item in cart.items`);
+        return this.root.all(by.repeater(`item in cart.items`));
     }
 
     /**

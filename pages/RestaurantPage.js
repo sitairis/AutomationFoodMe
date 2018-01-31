@@ -1,6 +1,5 @@
 let protrUtils = require(`../lib/utils/protrUtils`);
 let Page = require('./Page');
-let BaseElement = require('../elements/BaseElement');
 let log = require('../lib/Logger');
 let valid = require('../lib/utils/valid');
 let servUtil = require('../lib/utils/servUtils');
@@ -10,9 +9,10 @@ class RestaurantPage  extends Page {
     constructor() {
         super(`Restaurant Page`);
         this.className = 'RestaurantPage';
-        this.rootMenu = new BaseElement('rootMenu', `div.span8.fm-panel.fm-menu-list`);
+        this.rootMenu = $(`div.span8.fm-panel.fm-menu-list`);
         this.rootCard = $(`div.span4.fm-panel.fm-cart`);
         this.btnCheckout = $(`div.pull-right`);
+        this.rootRestInfo = $$('div.span10');
     }
 
     /**
@@ -50,7 +50,7 @@ class RestaurantPage  extends Page {
     getPriceListElementsCollect() {
         log.step(this.className, 'getPriceListElementsCollect', 'get price list');
 
-        return element.all(by.repeater('menuItem in restaurant.menuItems'));
+        return this.rootMenu.all(by.repeater('menuItem in restaurant.menuItems'));
 
     }
 
@@ -123,7 +123,7 @@ class RestaurantPage  extends Page {
     getRestaurantInfo() {
         log.step(this.className, 'getRestaurantInfo', 'get restaurant info');
 
-        return $$('div.span10').map((curElem) => {
+        return this.rootRestInfo.map((curElem) => {
             return {
                 name: curElem.$('h3').getText(),
                 description: curElem.$('.span4').getText()

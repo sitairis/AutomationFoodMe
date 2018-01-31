@@ -30,7 +30,7 @@ describe('test for purchase', () => {
         };
 
         log.testStep('test for purchase', 1, 'get cuisine(s) array from FiltersData');
-        utilForCuisine.setCuisineFilter(3)
+        utilForCuisine.setRandomCuisineFilter(3)
             .then(() => {
                 log.testStep('test for purchase', 2, 'open restaurant');
                 return protrUtils.openPopularCheapestRestaurant()

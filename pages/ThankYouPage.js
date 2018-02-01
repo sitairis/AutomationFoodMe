@@ -27,6 +27,12 @@ class ThankYouPage extends Page{
      * вернет строку с orderID
      */
     getStringWithOrderID() {
+        browser.ignoreSynchronization = true;
+
+        browser.get(`http://localhost:5000/#/thank-you?orderId=${require('../lib/orderId').orderId}`);
+
+        browser.ignoreSynchronization = false;
+
         return this.content.getText()
             .then((text) => {
                 log.step('ThankYouPage', 'getStringWithOrderID','get text which contain order id');

@@ -105,8 +105,9 @@ describe('test for purchase', () => {
              .then(() => log.testStep('test for purchase', 10, 'verify line with orderID'))
              .then(() => */
 
-
-        thankYouPage.getStringWithOrderID()
+        thankYouPage.open()
+            .then(() => browser.ignoreSynchronization = false)
+            .then(() => thankYouPage.getStringWithOrderID())
             .then((text) => getOrderId(text))
             .then((orderId) => expect(orderId).toEqual(require('../../lib/orderId').orderId));
     })

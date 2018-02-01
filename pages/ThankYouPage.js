@@ -23,15 +23,17 @@ class ThankYouPage extends Page{
             .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- getID : ${errorMessage}`)));
     }
 
+    open(){
+        browser.ignoreSynchronization = true;
+
+        return browser.get(`http://localhost:5000/#/thank-you?orderId=${require('../lib/orderId').orderId}`);
+    }
+
     /**
      * вернет строку с orderID
      */
     getStringWithOrderID() {
-        browser.ignoreSynchronization = true;
 
-        browser.get(`http://localhost:5000/#/thank-you?orderId=${require('../lib/orderId').orderId}`);
-
-        browser.ignoreSynchronization = false;
 
         return this.content.getText()
             .then((text) => {

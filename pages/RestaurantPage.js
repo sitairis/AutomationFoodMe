@@ -3,6 +3,8 @@ let Page = require('./Page');
 let log = require('../lib/Logger');
 let valid = require('../lib/utils/valid');
 let servUtil = require('../lib/utils/servUtils');
+let random = require('../lib/utils/random');
+let rest = require('../lib/restaurants');
 
 class RestaurantPage  extends Page {
 
@@ -13,6 +15,12 @@ class RestaurantPage  extends Page {
         this.rootCard = $(`div.span4.fm-panel.fm-cart`);
         this.btnCheckout = $(`div.pull-right`);
         this.rootRestInfo = $$('div.span10');
+    }
+
+    open(randomRestId) {
+
+        return browser.get(`http://localhost:5000/#/menu/${randomRestId}`)
+            .catch((errorMessage) => Promise.reject(`${this.className} : Error --- open : ${errorMessage}`));
     }
 
     /**

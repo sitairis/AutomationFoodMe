@@ -1,11 +1,12 @@
-let mainPage = require(`../../pages/MainPage`);
 let restaurantPage = require(`../../pages/RestaurantPage`);
-let log = require('../../lib/Logger');
 let authForm = require('../../pages/AuthPage');
 let servUtils = require(`../../lib/utils/servUtils`);
 let faker = require('faker');
-let restInfoWithDetails = require('../../lib/restInfoWithDetails');
 let random = require(`../../lib/utils/random`);
+let rest = require('../../lib/restaurants');
+const request = require("request");
+const fs = require('fs');
+
 
 describe('test for restaurant page', () => {
 
@@ -14,27 +15,40 @@ describe('test for restaurant page', () => {
         let randomAddress = `${faker.address.city()}, ${faker.address.streetAddress()}`;
 
         authForm.doLogIn(randomName, randomAddress);
+
+        let randomRestId = rest.info[random.getRandomNumber(0, 38)].id;
+
+        console.log(randomRestId);
+
+        let requestOpt = {
+            method: 'get',
+            url: `http://localhost:5000/api/restaurant/${randomRestId}`,
+            headers: {
+                Accept: 'application/json'
+            },
+            json: true
+        };
+
+        request(requestOpt, (err, response) => {
+            if (err) throw new Error(err);
+
+            let objForRestInfo = {
+                id: randomRestId,
+                body: response.body
+            };
+
+
+            fs.writeFileSync(`./lib/restInfoWithDetails.json`, JSON.stringify(objForRestInfo));
+        });
     });
 
     it('should open restaurant, select dish and compare results', () => {
-
-        log.testStep('test for restaurant page', 1, 'open restaurant');
-        mainPage.openRestaurant(random.getRandomNumber(0, 38))
-            .then(() => {
-                log.testStep('test for restaurant page', 2, 'get menu');
-                return restaurantPage.getMenuObjArray()
-            })
+        browser.waitForAngularEnabled(false)
+            .then(() => restaurantPage.open(require('../../lib/restInfoWithDetails').id))
+            .then(() => browser.waitForAngularEnabled(true))
+            .then(() => restaurantPage.getMenuObjArray())
             .then((objArray) => servUtils.getMenuInfoObjArray(objArray))
-            .then((menuItems) => {
-                restaurantPage.getRestaurantName()
-                    .then((restName) => {
-                        log.testStep('test for restaurant page', 3, 'get name of restaurant');
-                        return restInfoWithDetails.info.find((a) => a.name === restName)
-                    })
-                    .then((rest) => {
-                        log.testStep('test for restaurant page', 4, 'verify menu');
-                        expect(menuItems).toEqual(rest.menuItems.map((item) => `${item.name}${item.price}`.toLowerCase()));
-                    })
-            })
+            .then((menuItemsNames) => expect(menuItemsNames).toEqual(require('../../lib/restInfoWithDetails').body.menuItems.map((item) => `${item.name}${item.price}`.toLowerCase())));
+
     });
 });

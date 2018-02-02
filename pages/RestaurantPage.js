@@ -17,8 +17,15 @@ class RestaurantPage  extends Page {
         this.rootRestInfo = $$('div.span10');
     }
 
+    /**
+     * перейти на страницу ресторана
+     * @param randomRestId
+     */
     open(randomRestId) {
-
+        if (!valid.isString(randomRestId)) {
+            log.error(`${this.className} : open : randomRestId is incorrect`);
+            throw new Error(`${this.className} : open : randomRestId is incorrect`);
+        }
         return browser.get(`http://localhost:5000/#/menu/${randomRestId}`)
             .catch((errorMessage) => Promise.reject(`${this.className} : Error --- open : ${errorMessage}`));
     }

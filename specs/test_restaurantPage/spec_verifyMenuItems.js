@@ -49,6 +49,5 @@ describe('test for restaurant page', () => {
             .then(() => restaurantPage.getMenuObjArray())
             .then((objArray) => servUtils.getMenuInfoObjArray(objArray))
             .then((menuItemsNames) => expect(menuItemsNames).toEqual(require('../../lib/restInfoWithDetails').body.menuItems.map((item) => `${item.name}${item.price}`.toLowerCase())));
-
     });
 });

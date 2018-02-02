@@ -2,16 +2,14 @@ exports.config = {
     framework: 'jasmine',
     seleniumAddress: 'http://localhost:4444/wd/hub',
     baseUrl: "http://localhost:5000/#/",
-    /*browser.ignoreSynchronization = true;
-    browser.get('http://localhost:5000/#/menu/babythai');*/
     specs: ['./specs/*/*.js'],
     capabilities: {
         shardTestFiles: true,
         maxInstances: 3,
-        browserName: 'chrome'
-        // chromeOptions: {
-        //     args: ['headless', 'disable-gpu']
-        // }
+        browserName: 'chrome',
+        chromeOptions: {
+            args: ['headless', 'disable-gpu']
+        }
     },
     suites: {
         checkout: './specs/test_checkoutPage/*.js',
@@ -51,10 +49,4 @@ exports.config = {
             });
         });
     }
-
-    //
-    // onComplete: () => {
-    //     console.log('onComplete');
-    //     require('fs').writeFileSync(`./lib/restInfoWithDetails.json`, JSON.stringify({}));
-    // }
 };

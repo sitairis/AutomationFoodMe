@@ -7,7 +7,6 @@ let rest = require('../../lib/restaurants');
 const request = require("request");
 const fs = require('fs');
 
-
 describe('test for restaurant page', () => {
 
     beforeAll(() => {
@@ -17,8 +16,6 @@ describe('test for restaurant page', () => {
         authForm.doLogIn(randomName, randomAddress);
 
         let randomRestId = rest.info[random.getRandomNumber(0, 38)].id;
-
-        console.log(randomRestId);
 
         let requestOpt = {
             method: 'get',
@@ -37,15 +34,14 @@ describe('test for restaurant page', () => {
                 body: response.body
             };
 
-
             fs.writeFileSync(`./lib/restInfoWithDetails.json`, JSON.stringify(objForRestInfo));
         });
     });
 
     it('should open restaurant, select dish and compare results', () => {
-        browser.waitForAngularEnabled(false)
-            .then(() => restaurantPage.open(require('../../lib/restInfoWithDetails').id))
-            .then(() => browser.waitForAngularEnabled(true))
+
+        restaurantPage.open(require('../../lib/restInfoWithDetails').id)
+            .then(() => browser.ignoreSynchronization = false)
             .then(() => restaurantPage.getMenuObjArray())
             .then((objArray) => servUtils.getMenuInfoObjArray(objArray))
             .then((menuItemsNames) => expect(menuItemsNames).toEqual(require('../../lib/restInfoWithDetails').body.menuItems.map((item) => `${item.name}${item.price}`.toLowerCase())));

@@ -26,6 +26,9 @@ class RestaurantPage  extends Page {
             log.error(`${this.className} : open : randomRestId is incorrect`);
             throw new Error(`${this.className} : open : randomRestId is incorrect`);
         }
+
+        browser.ignoreSynchronization = true;
+
         return browser.get(`http://localhost:5000/#/menu/${randomRestId}`)
             .catch((errorMessage) => Promise.reject(`${this.className} : Error --- open : ${errorMessage}`));
     }

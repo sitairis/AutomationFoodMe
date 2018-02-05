@@ -1,3 +1,5 @@
+let path_conf = require('./path_conf');
+
 exports.config = {
     framework: 'jasmine',
     seleniumAddress: 'http://localhost:4444/wd/hub',
@@ -21,12 +23,11 @@ exports.config = {
     },
 
     beforeLaunch: () => {
-
         const request = require("request");
         const fs = require('fs');
 
         let req_conf = require('./lib/request_conf');
-        let path_conf = require('./path_conf');
+
         let log = require('./lib/Logger');
 
         request(req_conf.reqOptJson('get', 'restaurant', true), (err, response) => {

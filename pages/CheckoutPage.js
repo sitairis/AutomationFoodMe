@@ -1,8 +1,10 @@
-let Page = require('./Page');
 let log = require('../lib/Logger');
+
 let protrUtils = require('../lib/utils/protrUtils');
 let servUtils = require('../lib/utils/servUtils');
 let valid = require('../lib/utils/valid');
+
+let Page = require('./Page');
 
 class CheckoutPage  extends Page {
 

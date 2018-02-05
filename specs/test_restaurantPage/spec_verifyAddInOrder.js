@@ -2,12 +2,12 @@ let faker = require('faker');
 
 let log = require('../../lib/Logger');
 let random = require('../../lib/utils/random');
+
 let mainPage = require(`../../pages/MainPage`);
 let restaurantPage = require(`../../pages/RestaurantPage`);
 let authForm = require('../../pages/AuthPage');
+
 let restaurants = require('../../.tmp/restaurants');
-
-
 
 describe('test for restaurant page', () => {
 

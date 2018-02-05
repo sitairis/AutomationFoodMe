@@ -3,7 +3,6 @@
 .idea
 /node_modules/
 /npm-debug.log
-/elements/log/
 /lib/log/
 /log/
 /OrderData.json
@@ -11,4 +10,4 @@
 /restaurantInfo.json
 /restaurants.json
 /lib/restInfo/
-/elements/
+/.tmp/

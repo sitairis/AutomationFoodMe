@@ -4,7 +4,7 @@ let log = require('../lib/Logger');
 let valid = require('../lib/utils/valid');
 let servUtil = require('../lib/utils/servUtils');
 let random = require('../lib/utils/random');
-let rest = require('../lib/restaurants');
+let rest = require('../.tmp/restaurants');
 
 class RestaurantPage  extends Page {
 

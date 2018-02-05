@@ -1,11 +1,15 @@
+const request = require("request");
+
+let faker = require('faker');
+
+let req_conf = require('../../lib/request_conf');
+let restaurants = require('../../.tmp/restaurants');
+let rest = require('../../.tmp/restInfoWithDetails');
+let random = require(`../../lib/utils/random`);
+let servUtils = require(`../../lib/utils/servUtils`);
+
 let restaurantPage = require(`../../pages/RestaurantPage`);
 let authForm = require('../../pages/AuthPage');
-let servUtils = require(`../../lib/utils/servUtils`);
-let faker = require('faker');
-let random = require(`../../lib/utils/random`);
-let rest = require('../../lib/restaurants');
-const request = require("request");
-const fs = require('fs');
 
 describe('test for restaurant page', () => {
 
@@ -15,35 +19,26 @@ describe('test for restaurant page', () => {
 
         authForm.doLogIn(randomName, randomAddress);
 
-        let randomRestId = rest.info[random.getRandomNumber(0, 38)].id;
+        let randomRestId = restaurants.info[random.getRandomNumber(0, restaurants.info.length)].id;
 
-        let requestOpt = {
-            method: 'get',
-            url: `http://localhost:5000/api/restaurant/${randomRestId}`,
-            headers: {
-                Accept: 'application/json'
-            },
-            json: true
-        };
+        request(req_conf.reqOptJson('get', `restaurant/${randomRestId}`, true),
+            req_conf.reqFunc('restInfoWithDetails.json', {id: randomRestId}));
 
-        request(requestOpt, (err, response) => {
-            if (err) throw new Error(err);
-
-            let objForRestInfo = {
-                id: randomRestId,
-                body: response.body
-            };
-
-            fs.writeFileSync(`./lib/restInfoWithDetails.json`, JSON.stringify(objForRestInfo));
-        });
     });
 
     it('should open restaurant, select dish and compare results', () => {
 
-        restaurantPage.open(require('../../lib/restInfoWithDetails').id)
+        restaurantPage.open(require('../../.tmp/restInfoWithDetails').id)
             .then(() => browser.ignoreSynchronization = false)
             .then(() => restaurantPage.getMenuObjArray())
             .then((objArray) => servUtils.getMenuInfoObjArray(objArray))
-            .then((menuItemsNames) => expect(menuItemsNames).toEqual(require('../../lib/restInfoWithDetails').body.menuItems.map((item) => `${item.name}${item.price}`.toLowerCase())));
+            .then((menuItemsNames) => expect(menuItemsNames).toEqual(getStringsArray()));
     });
 });
+
+/**
+ * вернет массив строк
+ */
+function getStringsArray() {
+    return rest.info.menuItems.map((item) => `${item.name}${item.price}`.toLowerCase())
+}

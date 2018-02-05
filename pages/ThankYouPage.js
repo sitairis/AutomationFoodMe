@@ -1,5 +1,6 @@
 let Page = require('./Page');
 let log = require('../lib/Logger');
+let path_conf = require('../path_conf');
 
 class ThankYouPage extends Page{
 
@@ -29,7 +30,7 @@ class ThankYouPage extends Page{
     open(){
         browser.ignoreSynchronization = true;
 
-        return browser.get(`http://localhost:5000/#/thank-you?orderId=${require('../lib/orderId').orderId}`)
+        return browser.get(`http://localhost:5000/#/thank-you?orderId=${require(path_conf.pth_tmp('orderId.json')).info.orderId}`)
             .catch((errorMessage) => Promise.reject(`${this.className} : Error --- open : ${errorMessage}`));
     }
 

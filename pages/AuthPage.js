@@ -8,7 +8,6 @@ class AuthPage {
         this.inputName = element(by.model('customerName'));
         this.inputAddress = element(by.model('customerAddress'));
         this.btnFindRestaurants = $('[ng-click="findRestaurants(customerName, customerAddress)"]');
-
     }
 
     /**
@@ -17,7 +16,7 @@ class AuthPage {
     navigate() {
         return browser.get('#/customer')
             .then(() => log.step(this.className, 'navigate','open AuthPage'))
-            .catch((errorMessage) => Promise.reject(`${this.className} : Error --- navigate : ${errorMessage}`));
+            .catch((err) => Promise.reject(`${this.className} : Error --- navigate : ${err}`));
     }
 
     /**
@@ -29,7 +28,7 @@ class AuthPage {
         return this.fillInputName(name)
             .then(() => this.fillInputAddress(address))
             .then(() => this.pressFindRestaurantsButton())
-            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- authorizate : ${errorMessage}`)));
+            .catch((err) => Promise.reject(new Error(`${this.className} : Error --- authorizate : ${err}`)));
     }
 
     /**
@@ -41,7 +40,7 @@ class AuthPage {
         return this.navigate()
             .then(() => browser.ignoreSynchronization = false)
             .then(() => this.authorizate(name, address))
-            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- doLogIn : ${errorMessage}`)));
+            .catch((err) => Promise.reject(new Error(`${this.className} : Error --- doLogIn : ${err}`)));
     }
 
     /**
@@ -52,7 +51,7 @@ class AuthPage {
     fillInputName(name) {
         return protrUtils.doSendKeys(this.inputName, name, `type deliver's name`)
             .then(() =>  log.step(this.className, 'fillInputName',`type deliver's name`))
-            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- fillInputName : ${errorMessage}`)));
+            .catch((err) => Promise.reject(new Error(`${this.className} : Error --- fillInputName : ${err}`)));
     }
 
     /**
@@ -62,7 +61,7 @@ class AuthPage {
     pressFindRestaurantsButton() {
         return protrUtils.doClick(this.btnFindRestaurants, `click on button 'Find Restaurants'`)
             .then(() => log.step(this.className, 'pressFindRestaurantsButton',`click on button 'Find Restaurants'`))
-            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- pressFindRestaurantsButton : ${errorMessage}`)));
+            .catch((err) => Promise.reject(new Error(`${this.className} : Error --- pressFindRestaurantsButton : ${err}`)));
     }
 
     /**
@@ -73,7 +72,7 @@ class AuthPage {
     fillInputAddress(address) {
         return protrUtils.doSendKeys(this.inputAddress, address, `type deliver's address`)
             .then(() => log.step(this.className, 'fillInputAddress',`type deliver's address`))
-            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- fillInputAddress : ${errorMessage}`)));
+            .catch((err) => Promise.reject(new Error(`${this.className} : Error --- fillInputAddress : ${err}`)));
     }
 }
 module.exports = new AuthPage();

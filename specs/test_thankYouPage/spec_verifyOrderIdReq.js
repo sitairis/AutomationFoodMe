@@ -1,36 +1,18 @@
+const request = require("request");
+
+let req_conf = require('../../lib/request_conf');
+let path_conf = require('../../path_conf');
+
 let UsersData = require('../../UsersData');
 let thankYouPage = require('../../pages/ThankYouPage');
 let authForm = require('../../pages/AuthPage');
 let valid = require('../../lib/utils/valid');
 
-
 describe('test for purchase', () => {
     beforeAll(() => {
         authForm.doLogIn(UsersData.nameDeliver, UsersData.address);
-        const request = require("request");
-        const fs = require('fs');
 
-        let requestOpt = {
-            method: 'post',
-            url: 'http://localhost:5000/api/order',
-            headers: {
-                Accept: 'application/json'
-            },
-            json: true
-        };
-
-        request(requestOpt, (err, response) => {
-            if (err) throw new Error(err);
-
-            let objForAllRst = response.body;
-
-            fs.writeFile("./lib/orderId.json", JSON.stringify(objForAllRst), (err) => {
-                if (err) throw new Error(err.message);
-
-                console.log("File orderId.json has been created");
-            });
-        });
-
+        request(req_conf.reqOptJson('post', 'order', true), req_conf.reqFunc('orderId.json'));
     });
 
     it('should click on purchase, get ID and make json file', () => {
@@ -38,7 +20,7 @@ describe('test for purchase', () => {
             .then(() => browser.ignoreSynchronization = false)
             .then(() => thankYouPage.getStringWithOrderID())
             .then((text) => getOrderId(text))
-            .then((orderId) => expect(orderId).toEqual(require('../../lib/orderId').orderId));
+            .then((orderId) => expect(orderId).toEqual(require(`${path_conf.pth_tmp('orderId.json')}`).info.orderId));
     })
 });
 
@@ -50,7 +32,5 @@ describe('test for purchase', () => {
 function getOrderId(text) {
     if (!valid.isString(text)) throw new Error('text is not a string');
 
-    let arrayWithOrderId = text.split(/\D/);
-    let orderIdStr = arrayWithOrderId.find((curElem) => curElem !== '' && !isNaN(Number.parseInt(curElem)));
-    return Number.parseInt(orderIdStr);
+    return Number.parseInt(text.match(/\d+/g)[0]);
 }

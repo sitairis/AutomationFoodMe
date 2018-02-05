@@ -41,7 +41,7 @@ describe('test for restaurant page', () => {
 });
 
 /**
- *
+ * вернет общую цену заказа
  * @returns {promise.Promise<any>}
  */
 function culcTotalPriceOfOrder() {

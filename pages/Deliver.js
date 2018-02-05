@@ -13,7 +13,7 @@ class DeliverForm {
     changeDeliver() {
         return protrUtils.doClick(this.btnDeliver, 'click on btnDeliver')
             .then(() => log.step('DeliverForm', 'changeDeliver','click on btnDeliver'))
-            .catch((errorMessage) => Promise.reject(new Error(`DeliverForm : Error --- changeDeliver : ${errorMessage}`)));
+            .catch((err) => Promise.reject(new Error(`DeliverForm : Error --- changeDeliver : ${err}`)));
     }
 }
 

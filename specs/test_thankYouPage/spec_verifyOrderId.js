@@ -1,13 +1,15 @@
-let restaurantPage = require(`../../pages/RestaurantPage`);
-let checkoutPage = require(`../../pages/CheckoutPage`);
-let UsersData = require('../../UsersData');
+let log = require('../../lib/Logger');
 let servUtils = require('../../lib/utils/servUtils');
 let protrUtils = require('../../lib/utils/protrUtils');
-let thankYouPage = require('../../pages/ThankYouPage');
-let log = require('../../lib/Logger');
-let authForm = require('../../pages/AuthPage');
 let utilForCuisine = require('../../lib/utils/utilForCuisine');
 let random = require('../../lib/utils/random');
+
+let UsersData = require('../../UsersData');
+let restaurantPage = require(`../../pages/RestaurantPage`);
+let checkoutPage = require(`../../pages/CheckoutPage`);
+let thankYouPage = require('../../pages/ThankYouPage');
+let authForm = require('../../pages/AuthPage');
+
 
 describe('test for purchase', () => {
     beforeAll(() => {
@@ -104,5 +106,5 @@ function addRandomDishesInOrder(countDishes) {
                 restaurantPage.addToOrder(random.getRandomNumber(0, count));
             }
         })
-        .catch((errorMessage) => Promise.reject(new Error(` : Error --- addRandomDishesInOrder : ${errorMessage}`)));
+        .catch((err) => Promise.reject(new Error(` : Error --- addRandomDishesInOrder : ${err}`)));
 }

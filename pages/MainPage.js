@@ -1,7 +1,7 @@
-let Page = require('./Page');
-let protrUtils = require(`../lib/utils/protrUtils`);
 let log = require('../lib/Logger');
 let valid = require('../lib/utils/valid');
+let protrUtils = require(`../lib/utils/protrUtils`);
+let Page = require('./Page');
 
 class MainPage extends Page {
 
@@ -25,7 +25,7 @@ class MainPage extends Page {
 
         return protrUtils.doClick(elementForClick, 'click on selected restaurant')
             .then(() => log.step(this.className, 'openRestaurant', 'click on selected restaurant'))
-            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- openRestaurant : ${errorMessage}`)));
+            .catch((err) => Promise.reject(new Error(`${this.className} : Error --- openRestaurant : ${err}`)));
     }
 
     /**
@@ -59,7 +59,7 @@ class MainPage extends Page {
 
                 return unsorted.sort((a, b) => this._setTypeSort(typeSort, a, b));
             })
-            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- sortRestaurants : ${errorMessage}`)));
+            .catch((err) => Promise.reject(new Error(`${this.className} : Error --- sortRestaurants : ${err}`)));
     }
 
     /**
@@ -92,7 +92,7 @@ class MainPage extends Page {
                 index: index
             };
         })
-            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- getRestaurantProperties : ${errorMessage}`)));
+            .catch((err) => Promise.reject(new Error(`${this.className} : Error --- getRestaurantProperties : ${err}`)));
     }
 
     /**
@@ -111,7 +111,8 @@ class MainPage extends Page {
 
                 return firstArray.find((currentElement, index) => currentElement.index === secondArray[index].index);
             })
-            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- findPopularCheapestRestaurant : ${errorMessage}`)));
+            .catch((err) => Promise
+                .reject(new Error(`${this.className} : Error --- findPopularCheapestRestaurant : ${err}`)));
 
     }
 }

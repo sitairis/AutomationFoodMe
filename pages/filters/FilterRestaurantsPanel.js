@@ -1,7 +1,8 @@
-let protrUtils = require('../../lib/utils/protrUtils');
-let FiltersData = require('./FiltersData');
 let log = require('../../lib/Logger');
 let valid = require('../../lib/utils/valid');
+let protrUtils = require('../../lib/utils/protrUtils');
+let FiltersData = require('./FiltersData');
+
 
 class FilterRestaurantsPanel {
 
@@ -27,7 +28,7 @@ class FilterRestaurantsPanel {
 
         return protrUtils.doClick(ratingElement, 'set rating/price filter')
             .then(() => log.step(`${this.className}`, 'setRatingFilter', 'set rating/price filter'))
-            .catch((errorMessage) => Promise.reject(`${this.className} : Error --- setRatingFilter : ${errorMessage}`));
+            .catch((err) => Promise.reject(`${this.className} : Error --- setRatingFilter : ${err}`));
     }
 
     /**
@@ -87,8 +88,8 @@ class FilterRestaurantsPanel {
                         });
                     });
             })
-            .catch((errorMessage) => {
-                throw new Error(`${this.className} : Error --- setCheckBoxFilter : ${errorMessage}`);
+            .catch((err) => {
+                throw new Error(`${this.className} : Error --- setCheckBoxFilter : ${err}`);
             });
     }
 
@@ -109,7 +110,7 @@ class FilterRestaurantsPanel {
 
         return protrUtils.doClick(btnClear, 'click on button Clear')
             .then(() => log.step(this.className, 'clearRadioFilter', ''))
-            .catch((errorMessage) => Promise.reject(`${this.className} : Error --- clearRadioFilter : ${errorMessage}`));
+            .catch((err) => Promise.reject(`${this.className} : Error --- clearRadioFilter : ${err}`));
     }
 
     /**
@@ -126,8 +127,8 @@ class FilterRestaurantsPanel {
                 }
             })
         })
-            .catch((errorMessage) => {
-                throw new Error(`${this.className} : Error --- clearCheckFilter: ${errorMessage}`);
+            .catch((err) => {
+                throw new Error(`${this.className} : Error --- clearCheckFilter: ${err}`);
             });
     }
 

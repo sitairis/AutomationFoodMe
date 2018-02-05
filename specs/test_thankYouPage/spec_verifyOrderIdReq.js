@@ -20,7 +20,8 @@ describe('test for purchase', () => {
             .then(() => browser.ignoreSynchronization = false)
             .then(() => thankYouPage.getStringWithOrderID())
             .then((text) => getOrderId(text))
-            .then((orderId) => expect(orderId).toEqual(require(`${path_conf.pth_tmp('orderId.json')}`).info.orderId));
+            .then((orderId) => expect(orderId)
+                .toEqual(require(`${path_conf.pth_tmp('orderId.json')}`).info.orderId));
     })
 });
 

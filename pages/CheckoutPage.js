@@ -23,7 +23,7 @@ class CheckoutPage  extends Page {
     clickBtnPurchase() {
         return protrUtils.doClick(this.btnPurchase, 'click on btnPurchase')
             .then(() => log.step(this.className, 'clickBtnPurchase', 'click on btnPurchase'))
-            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- clickBtnPurchase : ${errorMessage}`)));
+            .catch((err) => Promise.reject(new Error(`${this.className} : Error --- clickBtnPurchase : ${err}`)));
     }
 
     /**
@@ -34,7 +34,7 @@ class CheckoutPage  extends Page {
     typeCVC(cvc) {
         return protrUtils.doSendKeys(this.txbCVC, `${cvc}`, 'type CVC field')
             .then(() => log.step(`${this.className}`, 'typeCVC', 'type CVC field'))
-            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- typeCVC : ${errorMessage}`)));
+            .catch((err) => Promise.reject(new Error(`${this.className} : Error --- typeCVC : ${err}`)));
     }
 
     /**
@@ -46,7 +46,7 @@ class CheckoutPage  extends Page {
     typeExpire(dd, yyyy) {
         return protrUtils.doSendKeys(this.txbExpire, `${dd}/${yyyy}`, 'type expire field')
             .then(() => log.step(this.className, 'typeExpire', 'type expire field'))
-            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- typeExpire : ${errorMessage}`)));
+            .catch((err) => Promise.reject(new Error(`${this.className} : Error --- typeExpire : ${err}`)));
     }
 
     /**
@@ -57,7 +57,7 @@ class CheckoutPage  extends Page {
     typeNumberCard(number) {
         return protrUtils.doSendKeys(this.txbNumderCard, `${number}`, 'type curd number field')
             .then(() => log.step(this.className, 'typeNumberCard', 'type curd number field'))
-            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- typeNumberCard : ${errorMessage}`)));
+            .catch((err) => Promise.reject(new Error(`${this.className} : Error --- typeNumberCard : ${err}`)));
     }
 
     /**
@@ -77,7 +77,7 @@ class CheckoutPage  extends Page {
         return protrUtils.doClick(this.cmbCardType, 'select card type')
             .then(() => protrUtils.doClick(this.cmbCardType.$(`[value=${option}]`), 'select card type'))
             .then(() => log.step(this.className, 'selectOption', 'select card type'))
-            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- selectOption : ${errorMessage}`)));
+            .catch((err) => Promise.reject(new Error(`${this.className} : Error --- selectOption : ${err}`)));
     }
 
     /**
@@ -101,7 +101,7 @@ class CheckoutPage  extends Page {
                     return servUtils.makeDishObject(itemProperties);
                 })
         })
-            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- getInfoOfOrderItems : ${errorMessage}`)));
+            .catch((err) => Promise.reject(new Error(`${this.className} : Error --- getInfoOfOrderItems : ${err}`)));
     }
 }
 

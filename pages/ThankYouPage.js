@@ -1,6 +1,7 @@
-let Page = require('./Page');
-let log = require('../lib/Logger');
 let path_conf = require('../path_conf');
+let ordId = require('../.tmp/orderId');
+let log = require('../lib/Logger');
+let Page = require('./Page');
 
 class ThankYouPage extends Page{
 
@@ -21,7 +22,7 @@ class ThankYouPage extends Page{
 
                 return id;
             })
-            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- getID : ${errorMessage}`)));
+            .catch((err) => Promise.reject(new Error(`${this.className} : Error --- getID : ${err}`)));
     }
 
     /**
@@ -30,8 +31,11 @@ class ThankYouPage extends Page{
     open(){
         browser.ignoreSynchronization = true;
 
-        return browser.get(`http://localhost:5000/#/thank-you?orderId=${require(path_conf.pth_tmp('orderId.json')).info.orderId}`)
-            .catch((errorMessage) => Promise.reject(`${this.className} : Error --- open : ${errorMessage}`));
+        let orderId = ordId.info.orderId;
+        let url = `${path_conf.baseURL(`thank-you?orderId=${orderId}`)}`;
+        console.log(url+'*******');
+        return browser.get(url)
+            .catch((err) => Promise.reject(`${this.className} : Error --- open : ${err}`));
     }
 
     /**
@@ -44,7 +48,7 @@ class ThankYouPage extends Page{
 
                 return text;
             })
-            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- getStringWithOrderID : ${errorMessage}`)));
+            .catch((err) => Promise.reject(new Error(`${this.className} : Error --- getStringWithOrderID : ${err}`)));
     }
 }
 

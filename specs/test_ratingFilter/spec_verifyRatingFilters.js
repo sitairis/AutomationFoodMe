@@ -1,16 +1,20 @@
+const request = require('request');
+
+let faker = require('faker');
+
+let req_conf = require('../../lib/request_conf');
+let log = require('../../lib/Logger');
+let servUtil = require('../../lib/utils/servUtils');
 let filterPanel = require(`../../pages/filters/FilterRestaurantsPanel`);
 let authForm = require('../../pages/AuthPage');
 let mainPage = require(`../../pages/MainPage`);
-let log = require('../../lib/Logger');
-let faker = require('faker');
-const request = require('request');
-let servUtil = require('../../lib/utils/servUtils');
 
 describe('test for rating filter', () => {
 
     beforeAll(() => {
         let randomName = faker.name.findName();
         let randomAddress = `${faker.address.city()}, ${faker.address.streetAddress()}`;
+
         authForm.doLogIn(randomName, randomAddress);
     });
 
@@ -19,15 +23,11 @@ describe('test for rating filter', () => {
     /**
      * get info about all restaurants
      */
-    request({
-        method: 'get',
-        url: 'http://localhost:5000/api/restaurant',
-        headers: {
-            Accept: 'application/json'
-        },
-        json: true
-    }, (err, response) => {
-        if (err) console.log(err);
+    request(req_conf.reqOptJson('get','restaurant', true), (err, response) => {
+        if (err) {
+            log.error(`reqFunc: request ${err}`);
+            throw new Error(err);
+        }
 
         if (response.statusCode === 200) {
             arrayRestaurants = response.body;
@@ -49,7 +49,8 @@ describe('test for rating filter', () => {
             recursGetCountRatedRestaurants(filterObj.filterName, filterObj.startValue)
                 .then((expectRestaurantCount) => {
                     return filterPanel.clearRadioFilter(filterObj.filterName)
-                        .then(() => expect(expectRestaurantCount).toEqual(servUtil.getCountRatedRestaurants(filterObj.filterName)))
+                        .then(() => expect(expectRestaurantCount)
+                            .toEqual(servUtil.getCountRatedRestaurants(filterObj.filterName)))
                 });
         });
     });
@@ -64,7 +65,9 @@ describe('test for rating filter', () => {
 function recursGetCountRatedRestaurants(filterName, startValue) {
     log.step('test for rating filter', 'recursGetCountRatedRestaurants', 'get restaurants count');
 
-    if ((filterName === 'rating' && startValue < 0) || (filterName === 'price' && startValue >= 5)) return `not found restaurants`;
+    if ((filterName === 'rating' && startValue < 0) || (filterName === 'price' && startValue >= 5)) {
+        return `not found restaurants`;
+    }
 
     return filterPanel.setRatingFilter(filterName, startValue)
         .then(() => mainPage.getRestaurantsElementsCollect().count())

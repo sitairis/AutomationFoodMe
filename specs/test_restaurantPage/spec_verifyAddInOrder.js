@@ -1,9 +1,13 @@
+let faker = require('faker');
+
+let log = require('../../lib/Logger');
+let random = require('../../lib/utils/random');
 let mainPage = require(`../../pages/MainPage`);
 let restaurantPage = require(`../../pages/RestaurantPage`);
-let log = require('../../lib/Logger');
 let authForm = require('../../pages/AuthPage');
-let faker = require('faker');
-let random = require('../../lib/utils/random');
+let restaurants = require('../../.tmp/restaurants');
+
+
 
 describe('test for restaurant page', () => {
 
@@ -17,7 +21,7 @@ describe('test for restaurant page', () => {
     it('should open restaurant, select dish and compare results', () => {
 
         log.testStep('test for restaurant page', 1, 'open restaurant');
-        mainPage.openRestaurant(random.getRandomNumber(0, 38))
+        mainPage.openRestaurant(random.getRandomNumber(0, restaurants.info.length))
             .then(() => {
                 log.testStep('test for restaurant page', 2, 'add dish to order');
 
@@ -62,5 +66,5 @@ function addRandomDishesInOrder(countDishes) {
                 restaurantPage.addToOrder(random.getRandomNumber(0, count));
             }
         })
-        .catch((errorMessage) => Promise.reject(new Error(` : Error --- addRandomDishesInOrder : ${errorMessage}`)));
+        .catch((err) => Promise.reject(new Error(` : Error --- addRandomDishesInOrder : ${err}`)));
 }

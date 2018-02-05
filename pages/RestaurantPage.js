@@ -1,10 +1,11 @@
-let protrUtils = require(`../lib/utils/protrUtils`);
-let Page = require('./Page');
+let path_conf = require('../path_conf');
+
 let log = require('../lib/Logger');
 let valid = require('../lib/utils/valid');
+let protrUtils = require(`../lib/utils/protrUtils`);
 let servUtil = require('../lib/utils/servUtils');
-let random = require('../lib/utils/random');
-let rest = require('../.tmp/restaurants');
+let Page = require('./Page');
+
 
 class RestaurantPage  extends Page {
 
@@ -29,8 +30,8 @@ class RestaurantPage  extends Page {
 
         browser.ignoreSynchronization = true;
 
-        return browser.get(`http://localhost:5000/#/menu/${randomRestId}`)
-            .catch((errorMessage) => Promise.reject(`${this.className} : Error --- open : ${errorMessage}`));
+        return browser.get(path_conf.baseURL(`menu/${randomRestId}`))
+            .catch((err) => Promise.reject(`${this.className} : Error --- open : ${err}`));
     }
 
     /**
@@ -47,7 +48,7 @@ class RestaurantPage  extends Page {
         let btnAddDishToOrder = this.getPriceListElementsCollect().$$(`a`).get(index);
         return protrUtils.doClick(btnAddDishToOrder, 'click on selected dish')
             .then(() => log.step(this.className, 'addToOrder', 'click on selected dish'))
-            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- addToOrder : ${errorMessage}`)));
+            .catch((err) => Promise.reject(new Error(`${this.className} : Error --- addToOrder : ${err}`)));
     }
 
     /**
@@ -108,7 +109,7 @@ class RestaurantPage  extends Page {
 
                 return unSorted.sort((a, b) => a.value - b.value)
             })
-            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- sortMenuByPriceDec : ${errorMessage}`)));
+            .catch((err) => Promise.reject(new Error(`${this.className} : Error --- sortMenuByPriceDec : ${err}`)));
     }
 
     /**
@@ -122,7 +123,7 @@ class RestaurantPage  extends Page {
                     return servUtil.makeDishObject(item);
                 })
         })
-            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- sortMenuByPriceDec : ${errorMessage}`)));
+            .catch((err) => Promise.reject(new Error(`${this.className} : Error --- sortMenuByPriceDec : ${err}`)));
     }
 
     /**
@@ -131,7 +132,7 @@ class RestaurantPage  extends Page {
     makeCheckout() {
         return protrUtils.doClick(this.btnCheckout, 'click on btnCheckout')
             .then(() => log.step(this.className, 'makeCheckout', 'click on btnCheckout'))
-            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- makeCheckout : ${errorMessage}`)));
+            .catch((err) => Promise.reject(new Error(`${this.className} : Error --- makeCheckout : ${err}`)));
     }
 
     /**
@@ -147,7 +148,7 @@ class RestaurantPage  extends Page {
                 description: curElem.$('.span4').getText()
             }
         })
-            .catch((errorMessage) => Promise.reject(new Error(`${this.className} : Error --- getRestaurantInfo : ${errorMessage}`)));
+            .catch((err) => Promise.reject(new Error(`${this.className} : Error --- getRestaurantInfo : ${err}`)));
     }
 
     /**

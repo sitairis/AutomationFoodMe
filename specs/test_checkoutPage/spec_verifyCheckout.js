@@ -1,17 +1,21 @@
+let faker = require('faker');
+
+let log = require('../../lib/Logger');
+let servUtils = require(`../../lib/utils/servUtils`);
+let random = require('../../lib/utils/random');
+
+let restaurants = require('../../.tmp/restaurants');
 let restaurantPage = require(`../../pages/RestaurantPage`);
 let checkoutPage = require(`../../pages/CheckoutPage`);
-let servUtils = require(`../../lib/utils/servUtils`);
-let log = require('../../lib/Logger');
 let authForm = require('../../pages/AuthPage');
-let faker = require('faker');
 let mainPage= require('../../pages/MainPage');
-let random = require('../../lib/utils/random');
 
 describe('test for checkout page', () => {
 
     beforeAll(() => {
         let randomName = faker.name.findName();
         let randomAddress = `${faker.address.city()}, ${faker.address.streetAddress()}`;
+
         authForm.doLogIn(randomName, randomAddress);
     });
 
@@ -19,7 +23,7 @@ describe('test for checkout page', () => {
         let infoArrayLinesFromRestPage = [];
 
         log.testStep('test for checkout page', 1, 'check cuisine(s) and open restaurant');
-        mainPage.openRestaurant(random.getRandomNumber(0, 39))
+        mainPage.openRestaurant(random.getRandomNumber(0, restaurants.info.length))
             .then(() => {
                 log.testStep('test for restaurant page', 2, 'add dish to order');
                 return addRandomDishesInOrder(3)
@@ -39,7 +43,8 @@ describe('test for checkout page', () => {
                 return checkoutPage.getInfoOfOrderItems();
             })
             .then((infoObjArray) => servUtils.getOrderInfoObjArray(infoObjArray))
-            .then((infoArrayLines) => infoArrayLines.forEach((line, index) => expect(line).toEqual(infoArrayLinesFromRestPage[index])));
+            .then((infoArrayLines) => infoArrayLines
+                .forEach((line, index) => expect(line).toEqual(infoArrayLinesFromRestPage[index])));
     });
 });
 
@@ -55,5 +60,5 @@ function addRandomDishesInOrder(countDishes) {
                 restaurantPage.addToOrder(random.getRandomNumber(0, count));
             }
         })
-        .catch((errorMessage) => Promise.reject(new Error(` : Error --- addRandomDishesInOrder : ${errorMessage}`)));
+        .catch((err) => Promise.reject(new Error(` : Error --- addRandomDishesInOrder : ${err}`)));
 }

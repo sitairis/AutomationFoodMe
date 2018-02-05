@@ -1,16 +1,19 @@
+let faker = require('faker');
+
+let log = require('../../lib/Logger');
+let utilForCuisine = require('../../lib/utils/utilForCuisine');
+let servUtils = require(`../../lib/utils/servUtils`);
+
 let filterPanel = require(`../../pages/filters/FilterRestaurantsPanel`);
 let mainPage = require(`../../pages/MainPage`);
-let servUtils = require(`../../lib/utils/servUtils`);
-let log = require('../../lib/Logger');
 let authForm = require('../../pages/AuthPage');
-let faker = require('faker');
-let utilForCuisine = require('../../lib/utils/utilForCuisine');
 
 describe('test for checkbox filter', () => {
 
     beforeAll(() => {
         let randomName = faker.name.findName();
         let randomAddress = `${faker.address.city()}, ${faker.address.streetAddress()}`;
+
         authForm.doLogIn(randomName, randomAddress);
     });
 
@@ -20,6 +23,7 @@ describe('test for checkbox filter', () => {
 
         log.testStep('Verify cuisine filter', 2, 'check cuisine(s)');
         filterPanel.setCheckBoxFilter(`Cuisines`, utilForCuisine.getCuisinesName(cuisines))
-            .then(() => expect(mainPage.getRestaurantsElementsCollect().count()).toEqual(servUtils.getTotalRestCount(cuisines)));
+            .then(() => expect(mainPage.getRestaurantsElementsCollect().count())
+                .toEqual(servUtils.getTotalRestCount(cuisines)));
     });
 });

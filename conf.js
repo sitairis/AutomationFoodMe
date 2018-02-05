@@ -21,32 +21,10 @@ exports.config = {
     },
 
     beforeLaunch: () => {
-        console.log('beforeLaunch');
-
         const request = require("request");
-        const fs = require('fs');
 
-        let firstRequestOpt = {
-            method: 'get',
-            url: 'http://localhost:5000/api/restaurant',
-            headers: {
-                Accept: 'application/json'
-            },
-            json: true
-        };
+        let req_conf = require('./lib/request_conf');
 
-        request(firstRequestOpt, (err, response) => {
-            if (err) throw new Error(err);
-
-            let objForAllRst = {
-                info: response.body
-            };
-
-            fs.writeFile("./lib/restaurants.json", JSON.stringify(objForAllRst), (err) => {
-                if (err) throw new Error(err.message);
-
-                console.log("File restaurants.json has been created");
-            });
-        });
+        request(req_conf.reqOptJson('get', 'restaurant', true), req_conf.reqFunc('restaurants.json'));
     }
 };

@@ -11,14 +11,14 @@ exports.config = {
             args: ['headless', 'disable-gpu']
         }
     },
-    suites: {
+  /*  suites: {
         checkout: './specs/test_checkoutPage/*.js',
         order: './specs/test_thankYouPage/*.js',
         restPage: './specs/test_restaurantPage/spec_verifyMenuItems.js',
         rating: './specs/test_ratingFilter/*.js',
         checkbox: './specs/test_checkboxFilter/*.js',
-        all: './specs/*/*.js'
-    },
+        all: './specs/*/
+    // },
 
     beforeLaunch: () => {
         const request = require("request");

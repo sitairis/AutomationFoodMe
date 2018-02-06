@@ -6,8 +6,9 @@
   "scripts": {
     "upwd": "webdriver-manager update",
     "wd": "webdriver-manager start",
-    "test": "protractor ./conf.js --suite all",
-    "expl": "protractor --elementExplorer"
+    "test": "protractor ./conf.js",
+    "expl": "protractor --elementExplorer",
+    "e2e" : "protractor"
   },
   "author": "",
   "license": "ISC",

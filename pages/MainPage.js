@@ -1,4 +1,5 @@
 let log = require('../lib/Logger');
+
 let valid = require('../lib/utils/valid');
 let protrUtils = require(`../lib/utils/protrUtils`);
 let Page = require('./Page');

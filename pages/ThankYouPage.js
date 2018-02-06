@@ -34,7 +34,7 @@ class ThankYouPage extends Page{
         browser.ignoreSynchronization = true;
 
         let orderId = ordId.info.orderId;
-        let url = `${path_conf.baseURL(`thank-you?orderId=${orderId}`)}`;
+        let url = `${path_conf.url(`thank-you?orderId=${orderId}`)}`;
         console.log(url+'*******');
         return browser.get(url)
             .catch((err) => Promise.reject(`${this.className} : Error --- open : ${err}`));

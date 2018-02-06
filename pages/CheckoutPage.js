@@ -23,6 +23,7 @@ class CheckoutPage  extends Page {
      * кликнет на кнопку 'purchase'
      */
     clickBtnPurchase() {
+
         return protrUtils.doClick(this.btnPurchase, 'click on btnPurchase')
             .then(() => log.step(this.className, 'clickBtnPurchase', 'click on btnPurchase'))
             .catch((err) => Promise.reject(new Error(`${this.className} : Error --- clickBtnPurchase : ${err}`)));

@@ -30,7 +30,7 @@ class RestaurantPage  extends Page {
 
         browser.ignoreSynchronization = true;
 
-        return browser.get(path_conf.baseURL(`menu/${randomRestId}`))
+        return browser.get(path_conf.url(`menu/${randomRestId}`))
             .catch((err) => Promise.reject(`${this.className} : Error --- open : ${err}`));
     }
 

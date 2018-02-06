@@ -1,15 +1,13 @@
 const path = require('path');
 
 let baseDir = __dirname;
+let baseUrl = 'http://localhost:5000/';
 
-exports.baseApiURL = postFix => `http://localhost:5000/api/${postFix}`;
-exports.baseURL = postFix => `http://localhost:5000/#/${postFix}`;
+exports.baseApiURL = {
+    orderId : `${baseUrl}api/order`
+};
 
-exports.pth_lib = fileName => path.join(baseDir, 'lib', fileName);
-exports.pth_lib = fileName => path.join(baseDir, 'lib', 'utils', fileName);
-
-exports.pth_page = fileName => path.join(baseDir, 'pages', fileName);
-exports.pth_filters = fileName => path.join(baseDir, 'pages', 'filters', fileName);
+exports.url = postFix => `http://localhost:5000/#/${postFix}`;
 
 exports.pth_tmp = fileName => path.join(baseDir, '.tmp', fileName);
 

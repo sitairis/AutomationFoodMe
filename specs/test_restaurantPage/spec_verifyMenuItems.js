@@ -3,8 +3,8 @@ const request = require("request");
 let faker = require('faker');
 
 let req_conf = require('../../lib/request_conf');
-let restaurants = require('../../.tmp/restaurants');
-let rest = require('../../.tmp/restInfoWithDetails');
+let restaurants = require('../../tmp/restaurants');
+let rest = require('../../tmp/restInfoWithDetails');
 let random = require(`../../lib/utils/random`);
 let servUtils = require(`../../lib/utils/servUtils`);
 
@@ -28,7 +28,7 @@ describe('test for restaurant page', () => {
 
     it('should open restaurant, select dish and compare results', () => {
 
-        restaurantPage.open(require('../../.tmp/restInfoWithDetails').id)
+        restaurantPage.open(require('../../tmp/restInfoWithDetails').id)
             .then(() => browser.ignoreSynchronization = false)
             .then(() => restaurantPage.getMenuObjArray())
             .then((objArray) => servUtils.getMenuInfoObjArray(objArray))

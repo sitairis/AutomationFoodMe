@@ -3,9 +3,7 @@ const path = require('path');
 let baseDir = __dirname;
 let baseUrl = 'http://localhost:5000/';
 
-exports.baseApiURL = {
-    orderId : `${baseUrl}api/order`
-};
+exports.baseApiURL = postFix => `http://localhost:5000/api/${postFix}`;
 
 exports.url = postFix => `http://localhost:5000/#/${postFix}`;
 

@@ -23,6 +23,8 @@ class RestaurantPage  extends Page {
      * @param randomRestId
      */
     open(randomRestId) {
+        console.log(randomRestId+'*******');
+
         if (!valid.isString(randomRestId)) {
             log.error(`${this.className} : open : randomRestId is incorrect`);
             throw new Error(`${this.className} : open : randomRestId is incorrect`);

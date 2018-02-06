@@ -1,7 +1,7 @@
 let faker = require('faker');
 
 let log = require('../../lib/Logger');
-let rest = require('../../.tmp/restaurants');
+let rest = require('../../tmp/restaurants');
 
 let filterPanel = require(`../../pages/filters/FilterRestaurantsPanel`);
 let servUtils = require(`../../lib/utils/servUtils`);

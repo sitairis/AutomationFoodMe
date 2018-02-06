@@ -7,7 +7,7 @@ let mainPage = require(`../../pages/MainPage`);
 let restaurantPage = require(`../../pages/RestaurantPage`);
 let authForm = require('../../pages/AuthPage');
 
-let restaurants = require('../../.tmp/restaurants');
+let restaurants = require('../../tmp/restaurants');
 
 describe('test for restaurant page', () => {
 

@@ -4,7 +4,7 @@ let log = require('../../lib/Logger');
 let servUtils = require(`../../lib/utils/servUtils`);
 let random = require('../../lib/utils/random');
 
-let restaurants = require('../../.tmp/restaurants');
+let restaurants = require('../../tmp/restaurants');
 let restaurantPage = require(`../../pages/RestaurantPage`);
 let checkoutPage = require(`../../pages/CheckoutPage`);
 let authForm = require('../../pages/AuthPage');

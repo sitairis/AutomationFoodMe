@@ -2,7 +2,7 @@ let log = require('../lib/Logger');
 
 let path_conf = require('../path_conf');
 
-let ordId = require('../.tmp/orderId');
+let ordId = require('../tmp/orderId');
 let Page = require('./Page');
 
 class ThankYouPage extends Page{

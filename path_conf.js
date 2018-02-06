@@ -9,7 +9,7 @@ exports.baseApiURL = {
 
 exports.url = postFix => `http://localhost:5000/#/${postFix}`;
 
-exports.pth_tmp = fileName => path.join(baseDir, '.tmp', fileName);
+exports.pth_tmp = fileName => path.join(baseDir, 'tmp', fileName);
 
 
 

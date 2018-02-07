@@ -19,6 +19,12 @@ exports.config = {
         checkbox: './specs/test_checkboxFilter/*.js',
         all: './specs/*/
     // },
+    onPrepare: function() {
+        let AllureReporter = require('jasmine-allure-reporter');
+        jasmine.getEnv().addReporter(new AllureReporter({
+            resultsDir: 'allure-results'
+        }));
+    },
 
     beforeLaunch: () => {
         const request = require("request");

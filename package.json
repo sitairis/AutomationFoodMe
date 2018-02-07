@@ -8,13 +8,14 @@
     "wd": "webdriver-manager start",
     "test": "protractor ./conf.js",
     "expl": "protractor --elementExplorer",
-    "e2e" : "protractor"
+    "e2e": "protractor"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "faker": "^4.1.0",
     "jasmine": "^2.8.0",
+    "jasmine-allure-reporter": "^1.0.2",
     "protractor": "^5.2.2",
     "request": "^2.83.0",
     "require-dir": "^0.3.2",

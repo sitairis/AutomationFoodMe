@@ -12,7 +12,7 @@ describe('test for purchase', () => {
     beforeAll(() => {
         authForm.doLogIn(UsersData.nameDeliver, UsersData.address);
 
-        request(req_conf.reqOptJson('post', 'order', true), req_conf.reqFunc('orderId.json'));
+        request(req_conf.reqOptJson('post', 'order', true), req_conf.reqFunc(path_conf.fileNames.order));
     });
 
     it('should click on purchase, get ID and make json file', () => {
@@ -21,7 +21,7 @@ describe('test for purchase', () => {
             .then(() => thankYouPage.getStringWithOrderID())
             .then((text) => getOrderId(text))
             .then((orderId) => expect(orderId)
-                .toEqual(require(`${path_conf.pth_tmp('orderId.json')}`).info.orderId));
+                .toEqual(require(`${path_conf.pth_tmp(path_conf.fileNames.order)}`).info.orderId));
     })
 });
 

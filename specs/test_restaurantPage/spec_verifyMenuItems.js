@@ -4,7 +4,7 @@ let faker = require('faker');
 
 let req_conf = require('../../lib/request_conf');
 let restaurants = require('../../tmp/restaurants');
-// let rest = ;
+let path_conf = require('../../path_conf');
 let random = require(`../../lib/utils/random`);
 let servUtils = require(`../../lib/utils/servUtils`);
 
@@ -22,7 +22,7 @@ describe('test for restaurant page', () => {
         let randomRestId = restaurants.info[random.getRandomNumber(0, restaurants.info.length)].id;
 
         request(req_conf.reqOptJson('get', `restaurant/${randomRestId}`, true),
-            req_conf.reqFunc('restInfoWithDetails.json', {id: randomRestId}));
+            req_conf.reqFunc(path_conf.fileNames.rest, {id: randomRestId}));
 
     });
 

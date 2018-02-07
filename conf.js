@@ -47,7 +47,7 @@ exports.config = {
                 info: response.body
             };
 
-            fs.writeFile(path_conf.pth_tmp('restaurants.json'), JSON.stringify(objForAllRst), err => {
+            fs.writeFile(path_conf.pth_tmp(path_conf.fileNames.allRest), JSON.stringify(objForAllRst), err => {
                 if (err) {
                     log.error(err);
                     throw new Error(err.message);

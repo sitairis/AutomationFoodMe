@@ -9,5 +9,9 @@ exports.url = postFix => `http://localhost:5000/#/${postFix}`;
 
 exports.pth_tmp = fileName => path.join(baseDir, 'tmp', fileName);
 
-
+exports.fileNames = {
+    order: 'orderId.json',
+    rest: 'restInfoWithDetails.json',
+    allRest: 'restaurants.json'
+};
 

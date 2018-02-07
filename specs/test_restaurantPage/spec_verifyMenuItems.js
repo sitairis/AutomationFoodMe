@@ -4,7 +4,7 @@ let faker = require('faker');
 
 let req_conf = require('../../lib/request_conf');
 let restaurants = require('../../tmp/restaurants');
-let rest = require('../../tmp/restInfoWithDetails');
+// let rest = ;
 let random = require(`../../lib/utils/random`);
 let servUtils = require(`../../lib/utils/servUtils`);
 
@@ -40,5 +40,5 @@ describe('test for restaurant page', () => {
  * вернет массив строк
  */
 function getStringsArray() {
-    return rest.info.menuItems.map((item) => `${item.name}${item.price}`.toLowerCase())
+    return require('../../tmp/restInfoWithDetails').info.menuItems.map((item) => `${item.name}${item.price}`.toLowerCase())
 }

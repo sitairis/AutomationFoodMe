@@ -1,7 +1,7 @@
 const path = require('path');
 
 let baseDir = __dirname;
-let baseUrl = 'http://localhost:5000/';
+// let baseUrl = 'http://localhost:5000/';
 
 exports.baseApiURL = postFix => `http://localhost:5000/api/${postFix}`;
 

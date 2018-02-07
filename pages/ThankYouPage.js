@@ -2,7 +2,7 @@ let log = require('../lib/Logger');
 
 let path_conf = require('../path_conf');
 
-let ordId = require('../tmp/orderId');
+// let ordId = ;
 let Page = require('./Page');
 
 class ThankYouPage extends Page{
@@ -33,9 +33,9 @@ class ThankYouPage extends Page{
     open(){
         browser.ignoreSynchronization = true;
 
-        let orderId = ordId.info.orderId;
+        let orderId = require('../tmp/orderId').info.orderId;
         let url = `${path_conf.url(`thank-you?orderId=${orderId}`)}`;
-        console.log(url+'*******');
+
         return browser.get(url)
             .catch((err) => Promise.reject(`${this.className} : Error --- open : ${err}`));
     }

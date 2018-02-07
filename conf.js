@@ -34,9 +34,14 @@ exports.config = {
         let req_conf = require('./lib/request_conf');
 
         let log = require('./lib/Logger');
+        const tmpDir = 'tmp';
 
         request(req_conf.reqOptJson('get', 'restaurant', true), (err, response) => {
             if (err) throw new Error(err);
+
+            if (!fs.existsSync(tmpDir)) {
+                fs.mkdirSync(tmpDir);
+            }
 
             let objForAllRst = {
                 info: response.body

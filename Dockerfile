@@ -1,6 +1,6 @@
-FROM AutomationFoodMe
+FROM automationfoodme
 
-MAINTAINER your_email_address
+MAINTAINER ahari@company.com
 
 # 1.
 WORKDIR /AutomationFoodMe

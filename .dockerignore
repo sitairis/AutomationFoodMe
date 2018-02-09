@@ -1,0 +1,14 @@
+/package-lock.json
+.idea
+/node_modules/
+/npm-debug.log
+/lib/log/
+/log/
+/OrderData.json
+/orderId.json
+/restaurantInfo.json
+/restaurants.json
+/lib/restInfo/
+/.tmp/
+/tmp/
+/allure-results/

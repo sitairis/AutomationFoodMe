@@ -21,6 +21,7 @@
     "require-dir": "^0.3.2",
     "selenium-webdriver": "^3.6.0",
     "winston": "^2.4.0",
-    "winston-daily-rotate-file": "^1.7.2"
+    "winston-daily-rotate-file": "^1.7.2",
+    "xvfb": "^0.2.3"
   }
 }

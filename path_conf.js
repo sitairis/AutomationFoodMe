@@ -1,11 +1,10 @@
 const path = require('path');
 
 let baseDir = __dirname;
-// let baseUrl = 'http://localhost:5000/';
 
-exports.baseApiURL = postFix => `http://localhost:5000/api/${postFix}`;
+exports.baseApiURL = postFix => `http://192.168.12.161:5000/api/${postFix}`;
 
-exports.url = postFix => `http://localhost:5000/#/${postFix}`;
+exports.url = postFix => `http://192.168.12.161:5000/#/${postFix}`;
 
 exports.pth_tmp = fileName => path.join(baseDir, 'tmp', fileName);
 

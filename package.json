@@ -6,7 +6,7 @@
   "scripts": {
     "upwd": "webdriver-manager update",
     "wd": "webdriver-manager start",
-    "test": "protractor ./conf.js",
+    "test": "protractor conf.js --params.specs=\"*\" --params.threads=3",
     "expl": "protractor --elementExplorer",
     "e2e": "protractor"
   },

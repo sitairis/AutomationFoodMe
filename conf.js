@@ -1,8 +1,3 @@
-/**
- * init function
- * @param config
- * @returns {*}
- */
 let init = config => {
     let spec = null;
 

@@ -111,7 +111,7 @@ exports.config = (function() {
         specs: [],
         framework: 'jasmine',
         seleniumAddress: 'http://localhost:4444/wd/hub',
-        baseUrl: "http://192.168.12.161:5000/#/",//ip
+        baseUrl: "http://192.168.12.161:5000/#/",
         capabilities: {
             browserName: 'chrome',
             shardTestFiles: false,

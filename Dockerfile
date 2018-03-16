@@ -8,10 +8,15 @@ COPY package*.json ./
 RUN npm install
 
 
+
 COPY . .
 
-EXPOSE 6379
 
-CMD [ "webdriver-manager", "update" ]
-CMD [ "webdriver-manager", "start" ]
+EXPOSE 2375
+
+RUN npm run upwd
+RUN npm run wd
+
+#CMD [ "webdriver-manager", "update" ]
+#CMD [ "webdriver-manager", "start" ]
 CMD [ "npm", "test" ]

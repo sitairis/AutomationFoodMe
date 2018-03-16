@@ -86,10 +86,6 @@ let parseSpecPath = spec => {
         return dirs.map(dir => dir.endsWith('.js') ? `./specs/${dir}` : `./specs/${dir}/*.js`);
     }
 };
-/**
- * вернет значения из командной строки
- * @param processArgv
- */
 let parseProcessArgv = processArgv => splitFunc(`${processArgv}`,'--params')
         .map(el => splitFunc(el,'='))
         .filter(el => el.length > 1)

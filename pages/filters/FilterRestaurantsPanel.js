@@ -54,7 +54,7 @@ class FilterRestaurantsPanel {
 
         return root;
     }
-
+/*5656565*/
     /**
      * кликает на 'кухни'
      * @param typeFilter
